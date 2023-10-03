@@ -1,0 +1,16 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\Proficiencies",
+    "\\Skills",
+    "\\Skills\\Interfaces",
+    "\\SystemRules",
+    "\\SystemServices",
+    "\\SystemServices\\Interfaces",
+    "\\Utilities",
+    "\\Utilities\\Enums",
+    "\\Utilities\\Exceptions"
+  ],
+  "SelectedNode": "\\Utilities\\Dice.cs",
+  "PreviewInSolutionExplorer": false
+}

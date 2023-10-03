@@ -3,29 +3,32 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using Godot;
 using TalesFromTheTable.Entities;
+using TalesFromTheTable.Services;
+using TalesFromTheTable.Utilities;
 
-public partial class char_creation : Node2D
+public partial class char_creation : Control
 {
 	private LineEdit nameLineEdit;
+	private Button rollAbilitiesButton;
+	private Adventurer adventurer;
+	private Label rollOneLabel, rollTwoLabel, rollThreeLabel, rollFourLabel, rollFiveLabel, rollSixLabel;
 
 	public override void _Ready()
 	{
-		nameLineEdit = GetNode<LineEdit>("Control/AdventurerNameInput");
-		if (nameLineEdit != null)
-		{
-			GD.Print($"nameLineEdit is not null");
-		}
-		else
-		{
-			GD.Print("Ya its null");
-		}
-
-		Button submitButton = GetNode<Button>("Control/StartCreateButton");
-
-		//submitButton.Connect("pressed", this, "_on_StartCreateButton_pressed");
+		nameLineEdit = GetNode<LineEdit>("AdventurerNameInput");
+		rollAbilitiesButton = GetNode<Button>("RollAbilitiesButton");
+		//rollAbilitiesButton.Connect("pressed", this, "_on_rollabilities_pressed");
+		Button submitButton = GetNode<Button>("StartCreateButton");
+		//submitButton.Connect("pressed", this, "_on_StartCreateButton_pressed
+		//
+		rollOneLabel = GetNode<Label>("VBoxContainer/RollOneLabel");
+		rollTwoLabel = GetNode<Label>("VBoxContainer/RollTwoLabel");
+		rollThreeLabel = GetNode<Label>("VBoxContainer/RollThreeLabel");
+		rollFourLabel = GetNode<Label>("VBoxContainer/RollFourLabel");
+		rollFiveLabel = GetNode<Label>("VBoxContainer/RollFiveLabel");
+		rollSixLabel = GetNode<Label>("VBoxContainer/RollSixLabel");
 	}
 
-	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta)
 	{
 	}
@@ -38,10 +41,44 @@ public partial class char_creation : Node2D
 	private void _on_start_create_button_pressed()
 	{
 		string adventurerName = nameLineEdit.Text;
-		GD.Print($"Adventurer's Name Submitted: {adventurerName}");
-		
-		var todd = new Adventurer("Toddicus");
-		
-		GD.Print(JsonSerializer.Serialize(todd));
+		//GD.Print($"Adventurer's Name Submitted: {adventurerName}");		
+		adventurer = new Adventurer(adventurerName);
+		//GD.Print(JsonSerializer.Serialize(todd));
+		rollAbilitiesButton.Visible = true;
+	}
+
+	private void _on_roll_abilities_button_pressed()
+	{
+		var adventurerService = new AdventurerService(new Dice());
+		var rolls = adventurerService.RollAbilities(adventurer);
+
+		foreach (var abilityRoll in rolls)
+		{
+			var roll = $" {abilityRoll.Value}";
+			switch (abilityRoll.Key)
+			{
+				case "one":
+					rollOneLabel.Text += roll;
+					break;
+				case "two":
+					rollTwoLabel.Text += roll;
+					break;
+				case "three":
+					rollThreeLabel.Text += roll;
+					break;
+				case "four":
+					rollFourLabel.Text += roll;
+					break;
+				case "five":
+					rollFiveLabel.Text += roll;
+					break;
+				case "six":
+					rollSixLabel.Text += roll;
+					break;
+				default:
+					break;
+			}
+		}
+
 	}
 }
