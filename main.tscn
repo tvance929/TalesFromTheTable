@@ -7,76 +7,70 @@
 [node name="CreationControl" type="Control" parent="."]
 layout_mode = 3
 anchors_preset = 0
-offset_left = 1.0
-offset_right = 622.0
-offset_bottom = 473.0
 script = ExtResource("1_bmcig")
 
 [node name="AdventurerNameInput" type="LineEdit" parent="CreationControl"]
 layout_mode = 0
-offset_right = 160.0
-offset_bottom = 41.0
+offset_left = 20.0
+offset_top = 16.0
+offset_right = 279.0
+offset_bottom = 57.0
 mouse_default_cursor_shape = 3
+placeholder_text = "Name Thy Adventurer"
+alignment = 1
 
 [node name="StartCreateButton" type="Button" parent="CreationControl"]
 layout_mode = 0
-offset_left = 171.0
-offset_top = 4.0
-offset_right = 285.0
-offset_bottom = 39.0
+offset_left = 301.0
+offset_top = 20.0
+offset_right = 423.0
+offset_bottom = 55.0
 text = "Begin Creation"
-
-[node name="Name Label" type="Label" parent="CreationControl"]
-layout_mode = 0
-offset_left = 6.0
-offset_top = 47.0
-offset_right = 160.0
-offset_bottom = 77.0
-text = "Name thy Adventurer"
 
 [node name="RollAbilitiesButton" type="Button" parent="CreationControl"]
 visible = false
 layout_mode = 0
-offset_left = 306.0
-offset_top = 3.0
-offset_right = 439.0
-offset_bottom = 39.0
+offset_left = 72.0
+offset_top = 86.0
+offset_right = 205.0
+offset_bottom = 122.0
 text = "Roll For Abilities"
 
-[node name="VBoxContainer" type="VBoxContainer" parent="CreationControl"]
+[node name="RollContainer" type="VBoxContainer" parent="CreationControl"]
+visible = false
 custom_minimum_size = Vector2(0, 250)
 layout_mode = 0
-offset_left = 320.0
-offset_top = 72.0
-offset_right = 634.0
-offset_bottom = 449.0
+offset_left = 20.0
+offset_top = 140.0
+offset_right = 241.0
+offset_bottom = 517.0
 
-[node name="RollOneLabel" type="Label" parent="CreationControl/VBoxContainer"]
+[node name="RollOneLabel" type="Label" parent="CreationControl/RollContainer"]
 layout_mode = 2
 size_flags_vertical = 6
 text = "Roll One"
 
-[node name="RollTwoLabel" type="Label" parent="CreationControl/VBoxContainer"]
+[node name="RollTwoLabel" type="Label" parent="CreationControl/RollContainer"]
 layout_mode = 2
 size_flags_vertical = 6
 text = "Roll Two"
 
-[node name="RollThreeLabel" type="Label" parent="CreationControl/VBoxContainer"]
+[node name="RollThreeLabel" type="Label" parent="CreationControl/RollContainer"]
 layout_mode = 2
 size_flags_vertical = 6
 text = "Roll Three"
 
-[node name="RollFourLabel" type="Label" parent="CreationControl/VBoxContainer"]
+[node name="RollFourLabel" type="Label" parent="CreationControl/RollContainer"]
 layout_mode = 2
 size_flags_vertical = 6
 text = "Roll Four"
 
-[node name="RollFiveLabel" type="Label" parent="CreationControl/VBoxContainer"]
+[node name="RollFiveLabel" type="Label" parent="CreationControl/RollContainer"]
 layout_mode = 2
 size_flags_vertical = 6
 text = "Roll Five"
 
-[node name="RollSixLabel" type="Label" parent="CreationControl/VBoxContainer"]
+[node name="RollSixLabel" type="Label" parent="CreationControl/RollContainer"]
 layout_mode = 2
 size_flags_vertical = 6
 text = "Roll Six"

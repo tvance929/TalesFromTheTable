@@ -32,6 +32,7 @@ namespace TalesFromTheTable.Services
 		public Dictionary<string, int> RollAbilities(Adventurer adventurer)
 		{
 			if (adventurer.AbilitiesSet) throw new AdventurerException("This adventurer already has abilties set");
+			if (adventurer.AbilitiesRolled) throw new AdventurerException("This adventurer already has abilties rolled");
 
 			AbilityRolls.Add("one", diceroller.RollDice(threeD6s));
 			AbilityRolls.Add("two", diceroller.RollDice(threeD6s));
@@ -39,6 +40,8 @@ namespace TalesFromTheTable.Services
 			AbilityRolls.Add("four", diceroller.RollDice(threeD6s));
 			AbilityRolls.Add("five", diceroller.RollDice(threeD6s));
 			AbilityRolls.Add("six", diceroller.RollDice(threeD6s));
+
+			adventurer.AbilitiesRolled = true;
 
 			return AbilityRolls;
 		}

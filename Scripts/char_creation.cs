@@ -21,12 +21,12 @@ public partial class char_creation : Control
 		Button submitButton = GetNode<Button>("StartCreateButton");
 		//submitButton.Connect("pressed", this, "_on_StartCreateButton_pressed
 		//
-		rollOneLabel = GetNode<Label>("VBoxContainer/RollOneLabel");
-		rollTwoLabel = GetNode<Label>("VBoxContainer/RollTwoLabel");
-		rollThreeLabel = GetNode<Label>("VBoxContainer/RollThreeLabel");
-		rollFourLabel = GetNode<Label>("VBoxContainer/RollFourLabel");
-		rollFiveLabel = GetNode<Label>("VBoxContainer/RollFiveLabel");
-		rollSixLabel = GetNode<Label>("VBoxContainer/RollSixLabel");
+		rollOneLabel = GetNode<Label>("RollContainer/RollOneLabel");
+		rollTwoLabel = GetNode<Label>("RollContainer/RollTwoLabel");
+		rollThreeLabel = GetNode<Label>("RollContainer/RollThreeLabel");
+		rollFourLabel = GetNode<Label>("RollContainer/RollFourLabel");
+		rollFiveLabel = GetNode<Label>("RollContainer/RollFiveLabel");
+		rollSixLabel = GetNode<Label>("RollContainer/RollSixLabel");
 	}
 
 	public override void _Process(double delta)
@@ -45,6 +45,7 @@ public partial class char_creation : Control
 		adventurer = new Adventurer(adventurerName);
 		//GD.Print(JsonSerializer.Serialize(todd));
 		rollAbilitiesButton.Visible = true;
+		GetNode<Container>("RollContainer").Visible = true;
 	}
 
 	private void _on_roll_abilities_button_pressed()
@@ -53,8 +54,9 @@ public partial class char_creation : Control
 		var rolls = adventurerService.RollAbilities(adventurer);
 
 		foreach (var abilityRoll in rolls)
-		{
-			var roll = $" {abilityRoll.Value}";
+		{ 		
+			var modifierString = Rules.AbilityBonus(abilityRoll.Value) > 0 ? $"+{Rules.AbilityBonus(abilityRoll.Value)}" : $"{Rules.AbilityBonus(abilityRoll.Value)}";
+			var roll = $" {abilityRoll.Value}  ( {modifierString} )";
 			switch (abilityRoll.Key)
 			{
 				case "one":

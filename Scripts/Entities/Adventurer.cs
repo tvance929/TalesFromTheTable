@@ -34,6 +34,7 @@ namespace TalesFromTheTable.Entities
 		// Creation Procedure
 		public bool IsCreated = false;
 		public bool AbilitiesSet { get; private set; } = false; //set to true when the rolls are applied, cannot apply rolls again
+		public bool AbilitiesRolled = false;
 		public int AbilitiesReRolled { get; } = 0;
 		public bool SavingThrowsAdjustedFromAbilities = false;
 
