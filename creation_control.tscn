@@ -1,0 +1,77 @@
+[gd_scene load_steps=2 format=3 uid="uid://bgvons8ogfru2"]
+
+[ext_resource type="Script" path="res://Scripts/char_creation.cs" id="1_810pc"]
+
+[node name="CreationControl" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+script = ExtResource("1_810pc")
+
+[node name="AdventurerNameInput" type="LineEdit" parent="."]
+layout_mode = 0
+offset_left = 20.0
+offset_top = 16.0
+offset_right = 279.0
+offset_bottom = 57.0
+mouse_default_cursor_shape = 3
+placeholder_text = "Name Thy AdventurerSS"
+alignment = 1
+
+[node name="StartCreateButton" type="Button" parent="."]
+layout_mode = 0
+offset_left = 301.0
+offset_top = 20.0
+offset_right = 423.0
+offset_bottom = 55.0
+text = "Begin Creation"
+
+[node name="RollAbilitiesButton" type="Button" parent="."]
+visible = false
+layout_mode = 0
+offset_left = 72.0
+offset_top = 86.0
+offset_right = 205.0
+offset_bottom = 122.0
+text = "Roll For Abilities"
+
+[node name="RollContainer" type="VBoxContainer" parent="."]
+visible = false
+custom_minimum_size = Vector2(0, 250)
+layout_mode = 0
+offset_left = 20.0
+offset_top = 140.0
+offset_right = 241.0
+offset_bottom = 517.0
+
+[node name="RollOneLabel" type="Label" parent="RollContainer"]
+layout_mode = 2
+size_flags_vertical = 6
+text = "Roll One"
+
+[node name="RollTwoLabel" type="Label" parent="RollContainer"]
+layout_mode = 2
+size_flags_vertical = 6
+text = "Roll Two"
+
+[node name="RollThreeLabel" type="Label" parent="RollContainer"]
+layout_mode = 2
+size_flags_vertical = 6
+text = "Roll Three"
+
+[node name="RollFourLabel" type="Label" parent="RollContainer"]
+layout_mode = 2
+size_flags_vertical = 6
+text = "Roll Four"
+
+[node name="RollFiveLabel" type="Label" parent="RollContainer"]
+layout_mode = 2
+size_flags_vertical = 6
+text = "Roll Five"
+
+[node name="RollSixLabel" type="Label" parent="RollContainer"]
+layout_mode = 2
+size_flags_vertical = 6
+text = "Roll Six"
+
+[connection signal="pressed" from="StartCreateButton" to="." method="_on_start_create_button_pressed"]
+[connection signal="pressed" from="RollAbilitiesButton" to="." method="_on_roll_abilities_button_pressed"]
