@@ -28,50 +28,194 @@ text = "Begin Creation"
 [node name="RollAbilitiesButton" type="Button" parent="."]
 visible = false
 layout_mode = 0
-offset_left = 72.0
-offset_top = 86.0
-offset_right = 205.0
-offset_bottom = 122.0
+offset_left = 20.0
+offset_top = 69.0
+offset_right = 425.0
+offset_bottom = 105.0
 text = "Roll For Abilities"
 
-[node name="RollContainer" type="VBoxContainer" parent="."]
+[node name="RollNoteLabel" type="RichTextLabel" parent="."]
 visible = false
-custom_minimum_size = Vector2(0, 250)
 layout_mode = 0
-offset_left = 20.0
-offset_top = 140.0
-offset_right = 241.0
-offset_bottom = 517.0
+offset_left = 23.0
+offset_top = 115.0
+offset_right = 439.0
+offset_bottom = 183.0
+bbcode_enabled = true
+text = "[center][i]Roll as many times as you want... you can [b][color=red]re-roll two[/color][/b] individual abilities.[/i][/center]	"
+fit_content = true
 
-[node name="RollOneLabel" type="Label" parent="RollContainer"]
+[node name="ReRollCount" type="Label" parent="."]
+visible = false
+layout_mode = 2
+offset_left = 475.0
+offset_top = 146.0
+offset_right = 580.0
+offset_bottom = 172.0
+text = "Rerolls left : 2
+"
+
+[node name="GridContainerRolls" type="GridContainer" parent="."]
+visible = false
+layout_mode = 0
+offset_left = 10.0
+offset_top = 176.0
+offset_right = 637.0
+offset_bottom = 645.0
+columns = 3
+
+[node name="RollLabelContainer" type="VBoxContainer" parent="GridContainerRolls"]
+custom_minimum_size = Vector2(100, 250)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="RollOneLabel" type="Label" parent="GridContainerRolls/RollLabelContainer"]
 layout_mode = 2
 size_flags_vertical = 6
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 20
 text = "Roll One"
 
-[node name="RollTwoLabel" type="Label" parent="RollContainer"]
+[node name="RollTwoLabel" type="Label" parent="GridContainerRolls/RollLabelContainer"]
 layout_mode = 2
 size_flags_vertical = 6
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 20
 text = "Roll Two"
 
-[node name="RollThreeLabel" type="Label" parent="RollContainer"]
+[node name="RollThreeLabel" type="Label" parent="GridContainerRolls/RollLabelContainer"]
 layout_mode = 2
 size_flags_vertical = 6
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 20
 text = "Roll Three"
 
-[node name="RollFourLabel" type="Label" parent="RollContainer"]
+[node name="RollFourLabel" type="Label" parent="GridContainerRolls/RollLabelContainer"]
 layout_mode = 2
 size_flags_vertical = 6
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 20
 text = "Roll Four"
 
-[node name="RollFiveLabel" type="Label" parent="RollContainer"]
+[node name="RollFiveLabel" type="Label" parent="GridContainerRolls/RollLabelContainer"]
 layout_mode = 2
 size_flags_vertical = 6
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 20
 text = "Roll Five"
 
-[node name="RollSixLabel" type="Label" parent="RollContainer"]
+[node name="RollSixLabel" type="Label" parent="GridContainerRolls/RollLabelContainer"]
 layout_mode = 2
 size_flags_vertical = 6
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 20
 text = "Roll Six"
+
+[node name="RollContainer" type="VBoxContainer" parent="GridContainerRolls"]
+custom_minimum_size = Vector2(100, 250)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="RollLabel1" type="Label" parent="GridContainerRolls/RollContainer"]
+layout_mode = 2
+size_flags_vertical = 6
+theme_override_colors/font_color = Color(0.866667, 0.054902, 0.184314, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(0, 0.380392, 0.788235, 1)
+theme_override_font_sizes/font_size = 30
+text = "##"
+
+[node name="RollLabel2" type="Label" parent="GridContainerRolls/RollContainer"]
+layout_mode = 2
+size_flags_vertical = 6
+theme_override_colors/font_color = Color(0.866667, 0.054902, 0.184314, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(0, 0.380392, 0.788235, 1)
+theme_override_font_sizes/font_size = 30
+text = "##"
+
+[node name="RollLabel3" type="Label" parent="GridContainerRolls/RollContainer"]
+layout_mode = 2
+size_flags_vertical = 6
+theme_override_colors/font_color = Color(0.866667, 0.054902, 0.184314, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(0, 0.380392, 0.788235, 1)
+theme_override_font_sizes/font_size = 30
+text = "##"
+
+[node name="RollLabel4" type="Label" parent="GridContainerRolls/RollContainer"]
+layout_mode = 2
+size_flags_vertical = 6
+theme_override_colors/font_color = Color(0.866667, 0.054902, 0.184314, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(0, 0.380392, 0.788235, 1)
+theme_override_font_sizes/font_size = 30
+text = "##"
+
+[node name="RollLabel5" type="Label" parent="GridContainerRolls/RollContainer"]
+layout_mode = 2
+size_flags_vertical = 6
+theme_override_colors/font_color = Color(0.866667, 0.054902, 0.184314, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(0, 0.380392, 0.788235, 1)
+theme_override_font_sizes/font_size = 30
+text = "##"
+
+[node name="RollLabel6" type="Label" parent="GridContainerRolls/RollContainer"]
+layout_mode = 2
+size_flags_vertical = 6
+theme_override_colors/font_color = Color(0.866667, 0.054902, 0.184314, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(0, 0.380392, 0.788235, 1)
+theme_override_font_sizes/font_size = 30
+text = "##"
+
+[node name="RollButtonContainer" type="VBoxContainer" parent="GridContainerRolls"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="ReRollButton1" type="Button" parent="GridContainerRolls/RollButtonContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+text = "REROLL"
+
+[node name="ReRollButton2" type="Button" parent="GridContainerRolls/RollButtonContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+text = "REROLL"
+
+[node name="ReRollButton3" type="Button" parent="GridContainerRolls/RollButtonContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+text = "REROLL"
+
+[node name="ReRollButton4" type="Button" parent="GridContainerRolls/RollButtonContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+text = "REROLL"
+
+[node name="ReRollButton5" type="Button" parent="GridContainerRolls/RollButtonContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+text = "REROLL"
+
+[node name="ReRollButton6" type="Button" parent="GridContainerRolls/RollButtonContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+text = "REROLL"
+
+[node name="ButtonCooldownTimer" type="Timer" parent="."]
+one_shot = true
 
 [connection signal="pressed" from="StartCreateButton" to="." method="_on_start_create_button_pressed"]
 [connection signal="pressed" from="RollAbilitiesButton" to="." method="_on_roll_abilities_button_pressed"]
+[connection signal="pressed" from="GridContainerRolls/RollButtonContainer/ReRollButton1" to="." method="_on_re_roll_button_1_pressed"]
+[connection signal="pressed" from="GridContainerRolls/RollButtonContainer/ReRollButton2" to="." method="_on_re_roll_button_2_pressed"]
+[connection signal="pressed" from="GridContainerRolls/RollButtonContainer/ReRollButton3" to="." method="_on_re_roll_button_3_pressed"]
+[connection signal="pressed" from="GridContainerRolls/RollButtonContainer/ReRollButton4" to="." method="_on_re_roll_button_4_pressed"]
+[connection signal="pressed" from="GridContainerRolls/RollButtonContainer/ReRollButton5" to="." method="_on_re_roll_button_5_pressed"]
+[connection signal="pressed" from="GridContainerRolls/RollButtonContainer/ReRollButton6" to="." method="_on_re_roll_button_6_pressed"]
+[connection signal="timeout" from="ButtonCooldownTimer" to="." method="_on_button_cooldown_timer_timeout"]
