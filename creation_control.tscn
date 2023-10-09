@@ -9,33 +9,31 @@ script = ExtResource("1_810pc")
 
 [node name="AdventurerNameInput" type="LineEdit" parent="."]
 layout_mode = 0
-offset_left = 20.0
-offset_top = 16.0
-offset_right = 279.0
-offset_bottom = 57.0
+offset_left = 10.0
+offset_top = 10.0
+offset_right = 450.0
+offset_bottom = 55.0
 mouse_default_cursor_shape = 3
 placeholder_text = "Name Thy AdventurerSS"
 alignment = 1
 
 [node name="StartCreateButton" type="Button" parent="."]
 layout_mode = 0
-offset_left = 301.0
-offset_top = 20.0
-offset_right = 423.0
+offset_left = 479.0
+offset_top = 10.0
+offset_right = 639.0
 offset_bottom = 55.0
 text = "Begin Creation"
 
 [node name="RollAbilitiesButton" type="Button" parent="."]
-visible = false
 layout_mode = 0
-offset_left = 20.0
+offset_left = 10.0
 offset_top = 69.0
-offset_right = 425.0
-offset_bottom = 105.0
+offset_right = 510.0
+offset_bottom = 114.0
 text = "Roll For Abilities"
 
 [node name="RollNoteLabel" type="RichTextLabel" parent="."]
-visible = false
 layout_mode = 0
 offset_left = 23.0
 offset_top = 115.0
@@ -46,7 +44,6 @@ text = "[center][i]Roll as many times as you want... you can [b][color=red]re-ro
 fit_content = true
 
 [node name="ReRollCount" type="Label" parent="."]
-visible = false
 layout_mode = 2
 offset_left = 475.0
 offset_top = 146.0
@@ -56,7 +53,6 @@ text = "Rerolls left : 2
 "
 
 [node name="GridContainerRolls" type="GridContainer" parent="."]
-visible = false
 layout_mode = 0
 offset_left = 10.0
 offset_top = 176.0
@@ -209,6 +205,29 @@ text = "REROLL"
 
 [node name="ButtonCooldownTimer" type="Timer" parent="."]
 one_shot = true
+
+[node name="RaceBGTradeContainer" type="VBoxContainer" parent="."]
+layout_mode = 0
+offset_left = 672.0
+offset_top = 10.0
+offset_right = 1142.0
+offset_bottom = 645.0
+
+[node name="RaceContainer" type="VBoxContainer" parent="RaceBGTradeContainer"]
+visible = false
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="RaceButton" type="Button" parent="RaceBGTradeContainer/RaceContainer"]
+custom_minimum_size = Vector2(0, 45)
+layout_mode = 2
+text = "Choose Your Race"
+
+[node name="RaceLabel" type="Label" parent="RaceBGTradeContainer/RaceContainer"]
+layout_mode = 2
+text = "HUMAN - ( pick any two attributes +1, choose any trade)"
+
+[node name="RacePopup" type="PopupMenu" parent="RaceBGTradeContainer/RaceContainer"]
 
 [connection signal="pressed" from="StartCreateButton" to="." method="_on_start_create_button_pressed"]
 [connection signal="pressed" from="RollAbilitiesButton" to="." method="_on_roll_abilities_button_pressed"]

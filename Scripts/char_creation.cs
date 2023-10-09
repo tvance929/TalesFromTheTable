@@ -1,6 +1,3 @@
-using System;
-using System.Text.Json;
-using System.Text.Json.Serialization;
 using Godot;
 using TalesFromTheTable.Entities;
 using TalesFromTheTable.Services;
@@ -10,7 +7,7 @@ public partial class char_creation : Control
 {
 	private LineEdit nameLineEdit;
 	private Button rollAbilitiesButton;
-	private Adventurer adventurer;
+	public Adventurer adventurer;
 	private AdventurerService adventurerService;
 	private Label rollOneLabel, rollTwoLabel, rollThreeLabel, rollFourLabel, rollFiveLabel, rollSixLabel;
 	private Timer buttonCooldownTimer;
@@ -63,8 +60,7 @@ public partial class char_creation : Control
 
 		foreach (var abilityRoll in rolls)
 		{
-			var modifierString = Rules.AbilityBonus(abilityRoll.Value) > 0 ? $"+{Rules.AbilityBonus(abilityRoll.Value)}" : $"{Rules.AbilityBonus(abilityRoll.Value)}";
-			var roll = $" {abilityRoll.Value}  ( {modifierString} )";
+			var roll = AbilityWithModifier(abilityRoll.Value);
 			switch (abilityRoll.Key)
 			{
 				case "one":
@@ -165,10 +161,9 @@ public partial class char_creation : Control
 			GetNode<Button>("GridContainerRolls/RollButtonContainer/ReRollButton6").Disabled = true;
 		}
 
-		GD.Print($"timeout sent in {timeoutTime}");
 		if (timeoutTime > 0)
 		{
-			GD.Print($"we in here???");
+			//this renables after the timeout
 			buttonCooldownTimer.Start(timeoutTime);
 		}
 	}
@@ -187,10 +182,14 @@ public partial class char_creation : Control
 		}
 
 		var reRoll = adventurerService.ReRollAbility(abilityRollNumber, adventurer);
-		rollLabel.Text = reRoll.ToString();
+		rollLabel.Text = AbilityWithModifier(reRoll);
 
 		GetNode<Label>("ReRollCount").Text = $"ReRolls left: {2 - abilitiesReRolled}";
 
 		return reRoll;
 	}
+
+    private string AbilityWithModifier(int abilityScore) =>
+    $" {abilityScore}  ({(Rules.AbilityBonus(abilityScore) >= 0 ? "+" : "")}{Rules.AbilityBonus(abilityScore)})";
+
 }
