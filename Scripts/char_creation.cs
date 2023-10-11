@@ -1,5 +1,7 @@
+using System;
 using Godot;
 using TalesFromTheTable.Entities;
+using TalesFromTheTable.Scripts.Utilities;
 using TalesFromTheTable.Services;
 using TalesFromTheTable.Utilities;
 
@@ -13,7 +15,16 @@ public partial class char_creation : Control
 	private Timer buttonCooldownTimer;
 	private int abilitiesReRolled = 0;
 
-	private const int REROLL_COOLDOWN = 2;
+	private Button reRollButton1;
+	private Button reRollButton2;
+	private Button reRollButton3;
+	private Button reRollButton4;
+	private Button reRollButton5;
+	private Button reRollButton6;
+
+	private PopupMenu popupMenu;
+
+	private const int REROLL_COOLDOWN = 1;
 
 	public override void _Ready()
 	{
@@ -31,7 +42,15 @@ public partial class char_creation : Control
 		rollFiveLabel = GetNode<Label>("GridContainerRolls/RollContainer/RollLabel5");
 		rollSixLabel = GetNode<Label>("GridContainerRolls/RollContainer/RollLabel6");
 
+		reRollButton1 = GetNode<Button>("GridContainerRolls/RollButtonContainer/ReRollButton1");
+		reRollButton2 = GetNode<Button>("GridContainerRolls/RollButtonContainer/ReRollButton2");
+		reRollButton3 = GetNode<Button>("GridContainerRolls/RollButtonContainer/ReRollButton3");
+		reRollButton4 = GetNode<Button>("GridContainerRolls/RollButtonContainer/ReRollButton4");
+		reRollButton5 = GetNode<Button>("GridContainerRolls/RollButtonContainer/ReRollButton5");
+		reRollButton6 = GetNode<Button>("GridContainerRolls/RollButtonContainer/ReRollButton6");
+
 		buttonCooldownTimer = GetNode<Timer>("ButtonCooldownTimer");
+		//popupMenu = GetNode<PopupMenu>("PopupPlaceholder/PopupMenu");
 	}
 
 	public override void _Process(double delta)
@@ -46,6 +65,8 @@ public partial class char_creation : Control
 		//GD.Print(JsonSerializer.Serialize(todd));
 		rollAbilitiesButton.Visible = true;
 		GetNode<RichTextLabel>("RollNoteLabel").Visible = true;
+
+		ReRollButtonTextChange("REROLL");
 	}
 
 	private void _on_roll_abilities_button_pressed()
@@ -58,6 +79,7 @@ public partial class char_creation : Control
 
 		var rolls = adventurerService.RollAbilities(adventurer);
 
+		GD.Print($"Here");
 		foreach (var abilityRoll in rolls)
 		{
 			var roll = AbilityWithModifier(abilityRoll.Value);
@@ -93,12 +115,12 @@ public partial class char_creation : Control
 	private void _on_button_cooldown_timer_timeout()
 	{
 		GetNode<Button>("RollAbilitiesButton").Disabled = false;
-		GetNode<Button>("GridContainerRolls/RollButtonContainer/ReRollButton1").Disabled = false;
-		GetNode<Button>("GridContainerRolls/RollButtonContainer/ReRollButton2").Disabled = false;
-		GetNode<Button>("GridContainerRolls/RollButtonContainer/ReRollButton3").Disabled = false;
-		GetNode<Button>("GridContainerRolls/RollButtonContainer/ReRollButton4").Disabled = false;
-		GetNode<Button>("GridContainerRolls/RollButtonContainer/ReRollButton5").Disabled = false;
-		GetNode<Button>("GridContainerRolls/RollButtonContainer/ReRollButton6").Disabled = false;
+		reRollButton1.Disabled = false;
+		reRollButton2.Disabled = false;
+		reRollButton3.Disabled = false;
+		reRollButton4.Disabled = false;
+		reRollButton5.Disabled = false;
+		reRollButton6.Disabled = false;
 	}
 	private void _on_re_roll_button_1_pressed()
 	{
@@ -110,24 +132,20 @@ public partial class char_creation : Control
 		ReRollAbility("two", rollTwoLabel);
 	}
 
-
 	private void _on_re_roll_button_3_pressed()
 	{
 		ReRollAbility("three", rollThreeLabel);
 	}
-
 
 	private void _on_re_roll_button_4_pressed()
 	{
 		ReRollAbility("four", rollFourLabel);
 	}
 
-
 	private void _on_re_roll_button_5_pressed()
 	{
 		ReRollAbility("five", rollFiveLabel);
 	}
-
 
 	private void _on_re_roll_button_6_pressed()
 	{
@@ -144,21 +162,21 @@ public partial class char_creation : Control
 	{
 		if (enable)
 		{
-			GetNode<Button>("GridContainerRolls/RollButtonContainer/ReRollButton1").Disabled = false;
-			GetNode<Button>("GridContainerRolls/RollButtonContainer/ReRollButton2").Disabled = false;
-			GetNode<Button>("GridContainerRolls/RollButtonContainer/ReRollButton3").Disabled = false;
-			GetNode<Button>("GridContainerRolls/RollButtonContainer/ReRollButton4").Disabled = false;
-			GetNode<Button>("GridContainerRolls/RollButtonContainer/ReRollButton5").Disabled = false;
-			GetNode<Button>("GridContainerRolls/RollButtonContainer/ReRollButton6").Disabled = false;
+			reRollButton1.Disabled = false;
+			reRollButton2.Disabled = false;
+			reRollButton3.Disabled = false;
+			reRollButton4.Disabled = false;
+			reRollButton5.Disabled = false;
+			reRollButton6.Disabled = false;
 		}
 		else
 		{
-			GetNode<Button>("GridContainerRolls/RollButtonContainer/ReRollButton1").Disabled = true;
-			GetNode<Button>("GridContainerRolls/RollButtonContainer/ReRollButton2").Disabled = true;
-			GetNode<Button>("GridContainerRolls/RollButtonContainer/ReRollButton3").Disabled = true;
-			GetNode<Button>("GridContainerRolls/RollButtonContainer/ReRollButton4").Disabled = true;
-			GetNode<Button>("GridContainerRolls/RollButtonContainer/ReRollButton5").Disabled = true;
-			GetNode<Button>("GridContainerRolls/RollButtonContainer/ReRollButton6").Disabled = true;
+			reRollButton1.Disabled = true;
+			reRollButton2.Disabled = true;
+			reRollButton3.Disabled = true;
+			reRollButton4.Disabled = true;
+			reRollButton5.Disabled = true;
+			reRollButton6.Disabled = true;
 		}
 
 		if (timeoutTime > 0)
@@ -175,6 +193,7 @@ public partial class char_creation : Control
 		if (abilitiesReRolled == 2)
 		{
 			DisableEnableReRollButtonsWithTimer(0);
+
 		}
 		else
 		{
@@ -189,7 +208,27 @@ public partial class char_creation : Control
 		return reRoll;
 	}
 
-    private string AbilityWithModifier(int abilityScore) =>
-    $" {abilityScore}  ({(Rules.AbilityBonus(abilityScore) >= 0 ? "+" : "")}{Rules.AbilityBonus(abilityScore)})";
+	private string AbilityWithModifier(int abilityScore) =>
+	$" {abilityScore}  ({(Rules.AbilityBonus(abilityScore) >= 0 ? "+" : "")}{Rules.AbilityBonus(abilityScore)})";
+
+	private void ReRollButtonTextChange(string change)
+	{
+		reRollButton1.Text = change;
+		reRollButton2.Text = change;
+		reRollButton3.Text = change;
+		reRollButton4.Text = change;
+		reRollButton5.Text = change;
+		reRollButton6.Text = change;
+	}
+
+	private void _on_random_name_pressed()
+	{
+		nameLineEdit.Text = RandomFantasyName.GenerateFantasyName();
+	}
+
+	private void _on_button_pressed()
+	{
+		//popupMenu.Popup();
+	}
 
 }

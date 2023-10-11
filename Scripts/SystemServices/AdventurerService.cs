@@ -34,6 +34,7 @@ namespace TalesFromTheTable.Services
 			if (adventurer.AbilitiesSet) throw new AdventurerException("This adventurer already has abilties set");
 			//if (adventurer.AbilitiesRolled) throw new AdventurerException("This adventurer already has abilties rolled");
 
+			AbilityRolls = new Dictionary<string, int>();
 			AbilityRolls.Add("one", diceroller.RollDice(threeD6s));
 			AbilityRolls.Add("two", diceroller.RollDice(threeD6s));
 			AbilityRolls.Add("three", diceroller.RollDice(threeD6s));

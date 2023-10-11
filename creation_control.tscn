@@ -11,17 +11,25 @@ script = ExtResource("1_810pc")
 layout_mode = 0
 offset_left = 10.0
 offset_top = 10.0
-offset_right = 450.0
+offset_right = 427.0
 offset_bottom = 55.0
 mouse_default_cursor_shape = 3
 placeholder_text = "Name Thy AdventurerSS"
 alignment = 1
 
+[node name="Random Name" type="Button" parent="."]
+layout_mode = 0
+offset_left = 431.0
+offset_top = 10.0
+offset_right = 637.0
+offset_bottom = 55.0
+text = "Random Name"
+
 [node name="StartCreateButton" type="Button" parent="."]
 layout_mode = 0
-offset_left = 479.0
+offset_left = 645.0
 offset_top = 10.0
-offset_right = 639.0
+offset_right = 851.0
 offset_bottom = 55.0
 text = "Begin Creation"
 
@@ -29,18 +37,19 @@ text = "Begin Creation"
 layout_mode = 0
 offset_left = 10.0
 offset_top = 69.0
-offset_right = 510.0
+offset_right = 427.0
 offset_bottom = 114.0
 text = "Roll For Abilities"
 
 [node name="RollNoteLabel" type="RichTextLabel" parent="."]
 layout_mode = 0
-offset_left = 23.0
-offset_top = 115.0
-offset_right = 439.0
+offset_left = 10.0
+offset_top = 114.0
+offset_right = 426.0
 offset_bottom = 183.0
 bbcode_enabled = true
-text = "[center][i]Roll as many times as you want... you can [b][color=red]re-roll two[/color][/b] individual abilities.[/i][/center]	"
+text = "[center][i]Roll as many times as you want... you can [b][color=red]re-roll two[/color][/b] abilities.[/i]
+[b]CLICK SCORE TO REROLL[/b][/center]	"
 fit_content = true
 
 [node name="ReRollCount" type="Label" parent="."]
@@ -206,29 +215,103 @@ text = "REROLL"
 [node name="ButtonCooldownTimer" type="Timer" parent="."]
 one_shot = true
 
-[node name="RaceBGTradeContainer" type="VBoxContainer" parent="."]
+[node name="Button" type="Button" parent="."]
 layout_mode = 0
-offset_left = 672.0
-offset_top = 10.0
-offset_right = 1142.0
-offset_bottom = 645.0
+offset_left = 704.0
+offset_top = 114.0
+offset_right = 821.0
+offset_bottom = 145.0
+text = "TEST ME NOW"
 
-[node name="RaceContainer" type="VBoxContainer" parent="RaceBGTradeContainer"]
-visible = false
+[node name="AbilitiesGridContainer" type="GridContainer" parent="."]
+layout_mode = 0
+offset_left = 650.0
+offset_top = 176.0
+offset_right = 1135.0
+offset_bottom = 576.0
+columns = 3
+
+[node name="AbilitiesLabels" type="VBoxContainer" parent="AbilitiesGridContainer"]
+custom_minimum_size = Vector2(100, 250)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="StrLabel" type="Label" parent="AbilitiesGridContainer/AbilitiesLabels"]
+layout_mode = 2
+size_flags_vertical = 6
+theme_override_colors/font_color = Color(0.596078, 0.603922, 0.192157, 1)
+theme_override_font_sizes/font_size = 30
+text = "STRENGTH
+"
+
+[node name="DexLabel" type="Label" parent="AbilitiesGridContainer/AbilitiesLabels"]
+layout_mode = 2
+size_flags_vertical = 6
+theme_override_colors/font_color = Color(0.596078, 0.603922, 0.192157, 1)
+theme_override_font_sizes/font_size = 30
+text = "DEXTERITY	
+"
+
+[node name="ConLabel" type="Label" parent="AbilitiesGridContainer/AbilitiesLabels"]
+layout_mode = 2
+size_flags_vertical = 6
+theme_override_colors/font_color = Color(0.596078, 0.603922, 0.192157, 1)
+theme_override_font_sizes/font_size = 30
+text = "CONSTITUTION
+"
+
+[node name="IntLabel" type="Label" parent="AbilitiesGridContainer/AbilitiesLabels"]
+layout_mode = 2
+size_flags_vertical = 6
+theme_override_colors/font_color = Color(0.596078, 0.603922, 0.192157, 1)
+theme_override_font_sizes/font_size = 30
+text = "INTELLIGENCE
+"
+
+[node name="WisLabel" type="Label" parent="AbilitiesGridContainer/AbilitiesLabels"]
+layout_mode = 2
+size_flags_vertical = 6
+theme_override_colors/font_color = Color(0.596078, 0.603922, 0.192157, 1)
+theme_override_font_sizes/font_size = 30
+text = "WISDOM
+"
+
+[node name="CharLabel" type="Label" parent="AbilitiesGridContainer/AbilitiesLabels"]
+layout_mode = 2
+size_flags_vertical = 6
+theme_override_colors/font_color = Color(0.596078, 0.603922, 0.192157, 1)
+theme_override_font_sizes/font_size = 30
+text = "CHARISMA
+"
+
+[node name="AbilitiesLabels2" type="VBoxContainer" parent="AbilitiesGridContainer"]
+custom_minimum_size = Vector2(100, 250)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="AbilitiesLabels3" type="VBoxContainer" parent="AbilitiesGridContainer"]
+custom_minimum_size = Vector2(100, 250)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="PopupPlaceholder" type="Control" parent="AbilitiesGridContainer/AbilitiesLabels3"]
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="RaceButton" type="Button" parent="RaceBGTradeContainer/RaceContainer"]
-custom_minimum_size = Vector2(0, 45)
-layout_mode = 2
-text = "Choose Your Race"
+[node name="PopupMenu" type="PopupMenu" parent="AbilitiesGridContainer/AbilitiesLabels3/PopupPlaceholder"]
+title = "Attributes:"
+position = Vector2i(660, 175)
+size = Vector2i(450, 450)
+content_scale_factor = 1.5
+allow_search = false
+item_count = 1
+item_0/text = "asdfdasfsd"
+item_0/id = 0
 
-[node name="RaceLabel" type="Label" parent="RaceBGTradeContainer/RaceContainer"]
-layout_mode = 2
-text = "HUMAN - ( pick any two attributes +1, choose any trade)"
-
-[node name="RacePopup" type="PopupMenu" parent="RaceBGTradeContainer/RaceContainer"]
-
+[connection signal="pressed" from="Random Name" to="." method="_on_random_name_pressed"]
 [connection signal="pressed" from="StartCreateButton" to="." method="_on_start_create_button_pressed"]
 [connection signal="pressed" from="RollAbilitiesButton" to="." method="_on_roll_abilities_button_pressed"]
 [connection signal="pressed" from="GridContainerRolls/RollButtonContainer/ReRollButton1" to="." method="_on_re_roll_button_1_pressed"]
@@ -238,3 +321,4 @@ text = "HUMAN - ( pick any two attributes +1, choose any trade)"
 [connection signal="pressed" from="GridContainerRolls/RollButtonContainer/ReRollButton5" to="." method="_on_re_roll_button_5_pressed"]
 [connection signal="pressed" from="GridContainerRolls/RollButtonContainer/ReRollButton6" to="." method="_on_re_roll_button_6_pressed"]
 [connection signal="timeout" from="ButtonCooldownTimer" to="." method="_on_button_cooldown_timer_timeout"]
+[connection signal="pressed" from="Button" to="." method="_on_button_pressed"]
