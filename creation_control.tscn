@@ -49,10 +49,11 @@ offset_right = 426.0
 offset_bottom = 183.0
 bbcode_enabled = true
 text = "[center][i]Roll as many times as you want... you can [b][color=red]re-roll two[/color][/b] abilities.[/i]
-[b]CLICK SCORE TO REROLL[/b][/center]	"
+[/center]	"
 fit_content = true
 
 [node name="ReRollCount" type="Label" parent="."]
+visible = false
 layout_mode = 2
 offset_left = 475.0
 offset_top = 146.0
@@ -62,6 +63,7 @@ text = "Rerolls left : 2
 "
 
 [node name="GridContainerRolls" type="GridContainer" parent="."]
+visible = false
 layout_mode = 0
 offset_left = 10.0
 offset_top = 176.0
@@ -216,6 +218,7 @@ text = "REROLL"
 one_shot = true
 
 [node name="Button" type="Button" parent="."]
+visible = false
 layout_mode = 0
 offset_left = 704.0
 offset_top = 114.0
@@ -224,6 +227,7 @@ offset_bottom = 145.0
 text = "TEST ME NOW"
 
 [node name="AbilitiesGridContainer" type="GridContainer" parent="."]
+visible = false
 layout_mode = 0
 offset_left = 650.0
 offset_top = 176.0

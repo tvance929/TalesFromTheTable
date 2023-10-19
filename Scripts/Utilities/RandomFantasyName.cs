@@ -1,27 +1,34 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace TalesFromTheTable.Scripts.Utilities
 {
     public static class RandomFantasyName
     {
-        static List<string> prefixes = new List<string>
+        static readonly Random random = new();
+
+        static readonly List<string> prefixes = new()
         {
             "Ael", "Glo", "Tha", "Zan", "Vor", "Elan", "Thel", "Kyr", "Drae"
         };
 
-        static List<string> suffixes = new List<string>
+        static readonly List<string> suffixes = new()
         {
             "dor", "rion", "las", "miel", "thir", "ynn", "rith", "lor", "nyx"
         };
 
-        static string vowels = "aeiou";
-        static string consonants = "bcdfghjklmnpqrstvwxyz";
+        static readonly string vowels = "aeiou";
+        static readonly string consonants = "bcdfghjklmnpqrstvwxyz";
 
-        static Random random = new Random();
+        static readonly List<string> lastPrefixes = new()
+        {
+            "Iron", "Stone", "Fire", "Heart", "Blood", "Dragon", "Shadow", "Light", "Steel", "Storm", "Gold", "Silver", "Night", "Thorn", "Winter", "Oak", "Wolf", "Star"
+        };
+
+        static readonly List<string> lastSuffixes = new()
+        {
+            "bane", "fell", "wood", "thorn", "hawk", "shadow", "fire", "frost", "dragon", "moon"
+        };
 
         public static string GenerateFantasyName()
         {
@@ -31,16 +38,9 @@ namespace TalesFromTheTable.Scripts.Utilities
             char vowel = vowels[random.Next(vowels.Length)];
             char consonant = consonants[random.Next(consonants.Length)];
 
-            return prefix + vowel + consonant + suffix;
-        }
+            string lastName = lastPrefixes[random.Next(lastPrefixes.Count)] + lastSuffixes[random.Next(lastSuffixes.Count)];
 
-        static void Main(string[] args)
-        {
-            for (int i = 0; i < 5; i++)
-            {
-                string name = GenerateFantasyName();
-                Console.WriteLine(name);
-            }
+            return $"{prefix}{vowel}{consonant}{suffix} {lastName}";
         }
     }
 }
