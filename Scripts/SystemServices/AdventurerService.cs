@@ -15,6 +15,8 @@ namespace TalesFromTheTable.Services
 		private Dice diceroller;
 		private readonly List<Die> threeD6s = new List<Die> { Die.D6, Die.D6, Die.D6 };
 
+		public const int HIGH_ABILITY = 15; // will not guarentee a higher re-roll over this number
+
 		// First thing should be to roll for abilities
 		public Dictionary<string, int> AbilityRolls { get; private set; } = new Dictionary<string, int>();
 
@@ -59,7 +61,9 @@ namespace TalesFromTheTable.Services
 			{
 				var newRoll = 0;
 
-				while(newRoll <= AbilityRolls[abilityRollNumber])
+				// will not guarentee a higher reroll if the ability is already high
+				while((AbilityRolls[abilityRollNumber] < HIGH_ABILITY && newRoll <= AbilityRolls[abilityRollNumber]) ||
+                    (AbilityRolls[abilityRollNumber] >= HIGH_ABILITY && newRoll < AbilityRolls[abilityRollNumber]))
 				{
 					newRoll = diceroller.RollDice(threeD6s);
 				}	

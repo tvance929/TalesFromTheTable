@@ -1,6 +1,8 @@
-[gd_scene load_steps=2 format=3 uid="uid://bgvons8ogfru2"]
+[gd_scene load_steps=3 format=3 uid="uid://bgvons8ogfru2"]
 
 [ext_resource type="Script" path="res://Scripts/char_creation.cs" id="1_810pc"]
+
+[sub_resource type="Theme" id="Theme_svcjc"]
 
 [node name="CreationControl" type="Control"]
 layout_mode = 3
@@ -31,9 +33,13 @@ offset_left = 645.0
 offset_top = 10.0
 offset_right = 851.0
 offset_bottom = 55.0
+theme = SubResource("Theme_svcjc")
+theme_override_colors/font_color = Color(0, 0.811765, 0, 1)
+theme_override_colors/icon_focus_color = Color(0.776471, 0, 0, 1)
 text = "Begin Creation"
 
 [node name="RollAbilitiesButton" type="Button" parent="."]
+visible = false
 layout_mode = 0
 offset_left = 10.0
 offset_top = 69.0
@@ -42,6 +48,7 @@ offset_bottom = 114.0
 text = "Roll For Abilities"
 
 [node name="RollNoteLabel" type="RichTextLabel" parent="."]
+visible = false
 layout_mode = 0
 offset_left = 10.0
 offset_top = 114.0
@@ -55,21 +62,30 @@ fit_content = true
 [node name="ReRollCount" type="Label" parent="."]
 visible = false
 layout_mode = 2
-offset_left = 475.0
-offset_top = 146.0
-offset_right = 580.0
-offset_bottom = 172.0
+offset_left = 347.0
+offset_top = 145.0
+offset_right = 452.0
+offset_bottom = 171.0
 text = "Rerolls left : 2
 "
 
-[node name="GridContainerRolls" type="GridContainer" parent="."]
+[node name="AssignAbility" type="Label" parent="."]
 visible = false
+layout_mode = 2
+offset_left = 347.0
+offset_top = 145.0
+offset_right = 452.0
+offset_bottom = 171.0
+text = "Assign to Ability
+"
+
+[node name="GridContainerRolls" type="GridContainer" parent="."]
 layout_mode = 0
 offset_left = 10.0
 offset_top = 176.0
 offset_right = 637.0
 offset_bottom = 645.0
-columns = 3
+columns = 4
 
 [node name="RollLabelContainer" type="VBoxContainer" parent="GridContainerRolls"]
 custom_minimum_size = Vector2(100, 250)
@@ -180,6 +196,7 @@ theme_override_font_sizes/font_size = 30
 text = "##"
 
 [node name="RollButtonContainer" type="VBoxContainer" parent="GridContainerRolls"]
+custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -214,6 +231,119 @@ layout_mode = 2
 size_flags_vertical = 3
 text = "REROLL"
 
+[node name="AttributesDropdownContainer" type="VBoxContainer" parent="GridContainerRolls"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="OptionButton0" type="OptionButton" parent="GridContainerRolls/AttributesDropdownContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+item_count = 6
+selected = 0
+popup/item_0/text = "Strength"
+popup/item_0/id = 0
+popup/item_1/text = "Dexterity"
+popup/item_1/id = 1
+popup/item_2/text = "Constitution"
+popup/item_2/id = 2
+popup/item_3/text = "Intelligence"
+popup/item_3/id = 3
+popup/item_4/text = "Wisdom"
+popup/item_4/id = 4
+popup/item_5/text = "Charisma"
+popup/item_5/id = 5
+
+[node name="OptionButton1" type="OptionButton" parent="GridContainerRolls/AttributesDropdownContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+item_count = 6
+selected = 1
+popup/item_0/text = "Strength"
+popup/item_0/id = 0
+popup/item_1/text = "Dexterity"
+popup/item_1/id = 1
+popup/item_2/text = "Constitution"
+popup/item_2/id = 2
+popup/item_3/text = "Intelligence"
+popup/item_3/id = 3
+popup/item_4/text = "Wisdom"
+popup/item_4/id = 4
+popup/item_5/text = "Charisma"
+popup/item_5/id = 5
+
+[node name="OptionButton2" type="OptionButton" parent="GridContainerRolls/AttributesDropdownContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+item_count = 6
+selected = 2
+popup/item_0/text = "Strength"
+popup/item_0/id = 0
+popup/item_1/text = "Dexterity"
+popup/item_1/id = 1
+popup/item_2/text = "Constitution"
+popup/item_2/id = 2
+popup/item_3/text = "Intelligence"
+popup/item_3/id = 3
+popup/item_4/text = "Wisdom"
+popup/item_4/id = 4
+popup/item_5/text = "Charisma"
+popup/item_5/id = 5
+
+[node name="OptionButton3" type="OptionButton" parent="GridContainerRolls/AttributesDropdownContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+item_count = 6
+selected = 3
+popup/item_0/text = "Strength"
+popup/item_0/id = 0
+popup/item_1/text = "Dexterity"
+popup/item_1/id = 1
+popup/item_2/text = "Constitution"
+popup/item_2/id = 2
+popup/item_3/text = "Intelligence"
+popup/item_3/id = 3
+popup/item_4/text = "Wisdom"
+popup/item_4/id = 4
+popup/item_5/text = "Charisma"
+popup/item_5/id = 5
+
+[node name="OptionButton4" type="OptionButton" parent="GridContainerRolls/AttributesDropdownContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+item_count = 6
+selected = 4
+popup/item_0/text = "Strength"
+popup/item_0/id = 0
+popup/item_1/text = "Dexterity"
+popup/item_1/id = 1
+popup/item_2/text = "Constitution"
+popup/item_2/id = 2
+popup/item_3/text = "Intelligence"
+popup/item_3/id = 3
+popup/item_4/text = "Wisdom"
+popup/item_4/id = 4
+popup/item_5/text = "Charisma"
+popup/item_5/id = 5
+
+[node name="OptionButton5" type="OptionButton" parent="GridContainerRolls/AttributesDropdownContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+item_count = 6
+selected = 5
+popup/item_0/text = "Strength"
+popup/item_0/id = 0
+popup/item_1/text = "Dexterity"
+popup/item_1/id = 1
+popup/item_2/text = "Constitution"
+popup/item_2/id = 2
+popup/item_3/text = "Intelligence"
+popup/item_3/id = 3
+popup/item_4/text = "Wisdom"
+popup/item_4/id = 4
+popup/item_5/text = "Charisma"
+popup/item_5/id = 5
+
 [node name="ButtonCooldownTimer" type="Timer" parent="."]
 one_shot = true
 
@@ -226,94 +356,37 @@ offset_right = 821.0
 offset_bottom = 145.0
 text = "TEST ME NOW"
 
-[node name="AbilitiesGridContainer" type="GridContainer" parent="."]
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 0
+offset_left = 645.0
+offset_top = 69.0
+offset_right = 1133.0
+offset_bottom = 645.0
+
+[node name="OptionButton" type="OptionButton" parent="VBoxContainer"]
+layout_mode = 2
+item_count = 5
+popup/item_0/text = "Choose your race"
+popup/item_0/id = 0
+popup/item_0/disabled = true
+popup/item_1/text = "HUMAN (two attributes +1 and 1 skill)"
+popup/item_1/id = 1
+popup/item_2/text = "DWARF (+1 con, wis)(-2 Poison save)"
+popup/item_2/id = 2
+popup/item_3/text = "ELF (+1 dex, int) (immune to charm)"
+popup/item_3/id = 3
+popup/item_4/text = "HALFLING (+1 dex, char) (Lockpick or Stealth)"
+popup/item_4/id = 4
+
+[node name="ContinueButton" type="Button" parent="."]
 visible = false
 layout_mode = 0
-offset_left = 650.0
-offset_top = 176.0
-offset_right = 1135.0
-offset_bottom = 576.0
-columns = 3
-
-[node name="AbilitiesLabels" type="VBoxContainer" parent="AbilitiesGridContainer"]
-custom_minimum_size = Vector2(100, 250)
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-
-[node name="StrLabel" type="Label" parent="AbilitiesGridContainer/AbilitiesLabels"]
-layout_mode = 2
-size_flags_vertical = 6
-theme_override_colors/font_color = Color(0.596078, 0.603922, 0.192157, 1)
-theme_override_font_sizes/font_size = 30
-text = "STRENGTH
-"
-
-[node name="DexLabel" type="Label" parent="AbilitiesGridContainer/AbilitiesLabels"]
-layout_mode = 2
-size_flags_vertical = 6
-theme_override_colors/font_color = Color(0.596078, 0.603922, 0.192157, 1)
-theme_override_font_sizes/font_size = 30
-text = "DEXTERITY	
-"
-
-[node name="ConLabel" type="Label" parent="AbilitiesGridContainer/AbilitiesLabels"]
-layout_mode = 2
-size_flags_vertical = 6
-theme_override_colors/font_color = Color(0.596078, 0.603922, 0.192157, 1)
-theme_override_font_sizes/font_size = 30
-text = "CONSTITUTION
-"
-
-[node name="IntLabel" type="Label" parent="AbilitiesGridContainer/AbilitiesLabels"]
-layout_mode = 2
-size_flags_vertical = 6
-theme_override_colors/font_color = Color(0.596078, 0.603922, 0.192157, 1)
-theme_override_font_sizes/font_size = 30
-text = "INTELLIGENCE
-"
-
-[node name="WisLabel" type="Label" parent="AbilitiesGridContainer/AbilitiesLabels"]
-layout_mode = 2
-size_flags_vertical = 6
-theme_override_colors/font_color = Color(0.596078, 0.603922, 0.192157, 1)
-theme_override_font_sizes/font_size = 30
-text = "WISDOM
-"
-
-[node name="CharLabel" type="Label" parent="AbilitiesGridContainer/AbilitiesLabels"]
-layout_mode = 2
-size_flags_vertical = 6
-theme_override_colors/font_color = Color(0.596078, 0.603922, 0.192157, 1)
-theme_override_font_sizes/font_size = 30
-text = "CHARISMA
-"
-
-[node name="AbilitiesLabels2" type="VBoxContainer" parent="AbilitiesGridContainer"]
-custom_minimum_size = Vector2(100, 250)
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-
-[node name="AbilitiesLabels3" type="VBoxContainer" parent="AbilitiesGridContainer"]
-custom_minimum_size = Vector2(100, 250)
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-
-[node name="PopupPlaceholder" type="Control" parent="AbilitiesGridContainer/AbilitiesLabels3"]
-layout_mode = 2
-size_flags_vertical = 3
-
-[node name="PopupMenu" type="PopupMenu" parent="AbilitiesGridContainer/AbilitiesLabels3/PopupPlaceholder"]
-title = "Attributes:"
-position = Vector2i(660, 175)
-size = Vector2i(450, 450)
-content_scale_factor = 1.5
-allow_search = false
-item_count = 1
-item_0/text = "asdfdasfsd"
-item_0/id = 0
+offset_left = 431.0
+offset_top = 69.0
+offset_right = 637.0
+offset_bottom = 114.0
+theme_override_colors/font_color = Color(0, 1, 0, 1)
+text = "Continue..."
 
 [connection signal="pressed" from="Random Name" to="." method="_on_random_name_pressed"]
 [connection signal="pressed" from="StartCreateButton" to="." method="_on_start_create_button_pressed"]
@@ -324,5 +397,12 @@ item_0/id = 0
 [connection signal="pressed" from="GridContainerRolls/RollButtonContainer/ReRollButton4" to="." method="_on_re_roll_button_4_pressed"]
 [connection signal="pressed" from="GridContainerRolls/RollButtonContainer/ReRollButton5" to="." method="_on_re_roll_button_5_pressed"]
 [connection signal="pressed" from="GridContainerRolls/RollButtonContainer/ReRollButton6" to="." method="_on_re_roll_button_6_pressed"]
+[connection signal="item_selected" from="GridContainerRolls/AttributesDropdownContainer/OptionButton0" to="." method="_on_option_button_0_item_selected"]
+[connection signal="item_selected" from="GridContainerRolls/AttributesDropdownContainer/OptionButton1" to="." method="_on_option_button_1_item_selected"]
+[connection signal="item_selected" from="GridContainerRolls/AttributesDropdownContainer/OptionButton2" to="." method="_on_option_button_2_item_selected"]
+[connection signal="item_selected" from="GridContainerRolls/AttributesDropdownContainer/OptionButton3" to="." method="_on_option_button_3_item_selected"]
+[connection signal="item_selected" from="GridContainerRolls/AttributesDropdownContainer/OptionButton4" to="." method="_on_option_button_4_item_selected"]
+[connection signal="item_selected" from="GridContainerRolls/AttributesDropdownContainer/OptionButton5" to="." method="_on_option_button_5_item_selected"]
 [connection signal="timeout" from="ButtonCooldownTimer" to="." method="_on_button_cooldown_timer_timeout"]
 [connection signal="pressed" from="Button" to="." method="_on_button_pressed"]
+[connection signal="pressed" from="ContinueButton" to="." method="_on_continue_button_pressed"]

@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using Godot;
 using TalesFromTheTable.Entities;
 using TalesFromTheTable.Scripts.Utilities;
@@ -22,9 +23,12 @@ public partial class char_creation : Control
 	private Button reRollButton5;
 	private Button reRollButton6;
 
+	private List<OptionButton> optionButtons;
+
 	private PopupMenu popupMenu;
 
 	private const int REROLL_COOLDOWN = 1;
+	private const int REROLL_MAX = 2;
 
 	public override void _Ready()
 	{
@@ -51,6 +55,14 @@ public partial class char_creation : Control
 
 		buttonCooldownTimer = GetNode<Timer>("ButtonCooldownTimer");
 		//popupMenu = GetNode<PopupMenu>("PopupPlaceholder/PopupMenu");
+
+		optionButtons = new List<OptionButton>
+		{
+			GetNode<OptionButton>("GridContainerRolls/AttributesDropdownContainer/OptionButton0"), GetNode<OptionButton>("GridContainerRolls/AttributesDropdownContainer/OptionButton1"),
+			GetNode<OptionButton>("GridContainerRolls/AttributesDropdownContainer/OptionButton2"), GetNode<OptionButton>("GridContainerRolls/AttributesDropdownContainer/OptionButton3"),
+			GetNode<OptionButton>("GridContainerRolls/AttributesDropdownContainer/OptionButton4"), GetNode<OptionButton>("GridContainerRolls/AttributesDropdownContainer/OptionButton5")
+		};
+
 	}
 
 	public override void _Process(double delta)
@@ -71,15 +83,20 @@ public partial class char_creation : Control
 
 	private void _on_roll_abilities_button_pressed()
 	{
+		GetNode<Container>("GridContainerRolls/RollButtonContainer").Visible = true;
+		GetNode<Container>("GridContainerRolls/RollLabelContainer").Visible = true;
+		GetNode<Container>("GridContainerRolls/AttributesDropdownContainer").Visible = false;
 		GetNode<Container>("GridContainerRolls").Visible = true;
 		GetNode<Label>("ReRollCount").Visible = true;
+		GetNode<Label>("AssignAbility").Visible = false;
+		GetNode<Button>("ContinueButton").Visible = false;
 
 		GetNode<Button>("RollAbilitiesButton").Disabled = true;
 		buttonCooldownTimer.Start(REROLL_COOLDOWN);
 
 		var rolls = adventurerService.RollAbilities(adventurer);
 
-		GD.Print($"Here");
+		//GD.Print($"Here");
 		foreach (var abilityRoll in rolls)
 		{
 			var roll = AbilityWithModifier(abilityRoll.Value);
@@ -109,6 +126,7 @@ public partial class char_creation : Control
 		}
 
 		abilitiesReRolled = 0;
+		GetNode<Label>("ReRollCount").Text = $"ReRolls left: {REROLL_MAX - abilitiesReRolled}";
 		DisableEnableReRollButtonsWithTimer(REROLL_COOLDOWN, true);
 	}
 
@@ -190,9 +208,16 @@ public partial class char_creation : Control
 	{
 		abilitiesReRolled++;
 
-		if (abilitiesReRolled == 2)
+		if (abilitiesReRolled == REROLL_MAX)
 		{
-			DisableEnableReRollButtonsWithTimer(0);
+			GetNode<Container>("GridContainerRolls/RollButtonContainer").Visible = false;
+			GetNode<Container>("GridContainerRolls/RollLabelContainer").Visible = false;
+			GetNode<Container>("GridContainerRolls/AttributesDropdownContainer").Visible = true;
+			GetNode<Label>("ReRollCount").Visible = false;
+			//GetNode<Label>("AssignAbility").Visible = true;
+			GetNode<Button>("ContinueButton").Visible = true;
+
+			//DisableEnableReRollButtonsWithTimer(0);
 
 		}
 		else
@@ -203,7 +228,7 @@ public partial class char_creation : Control
 		var reRoll = adventurerService.ReRollAbility(abilityRollNumber, adventurer);
 		rollLabel.Text = AbilityWithModifier(reRoll);
 
-		GetNode<Label>("ReRollCount").Text = $"ReRolls left: {2 - abilitiesReRolled}";
+		GetNode<Label>("ReRollCount").Text = $"ReRolls left: {REROLL_MAX - abilitiesReRolled}";
 
 		return reRoll;
 	}
@@ -231,4 +256,67 @@ public partial class char_creation : Control
 		//popupMenu.Popup();
 	}
 
+	private void _on_option_button_0_item_selected(long index)
+	{
+		CheckAbilitiesAssigned(0, (int)index);
+	}
+
+	private void _on_option_button_1_item_selected(long index)
+	{
+		CheckAbilitiesAssigned(1, (int)index);
+	}
+
+	private void _on_option_button_2_item_selected(long index)
+	{
+		CheckAbilitiesAssigned(2, (int)index);
+	}
+
+	private void _on_option_button_3_item_selected(long index)
+	{
+		CheckAbilitiesAssigned(3, (int)index);
+	}
+
+	private void _on_option_button_4_item_selected(long index)
+	{
+		CheckAbilitiesAssigned(4, (int)index);
+	}
+
+	private void _on_option_button_5_item_selected(long index)
+	{
+		CheckAbilitiesAssigned(5, (int)index);
+	}
+
+	/// <summary>
+	/// If the user picks (str) and there is another button that has already chosen (str) this will clear that dropdown
+	/// </summary>
+	/// <param name="buttonNumber"></param>
+	/// <param name="abilityIndex"></param>
+	private void CheckAbilitiesAssigned(int buttonNumber, int abilityIndex)
+	{
+		var allSet = true;
+
+		//GD.Print($"IN - buttonNumber: {buttonNumber} abilityIndex: {abilityIndex}");
+		foreach (var optionButton in optionButtons)
+		{
+			if (optionButton.GetSelectedId() == abilityIndex)
+			{
+				if (optionButton != optionButtons[buttonNumber])
+				{
+					optionButton.Select(-1);
+				}
+			}
+
+			if (optionButton.GetSelectedId() == -1)
+			{
+				allSet = false;
+			}
+		}
+
+		GetNode<Button>("ContinueButton").Visible = allSet;
+	}
+
+	private void _on_continue_button_pressed()
+	{
+		// Replace with function body.
+	}
 }
