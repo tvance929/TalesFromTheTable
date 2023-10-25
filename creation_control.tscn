@@ -28,6 +28,7 @@ offset_bottom = 55.0
 text = "Random Name"
 
 [node name="StartCreateButton" type="Button" parent="."]
+visible = false
 layout_mode = 0
 offset_left = 645.0
 offset_top = 10.0
@@ -39,16 +40,15 @@ theme_override_colors/icon_focus_color = Color(0.776471, 0, 0, 1)
 text = "Begin Creation"
 
 [node name="RollAbilitiesButton" type="Button" parent="."]
-visible = false
 layout_mode = 0
 offset_left = 10.0
 offset_top = 69.0
 offset_right = 427.0
 offset_bottom = 114.0
-text = "Roll For Abilities"
+text = "Roll For Attributes
+"
 
 [node name="RollNoteLabel" type="RichTextLabel" parent="."]
-visible = false
 layout_mode = 0
 offset_left = 10.0
 offset_top = 114.0
@@ -60,7 +60,6 @@ text = "[center][i]Roll as many times as you want... you can [b][color=red]re-ro
 fit_content = true
 
 [node name="ReRollCount" type="Label" parent="."]
-visible = false
 layout_mode = 2
 offset_left = 347.0
 offset_top = 145.0
@@ -70,7 +69,6 @@ text = "Rerolls left : 2
 "
 
 [node name="AssignAbility" type="Label" parent="."]
-visible = false
 layout_mode = 2
 offset_left = 347.0
 offset_top = 145.0
@@ -347,23 +345,20 @@ popup/item_5/id = 5
 [node name="ButtonCooldownTimer" type="Timer" parent="."]
 one_shot = true
 
-[node name="Button" type="Button" parent="."]
-visible = false
-layout_mode = 0
-offset_left = 704.0
-offset_top = 114.0
-offset_right = 821.0
-offset_bottom = 145.0
-text = "TEST ME NOW"
-
-[node name="VBoxContainer" type="VBoxContainer" parent="."]
+[node name="RaceSavingThrowsContainer" type="VBoxContainer" parent="."]
 layout_mode = 0
 offset_left = 645.0
-offset_top = 69.0
+offset_top = 10.0
 offset_right = 1133.0
-offset_bottom = 645.0
+offset_bottom = 630.0
 
-[node name="OptionButton" type="OptionButton" parent="VBoxContainer"]
+[node name="ResetLabel" type="RichTextLabel" parent="RaceSavingThrowsContainer"]
+layout_mode = 2
+bbcode_enabled = true
+text = "[center] [b][color=red]CLICK Roll For Attributes to RESET[/color][/b][/center]	"
+fit_content = true
+
+[node name="RaceOptions" type="OptionButton" parent="RaceSavingThrowsContainer"]
 layout_mode = 2
 item_count = 5
 popup/item_0/text = "Choose your race"
@@ -379,7 +374,6 @@ popup/item_4/text = "HALFLING (+1 dex, char) (Lockpick or Stealth)"
 popup/item_4/id = 4
 
 [node name="ContinueButton" type="Button" parent="."]
-visible = false
 layout_mode = 0
 offset_left = 431.0
 offset_top = 69.0
@@ -388,6 +382,7 @@ offset_bottom = 114.0
 theme_override_colors/font_color = Color(0, 1, 0, 1)
 text = "Continue..."
 
+[connection signal="text_changed" from="AdventurerNameInput" to="." method="_on_adventurer_name_input_text_changed"]
 [connection signal="pressed" from="Random Name" to="." method="_on_random_name_pressed"]
 [connection signal="pressed" from="StartCreateButton" to="." method="_on_start_create_button_pressed"]
 [connection signal="pressed" from="RollAbilitiesButton" to="." method="_on_roll_abilities_button_pressed"]
@@ -404,5 +399,4 @@ text = "Continue..."
 [connection signal="item_selected" from="GridContainerRolls/AttributesDropdownContainer/OptionButton4" to="." method="_on_option_button_4_item_selected"]
 [connection signal="item_selected" from="GridContainerRolls/AttributesDropdownContainer/OptionButton5" to="." method="_on_option_button_5_item_selected"]
 [connection signal="timeout" from="ButtonCooldownTimer" to="." method="_on_button_cooldown_timer_timeout"]
-[connection signal="pressed" from="Button" to="." method="_on_button_pressed"]
 [connection signal="pressed" from="ContinueButton" to="." method="_on_continue_button_pressed"]

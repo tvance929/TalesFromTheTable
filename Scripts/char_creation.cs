@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using Godot;
 using TalesFromTheTable.Entities;
+using TalesFromTheTable.Proficiencies;
 using TalesFromTheTable.Scripts.Utilities;
 using TalesFromTheTable.Services;
 using TalesFromTheTable.Utilities;
@@ -33,12 +34,10 @@ public partial class char_creation : Control
 	public override void _Ready()
 	{
 		adventurerService = new AdventurerService(new Dice());
+		adventurer = new Adventurer();
 		nameLineEdit = GetNode<LineEdit>("AdventurerNameInput");
 		rollAbilitiesButton = GetNode<Button>("RollAbilitiesButton");
-		//rollAbilitiesButton.Connect("pressed", this, "_on_rollabilities_pressed");
-		Button submitButton = GetNode<Button>("StartCreateButton");
-		//submitButton.Connect("pressed", this, "_on_StartCreateButton_pressed
-		//
+
 		rollOneLabel = GetNode<Label>("GridContainerRolls/RollContainer/RollLabel1");
 		rollTwoLabel = GetNode<Label>("GridContainerRolls/RollContainer/RollLabel2");
 		rollThreeLabel = GetNode<Label>("GridContainerRolls/RollContainer/RollLabel3");
@@ -63,33 +62,44 @@ public partial class char_creation : Control
 			GetNode<OptionButton>("GridContainerRolls/AttributesDropdownContainer/OptionButton4"), GetNode<OptionButton>("GridContainerRolls/AttributesDropdownContainer/OptionButton5")
 		};
 
+		ResetUI();
+
 	}
 
 	public override void _Process(double delta)
 	{
 	}
 
-	private void _on_start_create_button_pressed()
-	{
-		string adventurerName = nameLineEdit.Text;
-		//GD.Print($"Adventurer's Name Submitted: {adventurerName}");		
-		adventurer = new Adventurer(adventurerName);
-		//GD.Print(JsonSerializer.Serialize(todd));
-		rollAbilitiesButton.Visible = true;
-		GetNode<RichTextLabel>("RollNoteLabel").Visible = true;
+	//private void _on_start_create_button_pressed()
+	//{
+	//    string adventurerName = nameLineEdit.Text;
+	//    //GD.Print($"Adventurer's Name Submitted: {adventurerName}");		
+	//    adventurer = new Adventurer(adventurerName);
+	//    //GD.Print(JsonSerializer.Serialize(todd));
+	//    rollAbilitiesButton.Visible = true;
+		
 
-		ReRollButtonTextChange("REROLL");
+	//    //ReRollButtonTextChange("REROLL");
+	//}
+
+	private void _on_adventurer_name_input_text_changed(string new_text)
+	{
+		adventurer.Name = nameLineEdit.Text;
+
+		if (string.IsNullOrWhiteSpace(new_text))
+		{
+			ResetUI();
+		}
+		else
+		{
+			GetNode<RichTextLabel>("RollNoteLabel").Visible = true;
+			rollAbilitiesButton.Visible = true;
+		}
 	}
 
 	private void _on_roll_abilities_button_pressed()
 	{
-		GetNode<Container>("GridContainerRolls/RollButtonContainer").Visible = true;
-		GetNode<Container>("GridContainerRolls/RollLabelContainer").Visible = true;
-		GetNode<Container>("GridContainerRolls/AttributesDropdownContainer").Visible = false;
-		GetNode<Container>("GridContainerRolls").Visible = true;
-		GetNode<Label>("ReRollCount").Visible = true;
-		GetNode<Label>("AssignAbility").Visible = false;
-		GetNode<Button>("ContinueButton").Visible = false;
+		RollAttributesUI();
 
 		GetNode<Button>("RollAbilitiesButton").Disabled = true;
 		buttonCooldownTimer.Start(REROLL_COOLDOWN);
@@ -236,24 +246,20 @@ public partial class char_creation : Control
 	private string AbilityWithModifier(int abilityScore) =>
 	$" {abilityScore}  ({(Rules.AbilityBonus(abilityScore) >= 0 ? "+" : "")}{Rules.AbilityBonus(abilityScore)})";
 
-	private void ReRollButtonTextChange(string change)
-	{
-		reRollButton1.Text = change;
-		reRollButton2.Text = change;
-		reRollButton3.Text = change;
-		reRollButton4.Text = change;
-		reRollButton5.Text = change;
-		reRollButton6.Text = change;
-	}
+	//private void ReRollButtonTextChange(string change)
+	//{
+	//	reRollButton1.Text = change;
+	//	reRollButton2.Text = change;
+	//	reRollButton3.Text = change;
+	//	reRollButton4.Text = change;
+	//	reRollButton5.Text = change;
+	//	reRollButton6.Text = change;
+	//}
 
 	private void _on_random_name_pressed()
 	{
 		nameLineEdit.Text = RandomFantasyName.GenerateFantasyName();
-	}
-
-	private void _on_button_pressed()
-	{
-		//popupMenu.Popup();
+		_on_adventurer_name_input_text_changed(nameLineEdit.Text);
 	}
 
 	private void _on_option_button_0_item_selected(long index)
@@ -317,6 +323,52 @@ public partial class char_creation : Control
 
 	private void _on_continue_button_pressed()
 	{
-		// Replace with function body.
+		GetNode<Container>("RaceSavingThrowsContainer").Visible = true;
+		GetNode<Button>("ContinueButton").Disabled = true;
+
+		foreach (var optionButton in optionButtons)
+		{
+			optionButton.Disabled = true;			
+		}
+	}
+
+	private void ResetUI()
+	{
+		GetNode<Container>("GridContainerRolls/RollButtonContainer").Visible = false;
+		GetNode<Container>("GridContainerRolls/RollLabelContainer").Visible = false;
+		GetNode<Container>("GridContainerRolls/AttributesDropdownContainer").Visible = false;
+		GetNode<Container>("GridContainerRolls").Visible = false;
+		GetNode<Label>("ReRollCount").Visible = false;
+		GetNode<Label>("AssignAbility").Visible = false;
+		GetNode<Button>("ContinueButton").Visible = false;
+		GetNode<Button>("ContinueButton").Disabled = false;
+		GetNode<Container>("RaceSavingThrowsContainer").Visible = false;
+		GetNode<Button>("RollAbilitiesButton").Visible = false;
+		GetNode<RichTextLabel>("RollNoteLabel").Visible = false;
+
+		foreach (var optionButton in optionButtons)
+		{
+			optionButton.Disabled = false;
+		}
+	}
+
+	private void RollAttributesUI()
+	{
+		rollAbilitiesButton.Visible = true;
+		GetNode<RichTextLabel>("RollNoteLabel").Visible = true;
+		GetNode<Container>("GridContainerRolls/RollButtonContainer").Visible = true;
+		GetNode<Container>("GridContainerRolls/RollLabelContainer").Visible = true;
+		GetNode<Container>("GridContainerRolls/AttributesDropdownContainer").Visible = false;
+		GetNode<Container>("GridContainerRolls").Visible = true;
+		GetNode<Label>("ReRollCount").Visible = true;
+		GetNode<Label>("AssignAbility").Visible = false;
+		GetNode<Button>("ContinueButton").Visible = false;
+        GetNode<Button>("ContinueButton").Disabled = false;
+        GetNode<Container>("RaceSavingThrowsContainer").Visible = false;
+
+		foreach (var optionButton in optionButtons)
+		{
+			optionButton.Disabled = false;
+		}
 	}
 }
