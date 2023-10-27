@@ -342,8 +342,13 @@ popup/item_4/id = 4
 popup/item_5/text = "Charisma"
 popup/item_5/id = 5
 
-[node name="ButtonCooldownTimer" type="Timer" parent="."]
-one_shot = true
+[node name="VSeparator" type="VSeparator" parent="."]
+custom_minimum_size = Vector2(2, 500)
+layout_mode = 0
+offset_left = 640.0
+offset_top = 10.0
+offset_right = 644.0
+offset_bottom = 645.0
 
 [node name="RaceSavingThrowsContainer" type="VBoxContainer" parent="."]
 layout_mode = 0
@@ -361,10 +366,12 @@ fit_content = true
 [node name="RaceOptions" type="OptionButton" parent="RaceSavingThrowsContainer"]
 layout_mode = 2
 item_count = 5
+selected = 0
+allow_reselect = true
 popup/item_0/text = "Choose your race"
 popup/item_0/id = 0
 popup/item_0/disabled = true
-popup/item_1/text = "HUMAN (two attributes +1 and 1 skill)"
+popup/item_1/text = "HUMAN (two attributes +1 and 1 extra skill)"
 popup/item_1/id = 1
 popup/item_2/text = "DWARF (+1 con, wis)(-2 Poison save)"
 popup/item_2/id = 2
@@ -372,6 +379,274 @@ popup/item_3/text = "ELF (+1 dex, int) (immune to charm)"
 popup/item_3/id = 3
 popup/item_4/text = "HALFLING (+1 dex, char) (Lockpick or Stealth)"
 popup/item_4/id = 4
+
+[node name="SkillContainer" type="GridContainer" parent="RaceSavingThrowsContainer"]
+layout_mode = 2
+columns = 2
+
+[node name="SkillOneOption" type="OptionButton" parent="RaceSavingThrowsContainer/SkillContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+item_count = 7
+popup/item_0/text = "Choose a skill"
+popup/item_0/id = 0
+popup/item_0/disabled = true
+popup/item_1/text = "Lockpicking"
+popup/item_1/id = 1
+popup/item_2/text = "Stealth"
+popup/item_2/id = 2
+popup/item_3/text = "Beastry"
+popup/item_3/id = 3
+popup/item_4/text = "Deception"
+popup/item_4/id = 4
+popup/item_5/text = "Leadership"
+popup/item_5/id = 5
+popup/item_6/text = "Survival"
+popup/item_6/id = 6
+
+[node name="SkillTwoOption" type="OptionButton" parent="RaceSavingThrowsContainer/SkillContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+item_count = 7
+popup/item_0/text = "Choose a skill"
+popup/item_0/id = 0
+popup/item_0/disabled = true
+popup/item_1/text = "Lockpicking"
+popup/item_1/id = 1
+popup/item_2/text = "Stealth"
+popup/item_2/id = 2
+popup/item_3/text = "Beastry"
+popup/item_3/id = 3
+popup/item_4/text = "Deception"
+popup/item_4/id = 4
+popup/item_5/text = "Leadership"
+popup/item_5/id = 5
+popup/item_6/text = "Survival"
+popup/item_6/id = 6
+
+[node name="RichTextLabel" type="RichTextLabel" parent="RaceSavingThrowsContainer"]
+visible = false
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 0
+text = "Attributes"
+
+[node name="HSeparator" type="HSeparator" parent="RaceSavingThrowsContainer"]
+layout_mode = 2
+
+[node name="FinalStatsGrid" type="GridContainer" parent="RaceSavingThrowsContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+columns = 2
+
+[node name="AttributesGrid" type="GridContainer" parent="RaceSavingThrowsContainer/FinalStatsGrid"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+columns = 2
+
+[node name="Names" type="VBoxContainer" parent="RaceSavingThrowsContainer/FinalStatsGrid/AttributesGrid"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="StrengthLabel" type="Label" parent="RaceSavingThrowsContainer/FinalStatsGrid/AttributesGrid/Names"]
+layout_mode = 2
+size_flags_vertical = 6
+theme_override_font_sizes/font_size = 20
+text = "Strength
+"
+horizontal_alignment = 2
+
+[node name="DexterityLabel" type="Label" parent="RaceSavingThrowsContainer/FinalStatsGrid/AttributesGrid/Names"]
+layout_mode = 2
+size_flags_vertical = 6
+theme_override_font_sizes/font_size = 20
+text = "Dexterity
+"
+horizontal_alignment = 2
+
+[node name="ConstitutionLabel" type="Label" parent="RaceSavingThrowsContainer/FinalStatsGrid/AttributesGrid/Names"]
+layout_mode = 2
+size_flags_vertical = 6
+theme_override_font_sizes/font_size = 20
+text = "Constitution
+"
+horizontal_alignment = 2
+
+[node name="IntelligenceLabel" type="Label" parent="RaceSavingThrowsContainer/FinalStatsGrid/AttributesGrid/Names"]
+layout_mode = 2
+size_flags_vertical = 6
+theme_override_font_sizes/font_size = 20
+text = "Intelligence
+"
+horizontal_alignment = 2
+
+[node name="WisdomLabel" type="Label" parent="RaceSavingThrowsContainer/FinalStatsGrid/AttributesGrid/Names"]
+layout_mode = 2
+size_flags_vertical = 6
+theme_override_font_sizes/font_size = 20
+text = "Wisdom
+"
+horizontal_alignment = 2
+
+[node name="CharismaLabel" type="Label" parent="RaceSavingThrowsContainer/FinalStatsGrid/AttributesGrid/Names"]
+layout_mode = 2
+size_flags_vertical = 6
+theme_override_font_sizes/font_size = 20
+text = "Charisma
+"
+horizontal_alignment = 2
+
+[node name="Values" type="VBoxContainer" parent="RaceSavingThrowsContainer/FinalStatsGrid/AttributesGrid"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="StrengthValue" type="Label" parent="RaceSavingThrowsContainer/FinalStatsGrid/AttributesGrid/Values"]
+layout_mode = 2
+size_flags_vertical = 6
+theme_override_colors/font_color = Color(0.403922, 0.768627, 0.415686, 1)
+theme_override_font_sizes/font_size = 20
+text = "13
+"
+
+[node name="DexterityValue" type="Label" parent="RaceSavingThrowsContainer/FinalStatsGrid/AttributesGrid/Values"]
+layout_mode = 2
+size_flags_vertical = 6
+theme_override_colors/font_color = Color(0.403922, 0.768627, 0.415686, 1)
+theme_override_font_sizes/font_size = 20
+text = "13
+"
+
+[node name="ConstitutionValue" type="Label" parent="RaceSavingThrowsContainer/FinalStatsGrid/AttributesGrid/Values"]
+layout_mode = 2
+size_flags_vertical = 6
+theme_override_colors/font_color = Color(0.403922, 0.768627, 0.415686, 1)
+theme_override_font_sizes/font_size = 20
+text = "13
+"
+
+[node name="IntelligenceValue" type="Label" parent="RaceSavingThrowsContainer/FinalStatsGrid/AttributesGrid/Values"]
+layout_mode = 2
+size_flags_vertical = 6
+theme_override_colors/font_color = Color(0.403922, 0.768627, 0.415686, 1)
+theme_override_font_sizes/font_size = 20
+text = "13
+"
+
+[node name="WisdomValue" type="Label" parent="RaceSavingThrowsContainer/FinalStatsGrid/AttributesGrid/Values"]
+layout_mode = 2
+size_flags_vertical = 6
+theme_override_colors/font_color = Color(0.403922, 0.768627, 0.415686, 1)
+theme_override_font_sizes/font_size = 20
+text = "13
+"
+
+[node name="CharismaValue" type="Label" parent="RaceSavingThrowsContainer/FinalStatsGrid/AttributesGrid/Values"]
+layout_mode = 2
+size_flags_vertical = 6
+theme_override_colors/font_color = Color(0.403922, 0.768627, 0.415686, 1)
+theme_override_font_sizes/font_size = 20
+text = "13
+"
+
+[node name="SavingThrowGrid" type="GridContainer" parent="RaceSavingThrowsContainer/FinalStatsGrid"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+columns = 2
+
+[node name="Names" type="VBoxContainer" parent="RaceSavingThrowsContainer/FinalStatsGrid/SavingThrowGrid"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="PoisonLabel" type="Label" parent="RaceSavingThrowsContainer/FinalStatsGrid/SavingThrowGrid/Names"]
+layout_mode = 2
+size_flags_vertical = 6
+theme_override_font_sizes/font_size = 20
+text = "Poison
+"
+horizontal_alignment = 2
+
+[node name="WandsLabel" type="Label" parent="RaceSavingThrowsContainer/FinalStatsGrid/SavingThrowGrid/Names"]
+layout_mode = 2
+size_flags_vertical = 6
+theme_override_font_sizes/font_size = 20
+text = "Wands
+"
+horizontal_alignment = 2
+
+[node name="ParalysisStoneLabel" type="Label" parent="RaceSavingThrowsContainer/FinalStatsGrid/SavingThrowGrid/Names"]
+layout_mode = 2
+size_flags_vertical = 6
+theme_override_font_sizes/font_size = 20
+text = "Paralysis or Stone
+"
+horizontal_alignment = 2
+
+[node name="DragonBreathLabel" type="Label" parent="RaceSavingThrowsContainer/FinalStatsGrid/SavingThrowGrid/Names"]
+layout_mode = 2
+size_flags_vertical = 6
+theme_override_font_sizes/font_size = 20
+text = "Dragon Breath
+"
+horizontal_alignment = 2
+
+[node name="SpellStavesLabel" type="Label" parent="RaceSavingThrowsContainer/FinalStatsGrid/SavingThrowGrid/Names"]
+layout_mode = 2
+size_flags_vertical = 6
+theme_override_font_sizes/font_size = 20
+text = "Spells or Staves
+"
+horizontal_alignment = 2
+
+[node name="Values" type="VBoxContainer" parent="RaceSavingThrowsContainer/FinalStatsGrid/SavingThrowGrid"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="PoisonValue" type="Label" parent="RaceSavingThrowsContainer/FinalStatsGrid/SavingThrowGrid/Values"]
+layout_mode = 2
+size_flags_vertical = 6
+theme_override_colors/font_color = Color(1, 0.129412, 0.729412, 1)
+theme_override_font_sizes/font_size = 20
+text = "13
+"
+
+[node name="WandsValue" type="Label" parent="RaceSavingThrowsContainer/FinalStatsGrid/SavingThrowGrid/Values"]
+layout_mode = 2
+size_flags_vertical = 6
+theme_override_colors/font_color = Color(1, 0.129412, 0.729412, 1)
+theme_override_font_sizes/font_size = 20
+text = "13
+"
+
+[node name="ParalysisStoneValue" type="Label" parent="RaceSavingThrowsContainer/FinalStatsGrid/SavingThrowGrid/Values"]
+layout_mode = 2
+size_flags_vertical = 6
+theme_override_colors/font_color = Color(1, 0.129412, 0.729412, 1)
+theme_override_font_sizes/font_size = 20
+text = "13
+"
+
+[node name="DragonBreathValue" type="Label" parent="RaceSavingThrowsContainer/FinalStatsGrid/SavingThrowGrid/Values"]
+layout_mode = 2
+size_flags_vertical = 6
+theme_override_colors/font_color = Color(1, 0.129412, 0.729412, 1)
+theme_override_font_sizes/font_size = 20
+text = "13
+"
+
+[node name="SpellsStavesValue" type="Label" parent="RaceSavingThrowsContainer/FinalStatsGrid/SavingThrowGrid/Values"]
+layout_mode = 2
+size_flags_vertical = 6
+theme_override_colors/font_color = Color(1, 0.129412, 0.729412, 1)
+theme_override_font_sizes/font_size = 20
+text = "13
+"
 
 [node name="ContinueButton" type="Button" parent="."]
 layout_mode = 0
@@ -381,6 +656,9 @@ offset_right = 637.0
 offset_bottom = 114.0
 theme_override_colors/font_color = Color(0, 1, 0, 1)
 text = "Continue..."
+
+[node name="ButtonCooldownTimer" type="Timer" parent="."]
+one_shot = true
 
 [connection signal="text_changed" from="AdventurerNameInput" to="." method="_on_adventurer_name_input_text_changed"]
 [connection signal="pressed" from="Random Name" to="." method="_on_random_name_pressed"]
@@ -398,5 +676,6 @@ text = "Continue..."
 [connection signal="item_selected" from="GridContainerRolls/AttributesDropdownContainer/OptionButton3" to="." method="_on_option_button_3_item_selected"]
 [connection signal="item_selected" from="GridContainerRolls/AttributesDropdownContainer/OptionButton4" to="." method="_on_option_button_4_item_selected"]
 [connection signal="item_selected" from="GridContainerRolls/AttributesDropdownContainer/OptionButton5" to="." method="_on_option_button_5_item_selected"]
-[connection signal="timeout" from="ButtonCooldownTimer" to="." method="_on_button_cooldown_timer_timeout"]
+[connection signal="item_selected" from="RaceSavingThrowsContainer/RaceOptions" to="." method="_on_race_options_item_selected"]
 [connection signal="pressed" from="ContinueButton" to="." method="_on_continue_button_pressed"]
+[connection signal="timeout" from="ButtonCooldownTimer" to="." method="_on_button_cooldown_timer_timeout"]

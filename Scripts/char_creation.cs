@@ -331,6 +331,32 @@ public partial class char_creation : Control
 			optionButton.Disabled = true;			
 		}
 	}
+	
+	private void _on_race_options_item_selected(long index)
+	{
+		var skillContainer = GetNode<Container>("RaceSavingThrowsContainer/SkillContainer");
+		var raceOption = GetNode<OptionButton>("RaceSavingThrowsContainer/RaceOptions");
+		skillContainer.Visible = true;
+
+		if (index == 0)
+		{
+			skillContainer.Visible = false;
+		}
+		else if (index == 1) //raceOption.GetItemText((int)index)
+		{
+			//BOTH skill dropdowns are visible
+		}
+		else if (index == 2 || index == 3 )
+		{
+			GetNode<OptionButton>("RaceSavingThrowsContainer/SkillContainer/SkillTwoOption").Visible = false;
+		}
+		else if ( index == 4 ) // Halfing gets thief and sneak ... er something.
+		{
+			GetNode<OptionButton>("RaceSavingThrowsContainer/SkillContainer/SkillOneOption").Select(3); // need to pick these for real tomorrow
+
+				GetNode<OptionButton>("RaceSavingThrowsContainer/SkillContainer/SkillTwoOption").Select(5);
+		}
+	}
 
 	private void ResetUI()
 	{
@@ -363,8 +389,8 @@ public partial class char_creation : Control
 		GetNode<Label>("ReRollCount").Visible = true;
 		GetNode<Label>("AssignAbility").Visible = false;
 		GetNode<Button>("ContinueButton").Visible = false;
-        GetNode<Button>("ContinueButton").Disabled = false;
-        GetNode<Container>("RaceSavingThrowsContainer").Visible = false;
+		GetNode<Button>("ContinueButton").Disabled = false;
+		GetNode<Container>("RaceSavingThrowsContainer").Visible = false;
 
 		foreach (var optionButton in optionButtons)
 		{
