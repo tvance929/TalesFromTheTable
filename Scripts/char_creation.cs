@@ -1,11 +1,10 @@
-using System;
 using System.Collections.Generic;
 using Godot;
 using TalesFromTheTable.Entities;
-using TalesFromTheTable.Proficiencies;
 using TalesFromTheTable.Scripts.Utilities;
 using TalesFromTheTable.Services;
 using TalesFromTheTable.Utilities;
+using TalesFromTheTable.Utilities.Enums;
 
 public partial class char_creation : Control
 {
@@ -77,7 +76,7 @@ public partial class char_creation : Control
 	//    adventurer = new Adventurer(adventurerName);
 	//    //GD.Print(JsonSerializer.Serialize(todd));
 	//    rollAbilitiesButton.Visible = true;
-		
+
 
 	//    //ReRollButtonTextChange("REROLL");
 	//}
@@ -104,13 +103,13 @@ public partial class char_creation : Control
 		GetNode<Button>("RollAbilitiesButton").Disabled = true;
 		buttonCooldownTimer.Start(REROLL_COOLDOWN);
 
-		var rolls = adventurerService.RollAbilities(adventurer);
+		var rolls = adventurerService.RollAttributes(adventurer);
 
 		//GD.Print($"Here");
-		foreach (var abilityRoll in rolls)
+		foreach (var attributeRoll in rolls)
 		{
-			var roll = AbilityWithModifier(abilityRoll.Value);
-			switch (abilityRoll.Key)
+			var roll = AbilityWithModifier(attributeRoll.Value);
+			switch (attributeRoll.Key)
 			{
 				case "one":
 					rollOneLabel.Text = roll;
@@ -328,33 +327,53 @@ public partial class char_creation : Control
 
 		foreach (var optionButton in optionButtons)
 		{
-			optionButton.Disabled = true;			
+			optionButton.Disabled = true;
+			var optionButtonIndex = optionButtons.IndexOf(optionButton);
+			var attributeID = (AttributeEnum)optionButton.GetSelectedId();
+			var value = adventurerService.AttributeRolls[ConvertIndexToRollsKey(optionButtonIndex)];
+			GD.Print($"Option Value: {optionButton.Text} Attribute: {attributeID} Value: {value}");
+			adventurer.SetAttribute(attributeID, adventurerService.AttributeRolls[ConvertIndexToRollsKey(optionButtonIndex)]);
 		}
+
+		SetAttributeLabels();
 	}
-	
+
 	private void _on_race_options_item_selected(long index)
 	{
 		var skillContainer = GetNode<Container>("RaceSavingThrowsContainer/SkillContainer");
+		var skillOne = GetNode<OptionButton>("RaceSavingThrowsContainer/SkillContainer/SkillOneOption");
+		var skillTwo = GetNode<OptionButton>("RaceSavingThrowsContainer/SkillContainer/SkillTwoOption");
+		skillOne.Disabled = false;
+		skillTwo.Disabled = false;
+
 		var raceOption = GetNode<OptionButton>("RaceSavingThrowsContainer/RaceOptions");
 		skillContainer.Visible = true;
+		var selectedID = raceOption.GetSelectedId();
 
-		if (index == 0)
+		if (selectedID == 0)
 		{
 			skillContainer.Visible = false;
 		}
-		else if (index == 1) //raceOption.GetItemText((int)index)
+		else if (selectedID == (int)RaceEnum.Human)
 		{
-			//BOTH skill dropdowns are visible
+			skillOne.Visible = true;
+			//skillTwo.Visible = true;  -- they get to choose two abilities to increase and ONE skill - make its own container for this
+			//adventurer.SetRace(RaceEnum.Human); -- wait to set this 
 		}
-		else if (index == 2 || index == 3 )
+		else if (selectedID == (int)RaceEnum.Dwarf || selectedID == (int)RaceEnum.Elf)
 		{
-			GetNode<OptionButton>("RaceSavingThrowsContainer/SkillContainer/SkillTwoOption").Visible = false;
+			skillOne.Visible = true;
+			skillTwo.Visible = false;
 		}
-		else if ( index == 4 ) // Halfing gets thief and sneak ... er something.
+		else if (selectedID == (int)RaceEnum.Halfling) // Halfing gets thief and sneak ... er something.
 		{
-			GetNode<OptionButton>("RaceSavingThrowsContainer/SkillContainer/SkillOneOption").Select(3); // need to pick these for real tomorrow
-
-				GetNode<OptionButton>("RaceSavingThrowsContainer/SkillContainer/SkillTwoOption").Select(5);
+			skillOne.Visible = true;
+			skillTwo.Visible = true;
+			skillOne.Select(1);
+			skillTwo.Select(2);
+			skillOne.Disabled = true;
+			skillTwo.Disabled = true;
+			//adventurer.SetRace(RaceEnum.Halfling);
 		}
 	}
 
@@ -396,5 +415,37 @@ public partial class char_creation : Control
 		{
 			optionButton.Disabled = false;
 		}
+	}
+
+	private string ConvertIndexToRollsKey(int index)
+	{
+		switch (index)
+		{
+			case 0:
+				return "one";
+			case 1:
+				return "two";
+			case 2:
+				return "three";
+			case 3:
+				return "four";
+			case 4:
+				return "five";
+			case 5:
+				return "six";
+			default:
+				return "one";
+		}
+	}
+
+	private void SetAttributeLabels()
+	{
+		var path = "RaceSavingThrowsContainer/FinalStatsGrid/AttributesGrid/Values/";
+		GetNode<Label>($"{path}StrengthValue").Text = AbilityWithModifier(adventurer.Attributes[AttributeEnum.Strength]);
+		GetNode<Label>($"{path}DexterityValue").Text = AbilityWithModifier(adventurer.Attributes[AttributeEnum.Dexterity]);
+		GetNode<Label>($"{path}ConstitutionValue").Text = AbilityWithModifier(adventurer.Attributes[AttributeEnum.Constitution]);
+		GetNode<Label>($"{path}IntelligenceValue").Text = AbilityWithModifier(adventurer.Attributes[AttributeEnum.Intelligence]);
+		GetNode<Label>($"{path}WisdomValue").Text = AbilityWithModifier(adventurer.Attributes[AttributeEnum.Wisdom]);
+		GetNode<Label>($"{path}CharismaValue").Text = AbilityWithModifier(adventurer.Attributes[AttributeEnum.Charisma]);
 	}
 }

@@ -7,10 +7,10 @@ namespace TalesFromTheTable.Services.Interfaces
 {
     public interface IAdventurerService
     {
-        public Dictionary<string, int> RollAbilities (Adventurer adventurer);
+        public Dictionary<string, int> RollAttributes (Adventurer adventurer);
 
         public int ReRollAbility(string abilityRollNumber, Adventurer adventurer);
 
-        public void SetAbilities(List<AbilityEnum> abilityEnums, Adventurer adventurer);
+        public void SetAttributes(List<AttributeEnum> abilityEnums, Adventurer adventurer);
     }
 }

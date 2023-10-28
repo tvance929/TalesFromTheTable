@@ -2,7 +2,6 @@
 {
     public enum RaceEnum
     {
-        NotSet,
         Human,
         Dwarf,
         Elf,

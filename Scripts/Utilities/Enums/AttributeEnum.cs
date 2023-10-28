@@ -1,6 +1,6 @@
 ﻿namespace TalesFromTheTable.Utilities.Enums
 {
-    public enum AbilityEnum
+    public enum AttributeEnum
     {
         Strength,
         Dexterity,

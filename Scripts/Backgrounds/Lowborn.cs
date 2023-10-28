@@ -1,6 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using TalesFromTheTable.Skills;
+﻿using System.Collections.Generic;
+using TalesFromTheTable.Scripts.Skills;
+using TalesFromTheTable.Skills.Interfaces;
 using TalesFromTheTable.Utilities.Enums;
 
 namespace TalesFromTheTable.Backgrounds
@@ -9,8 +9,8 @@ namespace TalesFromTheTable.Backgrounds
     {
         public override string Name { get; } = "Lowborn";
         public override string Description { get; } = "school of hard knocks...reilient";
-        public override Dictionary<AbilityEnum, int> AbilityBonuses { get; }
-            = new Dictionary<AbilityEnum, int> { { AbilityEnum.Strength, 1 }, { AbilityEnum.Constitution, 1 } };
-        public override List<Skill> Skills { get; } = new List<Skill> { new Survival() };
+        public override Dictionary<AttributeEnum, int> AbilityBonuses { get; }
+            = new Dictionary<AttributeEnum, int> { { AttributeEnum.Strength, 1 }, { AttributeEnum.Constitution, 1 } };
+        public override List<ISkill> Skills { get; } = new List<ISkill> { new Survival() };
     }
 }

@@ -2,7 +2,7 @@
 
 namespace TalesFromTheTable.Scripts.Skills
 {
-    public class Leadership : ISkill
+    public class Lockpick : ISkill
     {
         public string Description { get; } = "Handling of Beasts";
         public string Name { get; } = "Beast Handling";
