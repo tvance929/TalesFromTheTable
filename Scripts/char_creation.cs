@@ -243,7 +243,7 @@ public partial class char_creation : Control
 	}
 
 	private string AbilityWithModifier(int abilityScore) =>
-	$" {abilityScore}  ({(Rules.AbilityBonus(abilityScore) >= 0 ? "+" : "")}{Rules.AbilityBonus(abilityScore)})";
+	$" {abilityScore}  ({(Rules.AttributeBonus(abilityScore) >= 0 ? "+" : "")}{Rules.AttributeBonus(abilityScore)})";
 
 	//private void ReRollButtonTextChange(string change)
 	//{
@@ -259,66 +259,7 @@ public partial class char_creation : Control
 	{
 		nameLineEdit.Text = RandomFantasyName.GenerateFantasyName();
 		_on_adventurer_name_input_text_changed(nameLineEdit.Text);
-	}
-
-	private void _on_option_button_0_item_selected(long index)
-	{
-		CheckAbilitiesAssigned(0, (int)index);
-	}
-
-	private void _on_option_button_1_item_selected(long index)
-	{
-		CheckAbilitiesAssigned(1, (int)index);
-	}
-
-	private void _on_option_button_2_item_selected(long index)
-	{
-		CheckAbilitiesAssigned(2, (int)index);
-	}
-
-	private void _on_option_button_3_item_selected(long index)
-	{
-		CheckAbilitiesAssigned(3, (int)index);
-	}
-
-	private void _on_option_button_4_item_selected(long index)
-	{
-		CheckAbilitiesAssigned(4, (int)index);
-	}
-
-	private void _on_option_button_5_item_selected(long index)
-	{
-		CheckAbilitiesAssigned(5, (int)index);
-	}
-
-	/// <summary>
-	/// If the user picks (str) and there is another button that has already chosen (str) this will clear that dropdown
-	/// </summary>
-	/// <param name="buttonNumber"></param>
-	/// <param name="abilityIndex"></param>
-	private void CheckAbilitiesAssigned(int buttonNumber, int abilityIndex)
-	{
-		var allSet = true;
-
-		//GD.Print($"IN - buttonNumber: {buttonNumber} abilityIndex: {abilityIndex}");
-		foreach (var optionButton in optionButtons)
-		{
-			if (optionButton.GetSelectedId() == abilityIndex)
-			{
-				if (optionButton != optionButtons[buttonNumber])
-				{
-					optionButton.Select(-1);
-				}
-			}
-
-			if (optionButton.GetSelectedId() == -1)
-			{
-				allSet = false;
-			}
-		}
-
-		GetNode<Button>("ContinueButton").Visible = allSet;
-	}
+	}	
 
 	private void _on_continue_button_pressed()
 	{
@@ -331,32 +272,42 @@ public partial class char_creation : Control
 			var optionButtonIndex = optionButtons.IndexOf(optionButton);
 			var attributeID = (AttributeEnum)optionButton.GetSelectedId();
 			var value = adventurerService.AttributeRolls[ConvertIndexToRollsKey(optionButtonIndex)];
-			GD.Print($"Option Value: {optionButton.Text} Attribute: {attributeID} Value: {value}");
+			//GD.Print($"Option Value: {optionButton.Text} Attribute: {attributeID} Value: {value}");
 			adventurer.SetAttribute(attributeID, adventurerService.AttributeRolls[ConvertIndexToRollsKey(optionButtonIndex)]);
 		}
 
-		SetAttributeLabels();
+		//foreach (var attribute in adventurer.Attributes)
+		//{
+		//	GD.Print($"{attribute.Key} = {attribute.Value}");
+		//}
+		SetAttributeAndSavingThrowLabels();
 	}
 
 	private void _on_race_options_item_selected(long index)
 	{
 		var skillContainer = GetNode<Container>("RaceSavingThrowsContainer/SkillContainer");
+		var attrContainer = GetNode<Container>("RaceSavingThrowsContainer/AttributeBonusContainer");
 		var skillOne = GetNode<OptionButton>("RaceSavingThrowsContainer/SkillContainer/SkillOneOption");
 		var skillTwo = GetNode<OptionButton>("RaceSavingThrowsContainer/SkillContainer/SkillTwoOption");
+		var attrOne = GetNode<OptionButton>("RaceSavingThrowsContainer/AttributeBonusContainer/AttributeOneOption");
+		var attrTwo = GetNode<OptionButton>("RaceSavingThrowsContainer/AttributeBonusContainer/AttributeTwoOption");
 		skillOne.Disabled = false;
 		skillTwo.Disabled = false;
+		attrContainer.Visible = false;
 
 		var raceOption = GetNode<OptionButton>("RaceSavingThrowsContainer/RaceOptions");
 		skillContainer.Visible = true;
 		var selectedID = raceOption.GetSelectedId();
 
-		if (selectedID == 0)
+		if (selectedID == 4) //random default number that is NOT a race
 		{
 			skillContainer.Visible = false;
 		}
 		else if (selectedID == (int)RaceEnum.Human)
 		{
 			skillOne.Visible = true;
+			skillTwo.Visible = false;
+			attrContainer.Visible = true;
 			//skillTwo.Visible = true;  -- they get to choose two abilities to increase and ONE skill - make its own container for this
 			//adventurer.SetRace(RaceEnum.Human); -- wait to set this 
 		}
@@ -438,14 +389,79 @@ public partial class char_creation : Control
 		}
 	}
 
-	private void SetAttributeLabels()
+	private void SetAttributeAndSavingThrowLabels()
 	{
-		var path = "RaceSavingThrowsContainer/FinalStatsGrid/AttributesGrid/Values/";
-		GetNode<Label>($"{path}StrengthValue").Text = AbilityWithModifier(adventurer.Attributes[AttributeEnum.Strength]);
-		GetNode<Label>($"{path}DexterityValue").Text = AbilityWithModifier(adventurer.Attributes[AttributeEnum.Dexterity]);
-		GetNode<Label>($"{path}ConstitutionValue").Text = AbilityWithModifier(adventurer.Attributes[AttributeEnum.Constitution]);
-		GetNode<Label>($"{path}IntelligenceValue").Text = AbilityWithModifier(adventurer.Attributes[AttributeEnum.Intelligence]);
-		GetNode<Label>($"{path}WisdomValue").Text = AbilityWithModifier(adventurer.Attributes[AttributeEnum.Wisdom]);
-		GetNode<Label>($"{path}CharismaValue").Text = AbilityWithModifier(adventurer.Attributes[AttributeEnum.Charisma]);
+		var attributePath = "RaceSavingThrowsContainer/FinalStatsGrid/AttributesGrid/Values/";
+		var savingThrowPath = "RaceSavingThrowsContainer/FinalStatsGrid/SavingThrowGrid/Values/";
+		GetNode<Label>($"{attributePath}StrengthValue").Text = AbilityWithModifier(adventurer.Attributes[AttributeEnum.Strength]);
+		GetNode<Label>($"{attributePath}DexterityValue").Text = AbilityWithModifier(adventurer.Attributes[AttributeEnum.Dexterity]);
+		GetNode<Label>($"{attributePath}ConstitutionValue").Text = AbilityWithModifier(adventurer.Attributes[AttributeEnum.Constitution]);
+		GetNode<Label>($"{attributePath}IntelligenceValue").Text = AbilityWithModifier(adventurer.Attributes[AttributeEnum.Intelligence]);
+		GetNode<Label>($"{attributePath}WisdomValue").Text = AbilityWithModifier(adventurer.Attributes[AttributeEnum.Wisdom]);
+		GetNode<Label>($"{attributePath}CharismaValue").Text = AbilityWithModifier(adventurer.Attributes[AttributeEnum.Charisma]);
+		GetNode<Label>($"{savingThrowPath}PoisonValue").Text = adventurer.SavingThrows.PoisonOrDeathRay.ToString();
+		GetNode<Label>($"{savingThrowPath}PetrificationValue").Text = adventurer.SavingThrows.Petrification.ToString();
+		GetNode<Label>($"{savingThrowPath}WandsValue").Text = adventurer.SavingThrows.MagicWand.ToString();
+		GetNode<Label>($"{savingThrowPath}DragonBreathValue").Text = adventurer.SavingThrows.DragonBreath.ToString();
+		GetNode<Label>($"{savingThrowPath}SpellsStavesValue").Text = adventurer.SavingThrows.SpellsOrMagicStaff.ToString();
+	}
+
+	private void _on_option_button_0_item_selected(long index)
+	{
+		CheckAttributesAssigned(0, (int)index);
+	}
+
+	private void _on_option_button_1_item_selected(long index)
+	{
+		CheckAttributesAssigned(1, (int)index);
+	}
+
+	private void _on_option_button_2_item_selected(long index)
+	{
+		CheckAttributesAssigned(2, (int)index);
+	}
+
+	private void _on_option_button_3_item_selected(long index)
+	{
+		CheckAttributesAssigned(3, (int)index);
+	}
+
+	private void _on_option_button_4_item_selected(long index)
+	{
+		CheckAttributesAssigned(4, (int)index);
+	}
+
+	private void _on_option_button_5_item_selected(long index)
+	{
+		CheckAttributesAssigned(5, (int)index);
+	}
+
+	/// <summary>
+	/// If the user picks (str) and there is another button that has already chosen (str) this will clear that dropdown
+	/// </summary>
+	/// <param name="buttonNumber"></param>
+	/// <param name="abilityIndex"></param>
+	private void CheckAttributesAssigned(int buttonNumber, int abilityIndex)
+	{
+		var allSet = true;
+
+		//GD.Print($"IN - buttonNumber: {buttonNumber} abilityIndex: {abilityIndex}");
+		foreach (var optionButton in optionButtons)
+		{
+			if (optionButton.GetSelectedId() == abilityIndex)
+			{
+				if (optionButton != optionButtons[buttonNumber])
+				{
+					optionButton.Select(-1);
+				}
+			}
+
+			if (optionButton.GetSelectedId() == -1)
+			{
+				allSet = false;
+			}
+		}
+
+		GetNode<Button>("ContinueButton").Visible = allSet;
 	}
 }

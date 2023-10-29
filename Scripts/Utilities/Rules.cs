@@ -1,4 +1,5 @@
 using System;
+using Godot;
 
 namespace TalesFromTheTable.Utilities
 {
@@ -6,12 +7,13 @@ namespace TalesFromTheTable.Utilities
 	{
 
 		/// <summary>
-		/// Bonuses based on ability score
+		/// Bonuses based on attribute score
 		/// </summary>
 		/// <param name="abilityScore"></param>
 		/// <returns></returns>
-		public static int AbilityBonus(int abilityScore)
+		public static int AttributeBonus(int abilityScore)
 		{
+			//GD.Print(abilityScore);
 			switch (abilityScore)
 			{
 				case 3:

@@ -380,8 +380,55 @@ popup/item_3/id = 2
 popup/item_4/text = "HALFLING (+1 dex, char) (Lockpick and Stealth)"
 popup/item_4/id = 3
 
+[node name="AttributeBonusContainer" type="GridContainer" parent="RaceSavingThrowsContainer"]
+layout_mode = 2
+columns = 2
+
+[node name="AttributeOneOption" type="OptionButton" parent="RaceSavingThrowsContainer/AttributeBonusContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+item_count = 7
+selected = 0
+popup/item_0/text = "Choose Attribute Boost"
+popup/item_0/id = 6
+popup/item_0/disabled = true
+popup/item_1/text = "Strength"
+popup/item_1/id = 0
+popup/item_2/text = "Dexterity"
+popup/item_2/id = 1
+popup/item_3/text = "Constitution"
+popup/item_3/id = 2
+popup/item_4/text = "Intelligence"
+popup/item_4/id = 3
+popup/item_5/text = "Wisdom"
+popup/item_5/id = 4
+popup/item_6/text = "Charisma"
+popup/item_6/id = 5
+
+[node name="AttributeTwoOption" type="OptionButton" parent="RaceSavingThrowsContainer/AttributeBonusContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+item_count = 7
+selected = 0
+popup/item_0/text = "Choose Attribute Boost"
+popup/item_0/id = 6
+popup/item_0/disabled = true
+popup/item_1/text = "Strength"
+popup/item_1/id = 0
+popup/item_2/text = "Dexterity"
+popup/item_2/id = 1
+popup/item_3/text = "Constitution"
+popup/item_3/id = 2
+popup/item_4/text = "Intelligence"
+popup/item_4/id = 3
+popup/item_5/text = "Wisdom"
+popup/item_5/id = 4
+popup/item_6/text = "Charisma"
+popup/item_6/id = 5
+
 [node name="SkillContainer" type="GridContainer" parent="RaceSavingThrowsContainer"]
-visible = false
 layout_mode = 2
 columns = 2
 
@@ -587,7 +634,7 @@ horizontal_alignment = 2
 layout_mode = 2
 size_flags_vertical = 6
 theme_override_font_sizes/font_size = 20
-text = "Paralysis or Stone
+text = "Petrification
 "
 horizontal_alignment = 2
 
@@ -627,7 +674,7 @@ theme_override_font_sizes/font_size = 20
 text = "13
 "
 
-[node name="ParalysisStoneValue" type="Label" parent="RaceSavingThrowsContainer/FinalStatsGrid/SavingThrowGrid/Values"]
+[node name="PetrificationValue" type="Label" parent="RaceSavingThrowsContainer/FinalStatsGrid/SavingThrowGrid/Values"]
 layout_mode = 2
 size_flags_vertical = 6
 theme_override_colors/font_color = Color(1, 0.129412, 0.729412, 1)

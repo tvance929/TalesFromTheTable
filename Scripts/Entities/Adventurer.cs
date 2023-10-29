@@ -1,7 +1,9 @@
 using System;
 using System.Collections.Generic;
+using Godot;
 using TalesFromTheTable.Backgrounds;
 using TalesFromTheTable.Scripts.Skills;
+using TalesFromTheTable.Skills.Interfaces;
 using TalesFromTheTable.Utilities;
 using TalesFromTheTable.Utilities.Enums;
 using TalesFromTheTable.Utilities.Exceptions;
@@ -42,17 +44,17 @@ namespace TalesFromTheTable.Entities
         // Constructor
         public Adventurer()
         {
-            Attributes = new Dictionary<AttributeEnum, int> { { AttributeEnum.Strength, 0 }, { AttributeEnum.Dexterity, 0 },
-                                            { AttributeEnum.Constitution, 0 },{ AttributeEnum.Intelligence, 0 }, { AttributeEnum.Wisdom, 0 },
-                                            { AttributeEnum.Charisma, 0 } };
+            Attributes = new Dictionary<AttributeEnum, int> { { AttributeEnum.Strength, 3 }, { AttributeEnum.Dexterity, 3 },
+                { AttributeEnum.Constitution, 3 },{ AttributeEnum.Intelligence, 3 }, { AttributeEnum.Wisdom, 3 },
+                { AttributeEnum.Charisma, 3 } };
         }
 
         public Adventurer(string name)
         {
             Name = name;
-            Attributes = new Dictionary<AttributeEnum, int> { { AttributeEnum.Strength, 0 }, { AttributeEnum.Dexterity, 0 },
-                { AttributeEnum.Constitution, 0 },{ AttributeEnum.Intelligence, 0 }, { AttributeEnum.Wisdom, 0 },
-                { AttributeEnum.Charisma, 0 } };
+            Attributes = new Dictionary<AttributeEnum, int> { { AttributeEnum.Strength, 3 }, { AttributeEnum.Dexterity, 3 },
+                { AttributeEnum.Constitution, 3 },{ AttributeEnum.Intelligence, 3 }, { AttributeEnum.Wisdom, 3 },
+                { AttributeEnum.Charisma, 3 } };
 
         }
 
@@ -78,9 +80,9 @@ namespace TalesFromTheTable.Entities
             return true;
         }
 
-        public RaceEnum SetRace(RaceEnum race)
+        public RaceEnum SetRace(RaceEnum race, List<Attribute> humanBonuses, ISkill chosenSkill)
         {
-          //  if (Race != RaceEnum.NotSet) throw new AdventurerException("This adventurer already has their race set");
+            //  if (Race != RaceEnum.NotSet) throw new AdventurerException("This adventurer already has their race set");
 
             Race = race;
 
@@ -115,15 +117,17 @@ namespace TalesFromTheTable.Entities
 
         private void AdjustSavingThrowsFromAbilities()
         {
-            if (SavingThrowsAdjustedFromAbilities) return;
+            //if (SavingThrowsAdjustedFromAbilities) return;
 
-            SavingThrows.PoisonOrDeathRay -= Rules.AbilityBonus(Attributes[AttributeEnum.Constitution]);
-            SavingThrows.MagicWand -= Rules.AbilityBonus(Attributes[AttributeEnum.Dexterity]);
-            SavingThrows.Paralysis -= Rules.AbilityBonus(Attributes[AttributeEnum.Intelligence]);
-            SavingThrows.DragonBreath -= Rules.AbilityBonus(Attributes[AttributeEnum.Strength]);
-            SavingThrows.SpellsOrMagicStaff -= Rules.AbilityBonus(Attributes[AttributeEnum.Wisdom]);
+            SavingThrows = new CharacterSavingThrows(); //Reset to 15
 
-            SavingThrowsAdjustedFromAbilities = true; //only allow this once
+            SavingThrows.PoisonOrDeathRay -= Rules.AttributeBonus(Attributes[AttributeEnum.Constitution]);
+            SavingThrows.MagicWand -= Rules.AttributeBonus(Attributes[AttributeEnum.Dexterity]);
+            SavingThrows.Petrification -= Rules.AttributeBonus(Attributes[AttributeEnum.Intelligence]);
+            SavingThrows.DragonBreath -= Rules.AttributeBonus(Attributes[AttributeEnum.Strength]);
+            SavingThrows.SpellsOrMagicStaff -= Rules.AttributeBonus(Attributes[AttributeEnum.Wisdom]);
+
+            //SavingThrowsAdjustedFromAbilities = true; //only allow this once
         }
 
         /// <summary>
@@ -133,7 +137,7 @@ namespace TalesFromTheTable.Entities
         {
             public int PoisonOrDeathRay = 15;
             public int MagicWand = 15;
-            public int Paralysis = 15;
+            public int Petrification = 15;
             public int DragonBreath = 15;
             public int SpellsOrMagicStaff = 15;
         }
@@ -143,7 +147,10 @@ namespace TalesFromTheTable.Entities
             if (score < 3 || score > 21)
                 throw new AdventurerException($"Attempting to set an attribute with a value less than 3 or greater than 21 {attribute} = {score}");
 
+            //GD.Print($"Setting {attribute} to {score}");
             Attributes[attribute] = score;
+
+            AdjustSavingThrowsFromAbilities();
         }
     }
 }
