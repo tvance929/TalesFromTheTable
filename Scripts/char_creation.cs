@@ -23,12 +23,19 @@ public partial class char_creation : Control
 	private Button reRollButton5;
 	private Button reRollButton6;
 
-	private List<OptionButton> optionButtons;
+	private List<OptionButton> assignAttributeOptions;
 
-	private PopupMenu popupMenu;
+	//Race and Background Options
+	private OptionButton raceOption;
+	private OptionButton humanAttrOne;
+	private OptionButton humanAttrTwo;
+	private OptionButton skillOne;
+	private OptionButton skillTwo;
+	private OptionButton backgroundOption;
 
 	private const int REROLL_COOLDOWN = 1;
 	private const int REROLL_MAX = 2;
+	private const int DEFAULT_OPTIONS_ID = 99;
 
 	public override void _Ready()
 	{
@@ -51,10 +58,17 @@ public partial class char_creation : Control
 		reRollButton5 = GetNode<Button>("GridContainerRolls/RollButtonContainer/ReRollButton5");
 		reRollButton6 = GetNode<Button>("GridContainerRolls/RollButtonContainer/ReRollButton6");
 
+		raceOption = GetNode<OptionButton>("RaceSavingThrowsContainer/RaceOptions");
+		humanAttrOne = GetNode<OptionButton>("RaceSavingThrowsContainer/AttributeBonusContainer/AttributeOneOption");
+		humanAttrTwo = GetNode<OptionButton>("RaceSavingThrowsContainer/AttributeBonusContainer/AttributeTwoOption");
+		skillOne = GetNode<OptionButton>("RaceSavingThrowsContainer/SkillContainer/SkillOneOption");
+		skillTwo = GetNode<OptionButton>("RaceSavingThrowsContainer/SkillContainer/SkillTwoOption");
+		backgroundOption = GetNode<OptionButton>("RaceSavingThrowsContainer/BackgroundContainer/BackgroundOption");
+
 		buttonCooldownTimer = GetNode<Timer>("ButtonCooldownTimer");
 		//popupMenu = GetNode<PopupMenu>("PopupPlaceholder/PopupMenu");
 
-		optionButtons = new List<OptionButton>
+		assignAttributeOptions = new List<OptionButton>
 		{
 			GetNode<OptionButton>("GridContainerRolls/AttributesDropdownContainer/OptionButton0"), GetNode<OptionButton>("GridContainerRolls/AttributesDropdownContainer/OptionButton1"),
 			GetNode<OptionButton>("GridContainerRolls/AttributesDropdownContainer/OptionButton2"), GetNode<OptionButton>("GridContainerRolls/AttributesDropdownContainer/OptionButton3"),
@@ -69,18 +83,7 @@ public partial class char_creation : Control
 	{
 	}
 
-	//private void _on_start_create_button_pressed()
-	//{
-	//    string adventurerName = nameLineEdit.Text;
-	//    //GD.Print($"Adventurer's Name Submitted: {adventurerName}");		
-	//    adventurer = new Adventurer(adventurerName);
-	//    //GD.Print(JsonSerializer.Serialize(todd));
-	//    rollAbilitiesButton.Visible = true;
-
-
-	//    //ReRollButtonTextChange("REROLL");
-	//}
-
+	#region Name And Attribute rolls
 	private void _on_adventurer_name_input_text_changed(string new_text)
 	{
 		adventurer.Name = nameLineEdit.Text;
@@ -245,31 +248,21 @@ public partial class char_creation : Control
 	private string AbilityWithModifier(int abilityScore) =>
 	$" {abilityScore}  ({(Rules.AttributeBonus(abilityScore) >= 0 ? "+" : "")}{Rules.AttributeBonus(abilityScore)})";
 
-	//private void ReRollButtonTextChange(string change)
-	//{
-	//	reRollButton1.Text = change;
-	//	reRollButton2.Text = change;
-	//	reRollButton3.Text = change;
-	//	reRollButton4.Text = change;
-	//	reRollButton5.Text = change;
-	//	reRollButton6.Text = change;
-	//}
-
 	private void _on_random_name_pressed()
 	{
 		nameLineEdit.Text = RandomFantasyName.GenerateFantasyName();
 		_on_adventurer_name_input_text_changed(nameLineEdit.Text);
-	}	
+	}
 
 	private void _on_continue_button_pressed()
 	{
 		GetNode<Container>("RaceSavingThrowsContainer").Visible = true;
 		GetNode<Button>("ContinueButton").Disabled = true;
 
-		foreach (var optionButton in optionButtons)
+		foreach (var optionButton in assignAttributeOptions)
 		{
 			optionButton.Disabled = true;
-			var optionButtonIndex = optionButtons.IndexOf(optionButton);
+			var optionButtonIndex = assignAttributeOptions.IndexOf(optionButton);
 			var attributeID = (AttributeEnum)optionButton.GetSelectedId();
 			var value = adventurerService.AttributeRolls[ConvertIndexToRollsKey(optionButtonIndex)];
 			//GD.Print($"Option Value: {optionButton.Text} Attribute: {attributeID} Value: {value}");
@@ -281,51 +274,6 @@ public partial class char_creation : Control
 		//	GD.Print($"{attribute.Key} = {attribute.Value}");
 		//}
 		SetAttributeAndSavingThrowLabels();
-	}
-
-	private void _on_race_options_item_selected(long index)
-	{
-		var skillContainer = GetNode<Container>("RaceSavingThrowsContainer/SkillContainer");
-		var attrContainer = GetNode<Container>("RaceSavingThrowsContainer/AttributeBonusContainer");
-		var skillOne = GetNode<OptionButton>("RaceSavingThrowsContainer/SkillContainer/SkillOneOption");
-		var skillTwo = GetNode<OptionButton>("RaceSavingThrowsContainer/SkillContainer/SkillTwoOption");
-		var attrOne = GetNode<OptionButton>("RaceSavingThrowsContainer/AttributeBonusContainer/AttributeOneOption");
-		var attrTwo = GetNode<OptionButton>("RaceSavingThrowsContainer/AttributeBonusContainer/AttributeTwoOption");
-		skillOne.Disabled = false;
-		skillTwo.Disabled = false;
-		attrContainer.Visible = false;
-
-		var raceOption = GetNode<OptionButton>("RaceSavingThrowsContainer/RaceOptions");
-		skillContainer.Visible = true;
-		var selectedID = raceOption.GetSelectedId();
-
-		if (selectedID == 4) //random default number that is NOT a race
-		{
-			skillContainer.Visible = false;
-		}
-		else if (selectedID == (int)RaceEnum.Human)
-		{
-			skillOne.Visible = true;
-			skillTwo.Visible = false;
-			attrContainer.Visible = true;
-			//skillTwo.Visible = true;  -- they get to choose two abilities to increase and ONE skill - make its own container for this
-			//adventurer.SetRace(RaceEnum.Human); -- wait to set this 
-		}
-		else if (selectedID == (int)RaceEnum.Dwarf || selectedID == (int)RaceEnum.Elf)
-		{
-			skillOne.Visible = true;
-			skillTwo.Visible = false;
-		}
-		else if (selectedID == (int)RaceEnum.Halfling) // Halfing gets thief and sneak ... er something.
-		{
-			skillOne.Visible = true;
-			skillTwo.Visible = true;
-			skillOne.Select(1);
-			skillTwo.Select(2);
-			skillOne.Disabled = true;
-			skillTwo.Disabled = true;
-			//adventurer.SetRace(RaceEnum.Halfling);
-		}
 	}
 
 	private void ResetUI()
@@ -342,7 +290,7 @@ public partial class char_creation : Control
 		GetNode<Button>("RollAbilitiesButton").Visible = false;
 		GetNode<RichTextLabel>("RollNoteLabel").Visible = false;
 
-		foreach (var optionButton in optionButtons)
+		foreach (var optionButton in assignAttributeOptions)
 		{
 			optionButton.Disabled = false;
 		}
@@ -362,7 +310,7 @@ public partial class char_creation : Control
 		GetNode<Button>("ContinueButton").Disabled = false;
 		GetNode<Container>("RaceSavingThrowsContainer").Visible = false;
 
-		foreach (var optionButton in optionButtons)
+		foreach (var optionButton in assignAttributeOptions)
 		{
 			optionButton.Disabled = false;
 		}
@@ -446,11 +394,11 @@ public partial class char_creation : Control
 		var allSet = true;
 
 		//GD.Print($"IN - buttonNumber: {buttonNumber} abilityIndex: {abilityIndex}");
-		foreach (var optionButton in optionButtons)
+		foreach (var optionButton in assignAttributeOptions)
 		{
 			if (optionButton.GetSelectedId() == abilityIndex)
 			{
-				if (optionButton != optionButtons[buttonNumber])
+				if (optionButton != assignAttributeOptions[buttonNumber])
 				{
 					optionButton.Select(-1);
 				}
@@ -464,4 +412,78 @@ public partial class char_creation : Control
 
 		GetNode<Button>("ContinueButton").Visible = allSet;
 	}
+
+	#endregion
+
+	#region Race And Saving Throws 
+	private void _on_race_options_item_selected(long index)
+	{
+		var skillContainer = GetNode<Container>("RaceSavingThrowsContainer/SkillContainer");
+		var attrContainer = GetNode<Container>("RaceSavingThrowsContainer/AttributeBonusContainer");
+		skillOne.Disabled = false;
+		skillTwo.Disabled = false;
+		skillOne.Select(DEFAULT_OPTIONS_ID);
+		skillTwo.Select(DEFAULT_OPTIONS_ID);
+		humanAttrOne.Select(DEFAULT_OPTIONS_ID);
+		humanAttrTwo.Select(DEFAULT_OPTIONS_ID);
+		attrContainer.Visible = false;
+
+		skillContainer.Visible = true;
+		var selectedID = raceOption.GetSelectedId();
+
+		if (selectedID == 4) //random default number that is NOT a race
+		{
+			skillContainer.Visible = false;
+		}
+		else if (selectedID == (int)RaceEnum.Human)
+		{
+			skillOne.Visible = true;
+			skillTwo.Visible = false;
+			attrContainer.Visible = true;
+			backgroundOption.Disabled = true;
+			//skillTwo.Visible = true;  -- they get to choose two abilities to increase and ONE skill - make its own container for this
+			//adventurer.SetRace(RaceEnum.Human); -- wait to set this 
+		}
+		else if (selectedID == (int)RaceEnum.Dwarf || selectedID == (int)RaceEnum.Elf)
+		{
+			skillOne.Visible = true;
+			skillTwo.Visible = false;
+			backgroundOption.Disabled = true;
+		}
+		else if (selectedID == (int)RaceEnum.Halfling) // Halfing gets thief and sneak ... er something.
+		{
+			skillOne.Visible = true;
+			skillTwo.Visible = true;
+			skillOne.Select(1);
+			skillTwo.Select(2);
+			skillOne.Disabled = true;
+			skillTwo.Disabled = true;
+			backgroundOption.Disabled = false;
+
+			//adventurer.SetRace(RaceEnum.Halfling);
+		}
+	}
+
+	private void _on_race_options_selected(long index)
+	{
+		//Check the race chosen and if all the options for that race have a selection, if so ENABLE the Background radio. 
+		var selectedRace = raceOption.GetSelectedId();
+
+		if (selectedRace == (int)RaceEnum.Human)
+		{
+			if (humanAttrOne.GetSelectedId() != DEFAULT_OPTIONS_ID && humanAttrTwo.GetSelectedId() != DEFAULT_OPTIONS_ID && skillOne.GetSelectedId() != DEFAULT_OPTIONS_ID)
+			{
+				backgroundOption.Disabled = false;
+			}
+		}
+		else if (selectedRace == (int)RaceEnum.Dwarf || selectedRace == (int)RaceEnum.Elf)
+		{
+			if (skillOne.GetSelectedId() != DEFAULT_OPTIONS_ID)
+			{
+				backgroundOption.Disabled = false;
+			}
+		}
+		// Dont need to do anything for Halfling as their are no options to choose.
+	}
+	#endregion
 }
