@@ -342,6 +342,15 @@ popup/item_4/id = 4
 popup/item_5/text = "Charisma"
 popup/item_5/id = 5
 
+[node name="ContinueButton" type="Button" parent="."]
+layout_mode = 0
+offset_left = 431.0
+offset_top = 69.0
+offset_right = 637.0
+offset_bottom = 114.0
+theme_override_colors/font_color = Color(0, 1, 0, 1)
+text = "Continue..."
+
 [node name="VSeparator" type="VSeparator" parent="."]
 custom_minimum_size = Vector2(2, 500)
 layout_mode = 0
@@ -351,6 +360,7 @@ offset_right = 644.0
 offset_bottom = 645.0
 
 [node name="RaceSavingThrowsContainer" type="VBoxContainer" parent="."]
+visible = false
 layout_mode = 0
 offset_left = 645.0
 offset_top = 10.0
@@ -388,6 +398,7 @@ columns = 2
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
+disabled = true
 item_count = 7
 selected = 0
 popup/item_0/text = "Choose Attribute Boost"
@@ -410,6 +421,7 @@ popup/item_6/id = 5
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
+disabled = true
 item_count = 7
 selected = 0
 popup/item_0/text = "Choose Attribute Boost"
@@ -436,6 +448,7 @@ columns = 2
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
+disabled = true
 item_count = 7
 selected = 0
 popup/item_0/text = "Choose a skill"
@@ -458,6 +471,7 @@ popup/item_6/id = 6
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
+disabled = true
 item_count = 7
 selected = 0
 popup/item_0/text = "Choose a skill"
@@ -476,16 +490,54 @@ popup/item_5/id = 5
 popup/item_6/text = "Survival"
 popup/item_6/id = 6
 
-[node name="RichTextLabel" type="RichTextLabel" parent="RaceSavingThrowsContainer"]
-visible = false
-custom_minimum_size = Vector2(0, 30)
+[node name="BackgroundContainer" type="GridContainer" parent="RaceSavingThrowsContainer"]
+layout_mode = 2
+
+[node name="BackgroundOption" type="OptionButton" parent="RaceSavingThrowsContainer/BackgroundContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
-size_flags_vertical = 0
-text = "Attributes"
+size_flags_vertical = 3
+disabled = true
+item_count = 6
+selected = 0
+popup/item_0/text = "Choose a Background"
+popup/item_0/id = 0
+popup/item_0/disabled = true
+popup/item_1/text = "Criminal  +1 Char, Dex w/ Deception"
+popup/item_1/id = 1
+popup/item_2/text = "Lowborn +1 Str, Con w/ Survival"
+popup/item_2/id = 2
+popup/item_3/text = "Noble +1 Char, Int w/ Persuasion"
+popup/item_3/id = 3
+popup/item_4/text = "Outlander +1 Wis, Con w/ BeastHandling"
+popup/item_4/id = 4
+popup/item_5/text = "Soldier +1 Str,Dex w/ Leadership"
+popup/item_5/id = 5
 
 [node name="HSeparator" type="HSeparator" parent="RaceSavingThrowsContainer"]
 layout_mode = 2
+
+[node name="Final Stats Labels" type="GridContainer" parent="RaceSavingThrowsContainer"]
+custom_minimum_size = Vector2(0, 10)
+layout_mode = 2
+size_flags_vertical = 0
+columns = 2
+
+[node name="FinalAttributesLabel" type="RichTextLabel" parent="RaceSavingThrowsContainer/Final Stats Labels"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/default_color = Color(0, 0.976471, 0, 1)
+bbcode_enabled = true
+text = "[center][b]ATTRIBUTES[/b][/center]"
+fit_content = true
+
+[node name="SavingsThrowsLabel" type="RichTextLabel" parent="RaceSavingThrowsContainer/Final Stats Labels"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/default_color = Color(0.984314, 0.0941176, 0.901961, 1)
+bbcode_enabled = true
+text = "[center][b]SAVES[/b][/center]"
+fit_content = true
 
 [node name="FinalStatsGrid" type="GridContainer" parent="RaceSavingThrowsContainer"]
 layout_mode = 2
@@ -698,14 +750,16 @@ theme_override_font_sizes/font_size = 20
 text = "13
 "
 
-[node name="ContinueButton" type="Button" parent="."]
-layout_mode = 0
-offset_left = 431.0
-offset_top = 69.0
-offset_right = 637.0
-offset_bottom = 114.0
-theme_override_colors/font_color = Color(0, 1, 0, 1)
-text = "Continue..."
+[node name="HSeparator2" type="HSeparator" parent="RaceSavingThrowsContainer"]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="RaceSavingThrowsContainer"]
+layout_mode = 2
+
+[node name="Button" type="Button" parent="RaceSavingThrowsContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 75)
+layout_mode = 2
+text = "FINALIZE AND SAVE"
 
 [node name="ButtonCooldownTimer" type="Timer" parent="."]
 one_shot = true
@@ -726,6 +780,6 @@ one_shot = true
 [connection signal="item_selected" from="GridContainerRolls/AttributesDropdownContainer/OptionButton3" to="." method="_on_option_button_3_item_selected"]
 [connection signal="item_selected" from="GridContainerRolls/AttributesDropdownContainer/OptionButton4" to="." method="_on_option_button_4_item_selected"]
 [connection signal="item_selected" from="GridContainerRolls/AttributesDropdownContainer/OptionButton5" to="." method="_on_option_button_5_item_selected"]
-[connection signal="item_selected" from="RaceSavingThrowsContainer/RaceOptions" to="." method="_on_race_options_item_selected"]
 [connection signal="pressed" from="ContinueButton" to="." method="_on_continue_button_pressed"]
+[connection signal="item_selected" from="RaceSavingThrowsContainer/RaceOptions" to="." method="_on_race_options_item_selected"]
 [connection signal="timeout" from="ButtonCooldownTimer" to="." method="_on_button_cooldown_timer_timeout"]
