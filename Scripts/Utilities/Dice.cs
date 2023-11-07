@@ -11,7 +11,7 @@ namespace TalesFromTheTable.Utilities
 			var total = 0;
 			foreach (var die in DiceToRoll)
 			{
-				total += randomRoller.Next(1, (int)die);
+				total += randomRoller.Next(1, (int)die + 1);
 			}
 			return total;
 		}

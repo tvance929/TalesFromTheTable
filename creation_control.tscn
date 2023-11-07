@@ -755,8 +755,10 @@ visible = false
 layout_mode = 2
 
 [node name="FinalSaveButton" type="Button" parent="RaceSavingThrowsContainer/FinalSaveContainer"]
-custom_minimum_size = Vector2(0, 75)
 layout_mode = 2
+size_flags_vertical = 3
+theme_override_colors/font_color = Color(1, 0.396078, 0, 1)
+theme_override_font_sizes/font_size = 30
 text = "FINALIZE AND SAVE"
 
 [node name="ButtonCooldownTimer" type="Timer" parent="."]
@@ -780,7 +782,9 @@ one_shot = true
 [connection signal="item_selected" from="GridContainerRolls/AttributesDropdownContainer/OptionButton5" to="." method="_on_option_button_5_item_selected"]
 [connection signal="pressed" from="ContinueButton" to="." method="_on_continue_button_pressed"]
 [connection signal="item_selected" from="RaceSavingThrowsContainer/RaceOptions" to="." method="_on_race_options_item_selected"]
+[connection signal="focus_entered" from="RaceSavingThrowsContainer/AttributeBonusContainer/AttributeOneOption" to="." method="_on_attribute_one_option_focus_entered"]
 [connection signal="item_selected" from="RaceSavingThrowsContainer/AttributeBonusContainer/AttributeOneOption" to="." method="_on_race_options_selected"]
+[connection signal="focus_entered" from="RaceSavingThrowsContainer/AttributeBonusContainer/AttributeTwoOption" to="." method="_on_attribute_two_option_focus_entered"]
 [connection signal="item_selected" from="RaceSavingThrowsContainer/AttributeBonusContainer/AttributeTwoOption" to="." method="_on_race_options_selected"]
 [connection signal="item_selected" from="RaceSavingThrowsContainer/SkillContainer/SkillOneOption" to="." method="_on_race_options_selected"]
 [connection signal="item_selected" from="RaceSavingThrowsContainer/SkillContainer/SkillTwoOption" to="." method="_on_race_options_selected"]

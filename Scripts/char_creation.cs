@@ -1,4 +1,6 @@
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using Godot;
 using TalesFromTheTable.Entities;
 using TalesFromTheTable.Scripts.Utilities;
@@ -430,18 +432,23 @@ public partial class char_creation : Control
 
 		skillContainer.Visible = true;
 		var selectedID = raceOption.GetSelectedId();
+		var race = (RaceEnum)selectedID;
+
+		adventurer.SetRace(race);
+
+
+		GD.Print($"{race}");
 
 		if (selectedID == 4) //random default number that is NOT a race
 		{
 			skillContainer.Visible = false;
 		}
-		else if (selectedID == (int)RaceEnum.Human)
+		else if (race == RaceEnum.Human)
 		{
 			skillOne.Visible = true;
 			skillTwo.Visible = false;
 			attrContainer.Visible = true;
-			backgroundOption.Disabled = true;
-			//wait to set race for the player to choose the two attributes they want to increase			
+			backgroundOption.Disabled = true;			
 		}
 		else if (selectedID == (int)RaceEnum.Dwarf || selectedID == (int)RaceEnum.Elf)
 		{
@@ -449,14 +456,14 @@ public partial class char_creation : Control
 			skillOne.Visible = false;
 			skillTwo.Visible = false;
 			backgroundOption.Disabled = true;
-			if (selectedID == (int)RaceEnum.Dwarf)
-			{
-				adventurer.SetRace(RaceEnum.Dwarf);
-			}
-			else
-			{
-				adventurer.SetRace(RaceEnum.Elf);
-			}
+			//if (selectedID == (int)RaceEnum.Dwarf)
+			//{
+			//	adventurer.SetRace(RaceEnum.Dwarf);
+			//}
+			//else
+			//{
+			//	adventurer.SetRace(RaceEnum.Elf);
+			//}
 		}
 		else if (selectedID == (int)RaceEnum.Halfling)
 		{
@@ -468,7 +475,7 @@ public partial class char_creation : Control
 			skillOne.Disabled = true;
 			skillTwo.Disabled = true;
 			backgroundOption.Disabled = false;
-			adventurer.SetRace(RaceEnum.Halfling);
+			//adventurer.SetRace(RaceEnum.Halfling);
 		}
 		SetAttributeAndSavingThrowLabels();
 	}
@@ -482,17 +489,50 @@ public partial class char_creation : Control
 		{
 			if (humanAttrOne.GetSelectedId() != DEFAULT_OPTIONS_ID && humanAttrTwo.GetSelectedId() != DEFAULT_OPTIONS_ID && skillOne.GetSelectedId() != DEFAULT_OPTIONS_ID)
 			{
+				adventurer.AttributeAddBonus((AttributeEnum)humanAttrOne.GetSelectedId(), 1);
+				adventurer.AttributeAddBonus((AttributeEnum)humanAttrTwo.GetSelectedId(), 1);
+				adventurer.AddSkill(adventurerService.skills.Where(s => s.Name == skillOne.GetItemText(skillOne.GetSelectedId())).FirstOrDefault());
 				backgroundOption.Disabled = false;
+				SetAttributeAndSavingThrowLabels();
 			}
-		}
-		else if (selectedRace == (int)RaceEnum.Dwarf || selectedRace == (int)RaceEnum.Elf)
-		{
-			if (skillOne.GetSelectedId() != DEFAULT_OPTIONS_ID)
-			{
-				backgroundOption.Disabled = false;
-			}
-		}
-		// Dont need to do anything for Halfling as their are no options to choose.
+		}		
+		// Dont need to do anything for other races and there is nothing to choose
 	}
-	#endregion
+
+	private void _on_attribute_one_option_focus_entered()
+	{
+		//Set all back to enabled
+		for (var i = 1; i < 7; i++)
+		{
+			humanAttrOne.SetItemDisabled(i, false);
+		}
+
+		if (humanAttrTwo.GetSelectedId() != DEFAULT_OPTIONS_ID)
+		{
+			humanAttrOne.SetItemDisabled(humanAttrOne.GetItemIndex(humanAttrTwo.GetSelectedId()), true);
+		}
+	}
+
+	private void _on_attribute_two_option_focus_entered()
+	{
+		//Set all back to enabled
+		for (var i = 1; i < 7; i++)
+		{
+			humanAttrTwo.SetItemDisabled(i, false);
+		}
+		
+		if (humanAttrOne.GetSelectedId() != DEFAULT_OPTIONS_ID)
+		{
+			humanAttrTwo.SetItemDisabled(humanAttrTwo.GetItemIndex(humanAttrOne.GetSelectedId()), true);
+		}
+	}
+
+    private void _on_background_option_item_selected(long index)
+    {
+        // Replace with function body.
+    }
+    #endregion
 }
+
+
+

@@ -1,8 +1,13 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Godot;
+using TalesFromTheTable.Backgrounds;
 using TalesFromTheTable.Entities;
+using TalesFromTheTable.Scripts.Skills;
 using TalesFromTheTable.Services.Interfaces;
+using TalesFromTheTable.Skills;
+using TalesFromTheTable.Skills.Interfaces;
 using TalesFromTheTable.Utilities;
 using TalesFromTheTable.Utilities.Enums;
 using TalesFromTheTable.Utilities.Exceptions;
@@ -12,8 +17,10 @@ namespace TalesFromTheTable.Services
 	public class AdventurerService : IAdventurerService
 	{
 		// Dice for rolling
-		private Dice diceroller;
+		private readonly Dice diceroller;
 		private readonly List<Die> threeD6s = new List<Die> { Die.D6, Die.D6, Die.D6 };
+		public readonly List<ISkill> skills;
+		public readonly List<Background> backgrounds;
 
 		public const int HIGH_ABILITY = 15; // will not guarentee a higher re-roll over this number
 
@@ -23,6 +30,9 @@ namespace TalesFromTheTable.Services
 		public AdventurerService(Dice diceRoller)
 		{
 			this.diceroller = diceRoller;
+
+			skills = new List<ISkill> { new BeastHandling(), new Deception(), new Leadership(), new Lockpick(), new Persuasion(), new Stealth(), new Survival() };
+			backgrounds = new List<Background> { new Criminal(), new Lowborn(), new Noble(), new Outlander(), new Soldier() };
 		}
 
 		/// <summary>
@@ -68,7 +78,7 @@ namespace TalesFromTheTable.Services
                     (AttributeRolls[abilityRollNumber] >= HIGH_ABILITY && newRoll < AttributeRolls[abilityRollNumber]))
 				{
 					newRoll = diceroller.RollDice(threeD6s);
-				}	
+				}
 
 				AttributeRolls[abilityRollNumber] = newRoll;
 				return newRoll;

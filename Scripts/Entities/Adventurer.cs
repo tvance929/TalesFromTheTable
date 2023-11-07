@@ -7,6 +7,7 @@ using TalesFromTheTable.Skills.Interfaces;
 using TalesFromTheTable.Utilities;
 using TalesFromTheTable.Utilities.Enums;
 using TalesFromTheTable.Utilities.Exceptions;
+using static System.Formats.Asn1.AsnWriter;
 
 namespace TalesFromTheTable.Entities
 {
@@ -88,36 +89,29 @@ namespace TalesFromTheTable.Entities
             return true;
         }
 
-        public RaceEnum SetRace(RaceEnum race, List<AttributeEnum> humanBonuses = null, ISkill chosenSkill = null)
+        public RaceEnum SetRace(RaceEnum race)
         {
-            //  if (Race != RaceEnum.NotSet) throw new AdventurerException("This adventurer already has their race set");
-
             //Set attributes to original values
             foreach (var kvp in OriginalAttributes)
             {
-                Attributes[kvp.Key] = kvp.Value;
-                GD.Print($"ORIGINAL {kvp.Key} :: {kvp.Value}");
+                Attributes[kvp.Key] = kvp.Value;               
             }
-
-            //foreach (var kvp in Attributes)
-            //{
-            //    GD.Print($"ATTRIBUTES {kvp.Key} :: {kvp.Value}");
-            //}
 
             Race = race;
 
             switch (Race)
             {
                 case RaceEnum.Human:
-                    if (humanBonuses.Count != 2) throw new AdventurerException($"Expected 2 bonuses for human, got {humanBonuses.Count}");
-                    Attributes[humanBonuses[0]] += 1;
-                    Attributes[humanBonuses[1]] += 1;
-                    Skills.Add(chosenSkill);
+                    //if (humanBonuses.Count != 2) throw new AdventurerException($"Expected 2 bonuses for human, got {humanBonuses.Count}");
+                    //Attributes[humanBonuses[0]] += 1;
+                    //Attributes[humanBonuses[1]] += 1;
+                    //Skills.Add(chosenSkill);
+                    //GD.Print($"Human skills: {Skills.Count}"); // ... {Skills[0].Name}");
                     break;
                 case RaceEnum.Dwarf:
                     Attributes[AttributeEnum.Constitution] += 1;
                     Attributes[AttributeEnum.Wisdom] += 1;
-                    SavingThrows.PoisonOrDeathRay -= 2;
+                    //Set saving throw bonus in AdjustSavingThrowsFromAbilities
                     break;
                 case RaceEnum.Elf:
                     Attributes[AttributeEnum.Dexterity] += 1;
@@ -141,8 +135,6 @@ namespace TalesFromTheTable.Entities
 
         private void AdjustSavingThrowsFromAbilities()
         {
-            //if (SavingThrowsAdjustedFromAbilities) return;
-
             SavingThrows = new CharacterSavingThrows(); //Reset to 15
 
             SavingThrows.PoisonOrDeathRay -= Rules.AttributeBonus(Attributes[AttributeEnum.Constitution]);
@@ -151,7 +143,7 @@ namespace TalesFromTheTable.Entities
             SavingThrows.DragonBreath -= Rules.AttributeBonus(Attributes[AttributeEnum.Strength]);
             SavingThrows.SpellsOrMagicStaff -= Rules.AttributeBonus(Attributes[AttributeEnum.Wisdom]);
 
-            //SavingThrowsAdjustedFromAbilities = true; //only allow this once
+            if (Race == RaceEnum.Dwarf) SavingThrows.PoisonOrDeathRay -= 2;
         }
 
         /// <summary>
@@ -180,6 +172,16 @@ namespace TalesFromTheTable.Entities
             Attributes[attribute] = score;
 
             AdjustSavingThrowsFromAbilities();
+        }
+
+        public void AddSkill(ISkill skill)
+        {
+            Skills.Add(skill);
+        }
+
+        public void AttributeAddBonus(AttributeEnum attribute, int bonus)
+        {
+            Attributes[attribute] += bonus;
         }
     }
 }
