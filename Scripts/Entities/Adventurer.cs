@@ -19,6 +19,7 @@ namespace TalesFromTheTable.Entities
 
         // Physical Abilities
         public Dictionary<AttributeEnum, int> Attributes { get; private set; }
+        private Dictionary<AttributeEnum, int> OriginalAttributes;
         public CharacterSavingThrows SavingThrows { get; private set; } = new CharacterSavingThrows();
         public int Awareness { get; private set; } = 0;
 
@@ -47,6 +48,9 @@ namespace TalesFromTheTable.Entities
             Attributes = new Dictionary<AttributeEnum, int> { { AttributeEnum.Strength, 3 }, { AttributeEnum.Dexterity, 3 },
                 { AttributeEnum.Constitution, 3 },{ AttributeEnum.Intelligence, 3 }, { AttributeEnum.Wisdom, 3 },
                 { AttributeEnum.Charisma, 3 } };
+            OriginalAttributes = new Dictionary<AttributeEnum, int> { { AttributeEnum.Strength, 0 }, { AttributeEnum.Dexterity, 0 },
+                { AttributeEnum.Constitution, 0 },{ AttributeEnum.Intelligence, 0 }, { AttributeEnum.Wisdom, 0 },
+                { AttributeEnum.Charisma, 0 } };
         }
 
         public Adventurer(string name)
@@ -55,11 +59,15 @@ namespace TalesFromTheTable.Entities
             Attributes = new Dictionary<AttributeEnum, int> { { AttributeEnum.Strength, 3 }, { AttributeEnum.Dexterity, 3 },
                 { AttributeEnum.Constitution, 3 },{ AttributeEnum.Intelligence, 3 }, { AttributeEnum.Wisdom, 3 },
                 { AttributeEnum.Charisma, 3 } };
+            OriginalAttributes = new Dictionary<AttributeEnum, int> { { AttributeEnum.Strength, 0 }, { AttributeEnum.Dexterity, 0 },
+                { AttributeEnum.Constitution, 0 },{ AttributeEnum.Intelligence, 0 }, { AttributeEnum.Wisdom, 0 },
+                { AttributeEnum.Charisma, 0 } };
 
         }
 
         public bool SetAttributes(Dictionary<AttributeEnum, int> newAbilities)
         {
+            //this below will probably not work when changing races, etc
             if (AttributesSet) return false;
 
             foreach (var kvp in newAbilities)
@@ -80,17 +88,31 @@ namespace TalesFromTheTable.Entities
             return true;
         }
 
-        public RaceEnum SetRace(RaceEnum race, List<Attribute> humanBonuses, ISkill chosenSkill)
+        public RaceEnum SetRace(RaceEnum race, List<AttributeEnum> humanBonuses = null, ISkill chosenSkill = null)
         {
             //  if (Race != RaceEnum.NotSet) throw new AdventurerException("This adventurer already has their race set");
+
+            //Set attributes to original values
+            foreach (var kvp in OriginalAttributes)
+            {
+                Attributes[kvp.Key] = kvp.Value;
+                GD.Print($"ORIGINAL {kvp.Key} :: {kvp.Value}");
+            }
+
+            //foreach (var kvp in Attributes)
+            //{
+            //    GD.Print($"ATTRIBUTES {kvp.Key} :: {kvp.Value}");
+            //}
 
             Race = race;
 
             switch (Race)
             {
                 case RaceEnum.Human:
-                    // Pick two attributes to increase 1
-                    // pick proficiency or skill
+                    if (humanBonuses.Count != 2) throw new AdventurerException($"Expected 2 bonuses for human, got {humanBonuses.Count}");
+                    Attributes[humanBonuses[0]] += 1;
+                    Attributes[humanBonuses[1]] += 1;
+                    Skills.Add(chosenSkill);
                     break;
                 case RaceEnum.Dwarf:
                     Attributes[AttributeEnum.Constitution] += 1;
@@ -111,6 +133,8 @@ namespace TalesFromTheTable.Entities
                 default:
                     break;
             }
+
+            AdjustSavingThrowsFromAbilities();
 
             return race;
         }
@@ -146,8 +170,13 @@ namespace TalesFromTheTable.Entities
         {
             if (score < 3 || score > 21)
                 throw new AdventurerException($"Attempting to set an attribute with a value less than 3 or greater than 21 {attribute} = {score}");
+            
+            //We need an original set of attributes to have so during creation process, the player can make changes to background and race and not lose the original values
+            if (OriginalAttributes[attribute] == 0)
+            {
+                OriginalAttributes[attribute] = score;
+            }
 
-            //GD.Print($"Setting {attribute} to {score}");
             Attributes[attribute] = score;
 
             AdjustSavingThrowsFromAbilities();

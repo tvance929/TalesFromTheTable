@@ -451,7 +451,6 @@ item_count = 7
 selected = 0
 popup/item_0/text = "Choose a skill"
 popup/item_0/id = 99
-popup/item_0/disabled = true
 popup/item_1/text = "Lockpicking"
 popup/item_1/id = 1
 popup/item_2/text = "Stealth"
@@ -499,7 +498,7 @@ disabled = true
 item_count = 6
 selected = 0
 popup/item_0/text = "Choose a Background"
-popup/item_0/id = 0
+popup/item_0/id = 99
 popup/item_0/disabled = true
 popup/item_1/text = "Criminal  +1 Char, Dex w/ Deception"
 popup/item_1/id = 1
@@ -751,10 +750,11 @@ text = "13
 [node name="HSeparator2" type="HSeparator" parent="RaceSavingThrowsContainer"]
 layout_mode = 2
 
-[node name="VBoxContainer" type="VBoxContainer" parent="RaceSavingThrowsContainer"]
+[node name="FinalSaveContainer" type="VBoxContainer" parent="RaceSavingThrowsContainer"]
+visible = false
 layout_mode = 2
 
-[node name="Button" type="Button" parent="RaceSavingThrowsContainer/VBoxContainer"]
+[node name="FinalSaveButton" type="Button" parent="RaceSavingThrowsContainer/FinalSaveContainer"]
 custom_minimum_size = Vector2(0, 75)
 layout_mode = 2
 text = "FINALIZE AND SAVE"

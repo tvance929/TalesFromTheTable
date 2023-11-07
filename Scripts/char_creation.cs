@@ -33,9 +33,10 @@ public partial class char_creation : Control
 	private OptionButton skillTwo;
 	private OptionButton backgroundOption;
 
-	private const int REROLL_COOLDOWN = 1;
+	private const double REROLL_COOLDOWN = 0.5;
 	private const int REROLL_MAX = 2;
 	private const int DEFAULT_OPTIONS_ID = 99;
+	private const int DEFAULT_OPTIONS_INDEX = 0;
 
 	public override void _Ready()
 	{
@@ -188,7 +189,7 @@ public partial class char_creation : Control
 	/// </summary>
 	/// <param name="timeoutTime"></param>
 	/// <param name="enable"></param>
-	private void DisableEnableReRollButtonsWithTimer(int timeoutTime, bool enable = false)
+	private void DisableEnableReRollButtonsWithTimer(double timeoutTime, bool enable = false)
 	{
 		if (enable)
 		{
@@ -259,20 +260,16 @@ public partial class char_creation : Control
 		GetNode<Container>("RaceSavingThrowsContainer").Visible = true;
 		GetNode<Button>("ContinueButton").Disabled = true;
 
+		//Set each attribute to the selected value
 		foreach (var optionButton in assignAttributeOptions)
 		{
 			optionButton.Disabled = true;
 			var optionButtonIndex = assignAttributeOptions.IndexOf(optionButton);
 			var attributeID = (AttributeEnum)optionButton.GetSelectedId();
 			var value = adventurerService.AttributeRolls[ConvertIndexToRollsKey(optionButtonIndex)];
-			//GD.Print($"Option Value: {optionButton.Text} Attribute: {attributeID} Value: {value}");
 			adventurer.SetAttribute(attributeID, adventurerService.AttributeRolls[ConvertIndexToRollsKey(optionButtonIndex)]);
 		}
 
-		//foreach (var attribute in adventurer.Attributes)
-		//{
-		//	GD.Print($"{attribute.Key} = {attribute.Value}");
-		//}
 		SetAttributeAndSavingThrowLabels();
 	}
 
@@ -420,12 +417,15 @@ public partial class char_creation : Control
 	{
 		var skillContainer = GetNode<Container>("RaceSavingThrowsContainer/SkillContainer");
 		var attrContainer = GetNode<Container>("RaceSavingThrowsContainer/AttributeBonusContainer");
+
+		//resetting everything
 		skillOne.Disabled = false;
 		skillTwo.Disabled = false;
-		skillOne.Select(DEFAULT_OPTIONS_ID);
-		skillTwo.Select(DEFAULT_OPTIONS_ID);
-		humanAttrOne.Select(DEFAULT_OPTIONS_ID);
-		humanAttrTwo.Select(DEFAULT_OPTIONS_ID);
+		skillOne.Select(DEFAULT_OPTIONS_INDEX);
+		skillTwo.Select(DEFAULT_OPTIONS_INDEX);
+		humanAttrOne.Select(DEFAULT_OPTIONS_INDEX);
+		humanAttrTwo.Select(DEFAULT_OPTIONS_INDEX);
+		backgroundOption.Select(DEFAULT_OPTIONS_INDEX);
 		attrContainer.Visible = false;
 
 		skillContainer.Visible = true;
@@ -441,17 +441,26 @@ public partial class char_creation : Control
 			skillTwo.Visible = false;
 			attrContainer.Visible = true;
 			backgroundOption.Disabled = true;
-			//skillTwo.Visible = true;  -- they get to choose two abilities to increase and ONE skill - make its own container for this
-			//adventurer.SetRace(RaceEnum.Human); -- wait to set this 
+			//wait to set race for the player to choose the two attributes they want to increase			
 		}
 		else if (selectedID == (int)RaceEnum.Dwarf || selectedID == (int)RaceEnum.Elf)
 		{
-			skillOne.Visible = true;
+			//no extra skill for these guys, dwarf gets save bonus vs poison and elf gets immune to charm
+			skillOne.Visible = false;
 			skillTwo.Visible = false;
 			backgroundOption.Disabled = true;
+			if (selectedID == (int)RaceEnum.Dwarf)
+			{
+				adventurer.SetRace(RaceEnum.Dwarf);
+			}
+			else
+			{
+				adventurer.SetRace(RaceEnum.Elf);
+			}
 		}
-		else if (selectedID == (int)RaceEnum.Halfling) // Halfing gets thief and sneak ... er something.
+		else if (selectedID == (int)RaceEnum.Halfling)
 		{
+			// Halfing gets thief and sneak ... er something.
 			skillOne.Visible = true;
 			skillTwo.Visible = true;
 			skillOne.Select(1);
@@ -459,9 +468,9 @@ public partial class char_creation : Control
 			skillOne.Disabled = true;
 			skillTwo.Disabled = true;
 			backgroundOption.Disabled = false;
-
-			//adventurer.SetRace(RaceEnum.Halfling);
+			adventurer.SetRace(RaceEnum.Halfling);
 		}
+		SetAttributeAndSavingThrowLabels();
 	}
 
 	private void _on_race_options_selected(long index)

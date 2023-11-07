@@ -1,9 +1,8 @@
 using System;
-using Godot;
 
 namespace TalesFromTheTable.Utilities
 {
-	public static class Rules
+    public static class Rules
 	{
 
 		/// <summary>
