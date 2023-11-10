@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Godot;
 using TalesFromTheTable.Backgrounds;
 using TalesFromTheTable.Scripts.Skills;
+using TalesFromTheTable.Skills;
 using TalesFromTheTable.Skills.Interfaces;
 using TalesFromTheTable.Utilities;
 using TalesFromTheTable.Utilities.Enums;
@@ -46,23 +47,13 @@ namespace TalesFromTheTable.Entities
         // Constructor
         public Adventurer()
         {
-            Attributes = new Dictionary<AttributeEnum, int> { { AttributeEnum.Strength, 3 }, { AttributeEnum.Dexterity, 3 },
-                { AttributeEnum.Constitution, 3 },{ AttributeEnum.Intelligence, 3 }, { AttributeEnum.Wisdom, 3 },
-                { AttributeEnum.Charisma, 3 } };
-            OriginalAttributes = new Dictionary<AttributeEnum, int> { { AttributeEnum.Strength, 0 }, { AttributeEnum.Dexterity, 0 },
-                { AttributeEnum.Constitution, 0 },{ AttributeEnum.Intelligence, 0 }, { AttributeEnum.Wisdom, 0 },
-                { AttributeEnum.Charisma, 0 } };
+            ResetAttributes();
         }
 
         public Adventurer(string name)
         {
             Name = name;
-            Attributes = new Dictionary<AttributeEnum, int> { { AttributeEnum.Strength, 3 }, { AttributeEnum.Dexterity, 3 },
-                { AttributeEnum.Constitution, 3 },{ AttributeEnum.Intelligence, 3 }, { AttributeEnum.Wisdom, 3 },
-                { AttributeEnum.Charisma, 3 } };
-            OriginalAttributes = new Dictionary<AttributeEnum, int> { { AttributeEnum.Strength, 0 }, { AttributeEnum.Dexterity, 0 },
-                { AttributeEnum.Constitution, 0 },{ AttributeEnum.Intelligence, 0 }, { AttributeEnum.Wisdom, 0 },
-                { AttributeEnum.Charisma, 0 } };
+            ResetAttributes();
 
         }
 
@@ -174,9 +165,68 @@ namespace TalesFromTheTable.Entities
             AdjustSavingThrowsFromAbilities();
         }
 
+        public void ResetAttributes()
+        {
+            Attributes = new Dictionary<AttributeEnum, int> { { AttributeEnum.Strength, 3 }, { AttributeEnum.Dexterity, 3 },
+                { AttributeEnum.Constitution, 3 },{ AttributeEnum.Intelligence, 3 }, { AttributeEnum.Wisdom, 3 },
+                { AttributeEnum.Charisma, 3 } };
+            OriginalAttributes = new Dictionary<AttributeEnum, int> { { AttributeEnum.Strength, 0 }, { AttributeEnum.Dexterity, 0 },
+                { AttributeEnum.Constitution, 0 },{ AttributeEnum.Intelligence, 0 }, { AttributeEnum.Wisdom, 0 },
+                { AttributeEnum.Charisma, 0 } };
+        }
+
         public void AddSkill(ISkill skill)
         {
             Skills.Add(skill);
+        }
+
+        public void SetBackground(Background background)
+        {
+            //Reset attributes to original values by calling setrace
+            SetRace(Race);
+
+            //GD.Print($"background: {background.Name}");
+            //Background = background; 
+
+            //GD.Print($"Background: {Background.Name}");
+            //Add background bonuses to attributes
+            switch (background.Name)
+            {
+                case "Criminal":
+                    Background = new Criminal();
+                    Attributes[AttributeEnum.Dexterity] += 1;
+                    Attributes[AttributeEnum.Charisma] += 1;
+                    Skills.Add(new Deception());
+                    break;
+                case "Lowborn":
+                    Background = new Lowborn();
+                    Attributes[AttributeEnum.Strength] += 1;
+                    Attributes[AttributeEnum.Constitution] += 1;
+                    Skills.Add(new Survival());
+                    break;
+                case "Noble":
+                    Background = new Noble();
+                    Attributes[AttributeEnum.Charisma] += 1;
+                    Attributes[AttributeEnum.Intelligence] += 1;
+                    Skills.Add(new Persuasion());
+                    break;
+                case "Outlander":
+                    Background = new Outlander();
+                    Attributes[AttributeEnum.Constitution] += 1;
+                    Attributes[AttributeEnum.Wisdom] += 1;
+                    Skills.Add(new BeastHandling());
+                    break;              
+                case "Soldier":
+                    Background = new Soldier();
+                    Attributes[AttributeEnum.Strength] += 1;
+                    Attributes[AttributeEnum.Dexterity] += 1;
+                    Skills.Add(new Leadership());
+                    break;
+                default:
+                    break;
+            }
+
+            AdjustSavingThrowsFromAbilities();
         }
 
         public void AttributeAddBonus(AttributeEnum attribute, int bonus)

@@ -1,0 +1,6 @@
+[gd_resource type="FontVariation" load_steps=2 format=3 uid="uid://vu7av0vyjj5n"]
+
+[ext_resource type="FontFile" uid="uid://3knarx1duhft" path="res://LT Colored Pencil.otf" id="1_di0hr"]
+
+[resource]
+base_font = ExtResource("1_di0hr")

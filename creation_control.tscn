@@ -1,6 +1,7 @@
-[gd_scene load_steps=3 format=3 uid="uid://bgvons8ogfru2"]
+[gd_scene load_steps=4 format=3 uid="uid://bgvons8ogfru2"]
 
 [ext_resource type="Script" path="res://Scripts/char_creation.cs" id="1_810pc"]
+[ext_resource type="FontFile" uid="uid://3knarx1duhft" path="res://LT Colored Pencil.otf" id="2_qd2h6"]
 
 [sub_resource type="Theme" id="Theme_svcjc"]
 
@@ -16,6 +17,7 @@ offset_top = 10.0
 offset_right = 427.0
 offset_bottom = 55.0
 mouse_default_cursor_shape = 3
+theme_override_font_sizes/font_size = 24
 placeholder_text = "Name Thy AdventurerSS"
 alignment = 1
 
@@ -25,6 +27,7 @@ offset_left = 431.0
 offset_top = 10.0
 offset_right = 637.0
 offset_bottom = 55.0
+theme_override_font_sizes/font_size = 24
 text = "Random Name"
 
 [node name="StartCreateButton" type="Button" parent="."]
@@ -45,6 +48,8 @@ offset_left = 10.0
 offset_top = 69.0
 offset_right = 427.0
 offset_bottom = 114.0
+theme_override_fonts/font = ExtResource("2_qd2h6")
+theme_override_font_sizes/font_size = 24
 text = "Roll For Attributes
 "
 
@@ -54,8 +59,13 @@ offset_left = 10.0
 offset_top = 114.0
 offset_right = 426.0
 offset_bottom = 183.0
+theme_override_font_sizes/normal_font_size = 18
+theme_override_font_sizes/bold_font_size = 18
+theme_override_font_sizes/italics_font_size = 18
+theme_override_font_sizes/bold_italics_font_size = 18
+theme_override_font_sizes/mono_font_size = 18
 bbcode_enabled = true
-text = "[center][i]Roll as many times as you want... you can [b][color=red]re-roll two[/color][/b] abilities.[/i]
+text = "[center][i]Roll as many times as you want... you can [b][color=red]re-roll two[/color][/b] attributes.[/i]
 [/center]	"
 fit_content = true
 
@@ -349,6 +359,7 @@ offset_top = 69.0
 offset_right = 637.0
 offset_bottom = 114.0
 theme_override_colors/font_color = Color(0, 1, 0, 1)
+theme_override_font_sizes/font_size = 24
 text = "Continue..."
 
 [node name="VSeparator" type="VSeparator" parent="."]
@@ -667,7 +678,7 @@ size_flags_vertical = 3
 layout_mode = 2
 size_flags_vertical = 6
 theme_override_font_sizes/font_size = 20
-text = "Poison
+text = "Poison (con)
 "
 horizontal_alignment = 2
 
@@ -675,7 +686,7 @@ horizontal_alignment = 2
 layout_mode = 2
 size_flags_vertical = 6
 theme_override_font_sizes/font_size = 20
-text = "Wands
+text = "Wands (dex)
 "
 horizontal_alignment = 2
 
@@ -683,7 +694,7 @@ horizontal_alignment = 2
 layout_mode = 2
 size_flags_vertical = 6
 theme_override_font_sizes/font_size = 20
-text = "Petrification
+text = "Petrification (int)
 "
 horizontal_alignment = 2
 
@@ -691,7 +702,7 @@ horizontal_alignment = 2
 layout_mode = 2
 size_flags_vertical = 6
 theme_override_font_sizes/font_size = 20
-text = "Dragon Breath
+text = "Dragon Breath (str)
 "
 horizontal_alignment = 2
 
@@ -699,7 +710,7 @@ horizontal_alignment = 2
 layout_mode = 2
 size_flags_vertical = 6
 theme_override_font_sizes/font_size = 20
-text = "Spells or Staves
+text = "Spells or Staves (wis)
 "
 horizontal_alignment = 2
 
@@ -751,7 +762,6 @@ text = "13
 layout_mode = 2
 
 [node name="FinalSaveContainer" type="VBoxContainer" parent="RaceSavingThrowsContainer"]
-visible = false
 layout_mode = 2
 
 [node name="FinalSaveButton" type="Button" parent="RaceSavingThrowsContainer/FinalSaveContainer"]
@@ -759,6 +769,7 @@ layout_mode = 2
 size_flags_vertical = 3
 theme_override_colors/font_color = Color(1, 0.396078, 0, 1)
 theme_override_font_sizes/font_size = 30
+disabled = true
 text = "FINALIZE AND SAVE"
 
 [node name="ButtonCooldownTimer" type="Timer" parent="."]
@@ -788,4 +799,6 @@ one_shot = true
 [connection signal="item_selected" from="RaceSavingThrowsContainer/AttributeBonusContainer/AttributeTwoOption" to="." method="_on_race_options_selected"]
 [connection signal="item_selected" from="RaceSavingThrowsContainer/SkillContainer/SkillOneOption" to="." method="_on_race_options_selected"]
 [connection signal="item_selected" from="RaceSavingThrowsContainer/SkillContainer/SkillTwoOption" to="." method="_on_race_options_selected"]
+[connection signal="item_selected" from="RaceSavingThrowsContainer/BackgroundContainer/BackgroundOption" to="." method="_on_background_option_item_selected"]
+[connection signal="pressed" from="RaceSavingThrowsContainer/FinalSaveContainer/FinalSaveButton" to="." method="_on_final_save_button_pressed"]
 [connection signal="timeout" from="ButtonCooldownTimer" to="." method="_on_button_cooldown_timer_timeout"]

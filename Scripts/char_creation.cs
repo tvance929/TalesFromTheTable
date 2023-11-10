@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Godot;
+using Newtonsoft.Json;
 using TalesFromTheTable.Entities;
 using TalesFromTheTable.Scripts.Utilities;
 using TalesFromTheTable.Services;
@@ -34,6 +35,9 @@ public partial class char_creation : Control
 	private OptionButton skillOne;
 	private OptionButton skillTwo;
 	private OptionButton backgroundOption;
+	private Container skillContainer;
+	private Container attrContainer;
+	private Button finalSaveButton;
 
 	private const double REROLL_COOLDOWN = 0.5;
 	private const int REROLL_MAX = 2;
@@ -67,6 +71,10 @@ public partial class char_creation : Control
 		skillOne = GetNode<OptionButton>("RaceSavingThrowsContainer/SkillContainer/SkillOneOption");
 		skillTwo = GetNode<OptionButton>("RaceSavingThrowsContainer/SkillContainer/SkillTwoOption");
 		backgroundOption = GetNode<OptionButton>("RaceSavingThrowsContainer/BackgroundContainer/BackgroundOption");
+		skillContainer = GetNode<Container>("RaceSavingThrowsContainer/SkillContainer");
+		attrContainer = GetNode<Container>("RaceSavingThrowsContainer/AttributeBonusContainer");
+
+		finalSaveButton = GetNode<Button>("RaceSavingThrowsContainer/FinalSaveContainer/FinalSaveButton");
 
 		buttonCooldownTimer = GetNode<Timer>("ButtonCooldownTimer");
 		//popupMenu = GetNode<PopupMenu>("PopupPlaceholder/PopupMenu");
@@ -104,6 +112,8 @@ public partial class char_creation : Control
 
 	private void _on_roll_abilities_button_pressed()
 	{
+		adventurer.ResetAttributes();
+		ResetUI();
 		RollAttributesUI();
 
 		GetNode<Button>("RollAbilitiesButton").Disabled = true;
@@ -111,7 +121,6 @@ public partial class char_creation : Control
 
 		var rolls = adventurerService.RollAttributes(adventurer);
 
-		//GD.Print($"Here");
 		foreach (var attributeRoll in rolls)
 		{
 			var roll = AbilityWithModifier(attributeRoll.Value);
@@ -119,21 +128,27 @@ public partial class char_creation : Control
 			{
 				case "one":
 					rollOneLabel.Text = roll;
+					if (attributeRoll.Value == 18) reRollButton1.Visible = false;
 					break;
 				case "two":
 					rollTwoLabel.Text = roll;
+					if (attributeRoll.Value == 18) reRollButton2.Visible = false;
 					break;
 				case "three":
 					rollThreeLabel.Text = roll;
+					//if (attributeRoll.Value == 18) reRollButton3.Disabled = true; //this maybe should happen... the visible things wont work
 					break;
 				case "four":
 					rollFourLabel.Text = roll;
+					if (attributeRoll.Value == 18) reRollButton4.Visible = false;
 					break;
 				case "five":
 					rollFiveLabel.Text = roll;
+					if (attributeRoll.Value == 18) reRollButton5.Visible = false;
 					break;
 				case "six":
 					rollSixLabel.Text = roll;
+					if (attributeRoll.Value == 18) reRollButton6.Visible = false;
 					break;
 				default:
 					break;
@@ -259,6 +274,7 @@ public partial class char_creation : Control
 
 	private void _on_continue_button_pressed()
 	{
+
 		GetNode<Container>("RaceSavingThrowsContainer").Visible = true;
 		GetNode<Button>("ContinueButton").Disabled = true;
 
@@ -289,10 +305,33 @@ public partial class char_creation : Control
 		GetNode<Button>("RollAbilitiesButton").Visible = false;
 		GetNode<RichTextLabel>("RollNoteLabel").Visible = false;
 
+		reRollButton1.Visible = true;
+		reRollButton2.Visible = true;
+		reRollButton3.Visible = true;
+		reRollButton4.Visible = true;
+		reRollButton5.Visible = true;
+		reRollButton6.Visible = true;               //DO THIS FOR REROLLS too that add up to 18 - remove the button
+
+		var optionIndex = 0;
 		foreach (var optionButton in assignAttributeOptions)
 		{
 			optionButton.Disabled = false;
+			optionButton.Select(optionIndex);
+			optionIndex++;
 		}
+
+		skillOne.Disabled = true;
+		skillTwo.Disabled = true;
+		backgroundOption.Disabled = true;
+		raceOption.Select(DEFAULT_OPTIONS_INDEX);
+		skillOne.Select(DEFAULT_OPTIONS_INDEX);
+		skillTwo.Select(DEFAULT_OPTIONS_INDEX);
+		humanAttrOne.Select(DEFAULT_OPTIONS_INDEX);
+		humanAttrTwo.Select(DEFAULT_OPTIONS_INDEX);
+		backgroundOption.Select(DEFAULT_OPTIONS_INDEX);
+		finalSaveButton.Disabled = true;
+		attrContainer.Visible = false;
+		skillContainer.Visible = false;
 	}
 
 	private void RollAttributesUI()
@@ -417,9 +456,6 @@ public partial class char_creation : Control
 	#region Race And Saving Throws 
 	private void _on_race_options_item_selected(long index)
 	{
-		var skillContainer = GetNode<Container>("RaceSavingThrowsContainer/SkillContainer");
-		var attrContainer = GetNode<Container>("RaceSavingThrowsContainer/AttributeBonusContainer");
-
 		//resetting everything
 		skillOne.Disabled = false;
 		skillTwo.Disabled = false;
@@ -428,6 +464,7 @@ public partial class char_creation : Control
 		humanAttrOne.Select(DEFAULT_OPTIONS_INDEX);
 		humanAttrTwo.Select(DEFAULT_OPTIONS_INDEX);
 		backgroundOption.Select(DEFAULT_OPTIONS_INDEX);
+		finalSaveButton.Disabled = true;
 		attrContainer.Visible = false;
 
 		skillContainer.Visible = true;
@@ -435,9 +472,6 @@ public partial class char_creation : Control
 		var race = (RaceEnum)selectedID;
 
 		adventurer.SetRace(race);
-
-
-		GD.Print($"{race}");
 
 		if (selectedID == 4) //random default number that is NOT a race
 		{
@@ -448,26 +482,17 @@ public partial class char_creation : Control
 			skillOne.Visible = true;
 			skillTwo.Visible = false;
 			attrContainer.Visible = true;
-			backgroundOption.Disabled = true;			
+			backgroundOption.Disabled = true;
 		}
 		else if (selectedID == (int)RaceEnum.Dwarf || selectedID == (int)RaceEnum.Elf)
 		{
-			//no extra skill for these guys, dwarf gets save bonus vs poison and elf gets immune to charm
-			skillOne.Visible = false;
-			skillTwo.Visible = false;
-			backgroundOption.Disabled = true;
-			//if (selectedID == (int)RaceEnum.Dwarf)
-			//{
-			//	adventurer.SetRace(RaceEnum.Dwarf);
-			//}
-			//else
-			//{
-			//	adventurer.SetRace(RaceEnum.Elf);
-			//}
+			skillContainer.Visible = false;
+			skillOne.Disabled = true;
+			skillTwo.Disabled = true;
+			backgroundOption.Disabled = false;
 		}
 		else if (selectedID == (int)RaceEnum.Halfling)
 		{
-			// Halfing gets thief and sneak ... er something.
 			skillOne.Visible = true;
 			skillTwo.Visible = true;
 			skillOne.Select(1);
@@ -475,7 +500,6 @@ public partial class char_creation : Control
 			skillOne.Disabled = true;
 			skillTwo.Disabled = true;
 			backgroundOption.Disabled = false;
-			//adventurer.SetRace(RaceEnum.Halfling);
 		}
 		SetAttributeAndSavingThrowLabels();
 	}
@@ -495,7 +519,7 @@ public partial class char_creation : Control
 				backgroundOption.Disabled = false;
 				SetAttributeAndSavingThrowLabels();
 			}
-		}		
+		}
 		// Dont need to do anything for other races and there is nothing to choose
 	}
 
@@ -520,19 +544,46 @@ public partial class char_creation : Control
 		{
 			humanAttrTwo.SetItemDisabled(i, false);
 		}
-		
+
 		if (humanAttrOne.GetSelectedId() != DEFAULT_OPTIONS_ID)
 		{
 			humanAttrTwo.SetItemDisabled(humanAttrTwo.GetItemIndex(humanAttrOne.GetSelectedId()), true);
 		}
 	}
 
-    private void _on_background_option_item_selected(long index)
-    {
-        // Replace with function body.
-    }
-    #endregion
+	private void _on_background_option_item_selected(long index)
+	{
+		if (backgroundOption.GetSelectedId() != DEFAULT_OPTIONS_ID)
+		{
+			var chosenFullBackgroundName = backgroundOption.GetItemText(backgroundOption.GetSelectedId());
+			var nameBreakIndex = chosenFullBackgroundName.IndexOf(" +1");
+			var chosenBackgroundName = chosenFullBackgroundName[..nameBreakIndex].TrimEnd();
+			var chosenBackground = adventurerService.backgrounds.Where(b => b.Name == chosenBackgroundName).FirstOrDefault();
+
+			adventurer.SetBackground(chosenBackground);
+
+			//If race is human we will need to add the attribute bonuses back since SetBackground calls SetRace which clears them
+			if (adventurer.Race == RaceEnum.Human)
+			{
+				adventurer.AttributeAddBonus((AttributeEnum)humanAttrOne.GetSelectedId(), 1);
+				adventurer.AttributeAddBonus((AttributeEnum)humanAttrTwo.GetSelectedId(), 1);
+			}
+
+			SetAttributeAndSavingThrowLabels();
+		}
+
+		finalSaveButton.Disabled = false;
+	}
+
+	private void _on_final_save_button_pressed()
+	{
+		GD.Print($"WOOHOOO!!!  Done!");
+	}
+	#endregion
 }
+
+
+
 
 
 
