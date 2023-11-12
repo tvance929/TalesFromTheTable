@@ -1,9 +1,8 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using Godot;
-using Newtonsoft.Json;
 using TalesFromTheTable.Entities;
+using TalesFromTheTable.Scripts.SystemServices;
 using TalesFromTheTable.Scripts.Utilities;
 using TalesFromTheTable.Services;
 using TalesFromTheTable.Utilities;
@@ -13,8 +12,9 @@ public partial class char_creation : Control
 {
 	private LineEdit nameLineEdit;
 	private Button rollAbilitiesButton;
-	public Adventurer adventurer;
-	private AdventurerService adventurerService;
+	public Adventurer adventurer = new Adventurer();
+	private AdventurerService adventurerService = new AdventurerService(new Dice());
+	private SaveService saveService = new SaveService();
 	private Label rollOneLabel, rollTwoLabel, rollThreeLabel, rollFourLabel, rollFiveLabel, rollSixLabel;
 	private Timer buttonCooldownTimer;
 	private int abilitiesReRolled = 0;
@@ -45,9 +45,7 @@ public partial class char_creation : Control
 	private const int DEFAULT_OPTIONS_INDEX = 0;
 
 	public override void _Ready()
-	{
-		adventurerService = new AdventurerService(new Dice());
-		adventurer = new Adventurer();
+	{	
 		nameLineEdit = GetNode<LineEdit>("AdventurerNameInput");
 		rollAbilitiesButton = GetNode<Button>("RollAbilitiesButton");
 
@@ -577,7 +575,7 @@ public partial class char_creation : Control
 
 	private void _on_final_save_button_pressed()
 	{
-		GD.Print($"WOOHOOO!!!  Done!");
+		saveService.SaveGame(adventurer);
 	}
 	#endregion
 }

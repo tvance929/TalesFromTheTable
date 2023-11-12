@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using Godot;
 using TalesFromTheTable.Backgrounds;
 using TalesFromTheTable.Scripts.Skills;
 using TalesFromTheTable.Skills;
@@ -8,7 +7,6 @@ using TalesFromTheTable.Skills.Interfaces;
 using TalesFromTheTable.Utilities;
 using TalesFromTheTable.Utilities.Enums;
 using TalesFromTheTable.Utilities.Exceptions;
-using static System.Formats.Asn1.AsnWriter;
 
 namespace TalesFromTheTable.Entities
 {
