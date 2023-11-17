@@ -8,7 +8,7 @@ using TalesFromTheTable.Services;
 using TalesFromTheTable.Utilities;
 using TalesFromTheTable.Utilities.Enums;
 
-public partial class char_creation : Control
+public partial class create : Control
 {
 	private LineEdit nameLineEdit;
 	private Button rollAbilitiesButton;
@@ -45,7 +45,7 @@ public partial class char_creation : Control
 	private const int DEFAULT_OPTIONS_INDEX = 0;
 
 	public override void _Ready()
-	{	
+	{
 		nameLineEdit = GetNode<LineEdit>("AdventurerNameInput");
 		rollAbilitiesButton = GetNode<Button>("RollAbilitiesButton");
 
@@ -576,7 +576,21 @@ public partial class char_creation : Control
 	private void _on_final_save_button_pressed()
 	{
 		saveService.SaveGame(adventurer);
-	}
+
+        GameService.StartGame(adventurer);
+
+		var mainScene = this.GetParent();
+
+		Control gameScene = mainScene.GetNode<Control>("Game");
+
+		Visible = false;
+
+		//Learn to tween this... but get gameplay down first
+		//Tween tween = GetTree().CreateTween();
+
+		//tween.
+		//gameScene.Visible = true;
+    }
 	#endregion
 }
 

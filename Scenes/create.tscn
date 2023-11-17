@@ -1,14 +1,14 @@
 [gd_scene load_steps=4 format=3 uid="uid://bgvons8ogfru2"]
 
-[ext_resource type="Script" path="res://Scripts/char_creation.cs" id="1_810pc"]
+[ext_resource type="Script" path="res://Scripts/Scenes/create.cs" id="1_jx7on"]
 [ext_resource type="FontFile" uid="uid://3knarx1duhft" path="res://LT Colored Pencil.otf" id="2_qd2h6"]
 
 [sub_resource type="Theme" id="Theme_svcjc"]
 
-[node name="CreationControl" type="Control"]
+[node name="create" type="Control"]
 layout_mode = 3
 anchors_preset = 0
-script = ExtResource("1_810pc")
+script = ExtResource("1_jx7on")
 
 [node name="AdventurerNameInput" type="LineEdit" parent="."]
 layout_mode = 0

@@ -1,0 +1,15 @@
+[gd_scene load_steps=5 format=3 uid="uid://dn3yddyxtpv7o"]
+
+[ext_resource type="Script" path="res://Scripts/Scenes/main.cs" id="1_iboha"]
+[ext_resource type="PackedScene" uid="uid://bgvons8ogfru2" path="res://Scenes/create.tscn" id="1_wirsc"]
+[ext_resource type="PackedScene" uid="uid://jkdkw7uv866k" path="res://Scenes/game.tscn" id="2_ddkdv"]
+[ext_resource type="Script" path="res://Scripts/Scenes/game.cs" id="3_c4br6"]
+
+[node name="Main" type="Node2D"]
+script = ExtResource("1_iboha")
+
+[node name="Create" parent="." instance=ExtResource("1_wirsc")]
+
+[node name="Game" parent="." instance=ExtResource("2_ddkdv")]
+visible = false
+script = ExtResource("3_c4br6")

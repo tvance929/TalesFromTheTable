@@ -1,5 +1,4 @@
 using Godot;
-using System;
 
 public partial class menu : Control
 {
@@ -16,7 +15,7 @@ public partial class menu : Control
 
 	private void _on_new_button_pressed()
 	{
-		GetTree().ChangeSceneToFile("res://main.tscn");
+		GetTree().ChangeSceneToFile("res://Scenes/main.tscn");
 	}
 
 	private void _on_quit_button_pressed()

@@ -1,7 +1,0 @@
-[gd_scene load_steps=2 format=3 uid="uid://dn3yddyxtpv7o"]
-
-[ext_resource type="PackedScene" uid="uid://bgvons8ogfru2" path="res://creation_control.tscn" id="2_inx2h"]
-
-[node name="Main" type="Node2D"]
-
-[node name="CreationControl" parent="." instance=ExtResource("2_inx2h")]

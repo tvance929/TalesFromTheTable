@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using TalesFromTheTable.Items;
 using TalesFromTheTable.Skills.Interfaces;
@@ -6,7 +5,7 @@ using TalesFromTheTable.Utilities.Enums;
 
 namespace TalesFromTheTable.Entities
 {
-	public abstract class Entity
+    public abstract class Entity
 	{
 		public int Hitpoints { get; protected set; } = 0;
 		public int Gold { get; protected set; } = 0;

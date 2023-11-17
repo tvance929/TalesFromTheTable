@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://fexbrpqfucj5"]
 
-[ext_resource type="Script" path="res://Scripts/menu.cs" id="1_nndxn"]
+[ext_resource type="Script" path="res://Scripts/Scenes/menu.cs" id="1_hij1q"]
 
 [node name="Menu" type="Control"]
 layout_mode = 3
@@ -10,7 +10,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 0
-script = ExtResource("1_nndxn")
+script = ExtResource("1_hij1q")
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
 layout_mode = 1

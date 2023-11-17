@@ -1,0 +1,46 @@
+[gd_scene load_steps=2 format=3 uid="uid://jkdkw7uv866k"]
+
+[ext_resource type="Script" path="res://Scripts/Scenes/game.cs" id="1_3vkmr"]
+
+[node name="game" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_3vkmr")
+
+[node name="Main" type="HBoxContainer" parent="."]
+layout_mode = 0
+offset_right = 1152.0
+offset_bottom = 645.0
+
+[node name="MainLeft" type="VBoxContainer" parent="Main"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="RichTextLabel" type="RichTextLabel" parent="Main/MainLeft"]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+size_flags_vertical = 3
+text = "THIS IS THE LABEL"
+
+[node name="BoxContainer" type="BoxContainer" parent="Main/MainLeft"]
+layout_mode = 2
+
+[node name="VSeparator" type="VSeparator" parent="Main"]
+layout_mode = 2
+
+[node name="MainRight" type="VBoxContainer" parent="Main"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="RichTextLabel" type="RichTextLabel" parent="Main/MainRight"]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+size_flags_vertical = 3
+text = "THIS IS THE LABEL"
+
+[node name="BoxContainer" type="BoxContainer" parent="Main/MainRight"]
+layout_mode = 2
