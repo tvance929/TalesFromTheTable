@@ -5,6 +5,10 @@
     <RootNamespace>TalesFromTheTable</RootNamespace>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Remove="Scripts\Adventures\**" />
+    <EmbeddedResource Remove="Scripts\Adventures\**" />
+  </ItemGroup>
+  <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
   </ItemGroup>
 </Project>

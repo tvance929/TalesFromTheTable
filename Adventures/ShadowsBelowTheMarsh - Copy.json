@@ -1,0 +1,57 @@
+{
+  "title": "Shadows Below The Marsh",
+  "description": "Captured then left for dead... you stumble upon something strange and unexpected in a deadly marsh.",
+  "cover": "shadowsbelowthemarsh.jpg",
+  "rooms": [
+    {
+      "roomId" :  "1-1",
+      "title": "The Marsh",
+      "description": "You are in a marsh. The ground is wet and squishy. You can see a path to the north.",
+      "mapImage" :  "1-1.png",
+      "exits": [
+        {
+          "direction": "north",
+          "roomId": "2"
+        }
+      ],
+      "items": [
+        {
+          "name": "sword",
+          "description": "A rusty sword.",
+          "attack": 5
+        }
+      ]
+    },
+    {
+      "title": "The Path",
+      "description": "You are on a path. The path is muddy. You can see a marsh to the south and a cave to the north.",
+      "exits": [
+        {
+          "direction": "south",
+          "roomId": "1"
+        },
+        {
+          "direction": "north",
+          "roomId": "3"
+        }
+      ]
+    },
+    {
+      "title": "The Cave",
+      "description": "You are in a cave. It is dark. You can see a path to the south.",
+      "exits": [
+        {
+          "direction": "south",
+          "roomId": "2"
+        }
+      ],
+      "items": [
+        {
+          "name": "torch",
+          "description": "A torch.",
+          "attack": 0
+        }
+      ]
+    }
+  ]
+}

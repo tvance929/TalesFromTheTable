@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace TalesFromTheTable.Scripts.Utilities
+namespace TalesFromTheTable.Utilities
 {
     public static class RandomFantasyName
     {

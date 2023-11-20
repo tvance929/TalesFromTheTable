@@ -1,11 +1,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using Godot;
-using TalesFromTheTable.Entities;
-using TalesFromTheTable.Scripts.SystemServices;
-using TalesFromTheTable.Scripts.Utilities;
-using TalesFromTheTable.Services;
+using TalesFromTheTable.Models.Entities;
+using TalesFromTheTable.SystemServices;
 using TalesFromTheTable.Utilities;
+using TalesFromTheTable.Services;
 using TalesFromTheTable.Utilities.Enums;
 
 public partial class create : Control

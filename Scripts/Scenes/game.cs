@@ -1,10 +1,10 @@
 using Godot;
 using System;
-using TalesFromTheTable.Scripts.SystemServices;
+using TalesFromTheTable.SystemServices;
 
 public partial class game : Control
 {
-    // Called when the node enters the scene tree for the first time.
+	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
 	}
@@ -16,6 +16,6 @@ public partial class game : Control
 
 	public void ShowMessage()
 	{
-        var text = GameService.GetRoomMessage();
-    }
+		var text = GameService.GetRoomMessage();
+	}
 }
