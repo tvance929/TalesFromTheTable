@@ -576,7 +576,7 @@ public partial class create : Control
 	{
 		saveService.SaveGame(adventurer);
 
-        GameService.StartGame(adventurer);
+		GameService.StartGame(adventurer);
 
 		var mainScene = this.GetParent();
 
@@ -588,8 +588,8 @@ public partial class create : Control
 		//Tween tween = GetTree().CreateTween();
 
 		//tween.
-		//gameScene.Visible = true;
-    }
+		gameScene.Visible = true;
+	}
 	#endregion
 }
 

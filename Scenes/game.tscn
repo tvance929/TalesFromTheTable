@@ -20,14 +20,23 @@ offset_bottom = 645.0
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="RichTextLabel" type="RichTextLabel" parent="Main/MainLeft"]
-custom_minimum_size = Vector2(0, 50)
+[node name="MainText" type="RichTextLabel" parent="Main/MainLeft"]
+custom_minimum_size = Vector2(100, 100)
 layout_mode = 2
 size_flags_vertical = 3
-text = "THIS IS THE LABEL"
+bbcode_enabled = true
+text = "[center][b][font_size=20]BIG ADVENTURE TITLE
+[/font_size][/b] This is the description of an adventure. [/center]"
+fit_content = true
 
-[node name="BoxContainer" type="BoxContainer" parent="Main/MainLeft"]
+[node name="MainImage" type="BoxContainer" parent="Main/MainLeft"]
 layout_mode = 2
+size_flags_vertical = 3
+
+[node name="RoomImage" type="TextureRect" parent="Main/MainLeft/MainImage"]
+layout_mode = 2
+size_flags_horizontal = 3
+expand_mode = 2
 
 [node name="VSeparator" type="VSeparator" parent="Main"]
 layout_mode = 2

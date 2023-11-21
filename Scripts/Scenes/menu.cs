@@ -1,4 +1,5 @@
 using Godot;
+using TalesFromTheTable.SystemServices;
 
 public partial class menu : Control
 {
@@ -21,5 +22,12 @@ public partial class menu : Control
 	private void _on_quit_button_pressed()
 	{
 		GetTree().Quit();
+	}
+
+	private void _on_load_button_pressed()
+	{
+		GameService.SkippingCreation = true;
+		
+		GetTree().ChangeSceneToFile("res://Scenes/main.tscn");
 	}
 }
