@@ -10,13 +10,17 @@ public partial class game : Control
 
     private RichTextLabel mainText;
     private TextureRect mainImage;
+    private TabContainer tabContainer;
 
     public override void _Ready()
     {
         mainText = GetNode<RichTextLabel>("Main/MainLeft/MainText");
         mainImage = GetNode<TextureRect>("Main/MainLeft/MainImage/RoomImage");
+        tabContainer = GetNode<TabContainer>("Main/TabContainer");
 
         GameService.AdventureLoaded += _OnAdventureLoaded;
+
+        SetTabContainerDefaults();
     }
 
     // Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -28,7 +32,9 @@ public partial class game : Control
     {
         //GD.Print("ADVENTURE LOADED");
         var bbString = $"[center][b]{TITLE_FONT_SIZE}{TITLE_FONT_COLOR}{GameService.Adventure.Title}[/color][/font_size][/b]\n" +
-            $"{GameService.Adventure.Description}[/center]";
+            $"{GameService.Adventure.Description}[/center]" +
+            $"\nasdfasd\nasdfsadfasdfasd\nasdfasdfasdf\naDFGASDFGFGSDFGSDF\nASFASDFASDF\nASDFGASDFASDF\nADFASDFSDAFSADF" +
+            $"\nasdfasd\nasdfsadfasdfasd\nasdfasdfasdf\naDFGASDFGFGSDFGSDF\nASFASDFASDF\nASDFGASDFASDF\nADFASDFSDAFSADF";
         mainText.Text = bbString;
 
         ShowImageIfExists();  
@@ -42,6 +48,22 @@ public partial class game : Control
             var texture = (Texture2D)GD.Load(imageURL);
             mainImage.Texture = texture;
         }
+    }
+
+    private void SetTabContainerDefaults()
+    {
+        var mapIcon = (Texture2D)GD.Load("res://Assets/Icons/treasure-map.png");       
+        tabContainer.SetTabIcon(0, (Texture2D)mapIcon);
+        tabContainer.SetTabTitle(0, "");
+
+        tabContainer.SetTabIcon(1, (Texture2D)GD.Load("res://Assets/Icons/swordman.png"));
+        tabContainer.SetTabTitle(1, "");
+
+        tabContainer.SetTabIcon(2, (Texture2D)GD.Load("res://Assets/Icons/quill-ink.png"));
+        tabContainer.SetTabTitle(2, "");
+
+        tabContainer.SetTabIcon(3, (Texture2D)GD.Load("res://Assets/Icons/gears.png"));
+        tabContainer.SetTabTitle(3, "");
     }
 
     public void ShowMessage()
