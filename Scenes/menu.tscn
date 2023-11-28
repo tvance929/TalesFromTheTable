@@ -1,6 +1,9 @@
-[gd_scene load_steps=2 format=3 uid="uid://fexbrpqfucj5"]
+[gd_scene load_steps=4 format=3 uid="uid://fexbrpqfucj5"]
 
 [ext_resource type="Script" path="res://Scripts/Scenes/menu.cs" id="1_hij1q"]
+[ext_resource type="Texture2D" uid="uid://bufmqh2rwf86c" path="res://Assets/Backgrounds/canvasBG.jpg" id="2_et7t2"]
+
+[sub_resource type="Theme" id="Theme_grpje"]
 
 [node name="Menu" type="Control"]
 layout_mode = 3
@@ -10,7 +13,16 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 0
+theme = SubResource("Theme_grpje")
 script = ExtResource("1_hij1q")
+
+[node name="TextureRect" type="TextureRect" parent="."]
+layout_mode = 0
+offset_left = -206.0
+offset_top = -171.0
+offset_right = 1294.0
+offset_bottom = 734.0
+texture = ExtResource("2_et7t2")
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
 layout_mode = 1

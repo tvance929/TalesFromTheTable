@@ -1,11 +1,19 @@
-[gd_scene load_steps=4 format=3 uid="uid://dn3yddyxtpv7o"]
+[gd_scene load_steps=5 format=3 uid="uid://dn3yddyxtpv7o"]
 
 [ext_resource type="Script" path="res://Scripts/Scenes/main.cs" id="1_iboha"]
 [ext_resource type="PackedScene" uid="uid://bgvons8ogfru2" path="res://Scenes/create.tscn" id="1_wirsc"]
+[ext_resource type="Texture2D" uid="uid://bufmqh2rwf86c" path="res://Assets/Backgrounds/canvasBG.jpg" id="2_571h5"]
 [ext_resource type="PackedScene" uid="uid://jkdkw7uv866k" path="res://Scenes/game.tscn" id="2_ddkdv"]
 
 [node name="Main" type="Node2D"]
 script = ExtResource("1_iboha")
+
+[node name="TextureRect" type="TextureRect" parent="."]
+offset_left = -292.0
+offset_top = -198.0
+offset_right = 1208.0
+offset_bottom = 707.0
+texture = ExtResource("2_571h5")
 
 [node name="Create" parent="." instance=ExtResource("1_wirsc")]
 
