@@ -24,15 +24,14 @@ layout_mode = 2
 size_flags_horizontal = 3
 
 [node name="MainText" type="RichTextLabel" parent="Main/MainLeft"]
-custom_minimum_size = Vector2(100, 100)
+custom_minimum_size = Vector2(100, 350)
 layout_mode = 2
-size_flags_vertical = 3
 bbcode_enabled = true
 text = "[center][b][font_size=20]BIG ADVENTURE TITLE
 [/font_size][/b] This is the description of an adventure. [/center]"
 
 [node name="MainButtonControls" type="BoxContainer" parent="Main/MainLeft"]
-custom_minimum_size = Vector2(0, 100)
+custom_minimum_size = Vector2(0, 80)
 layout_mode = 2
 alignment = 1
 
