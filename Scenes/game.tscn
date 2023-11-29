@@ -1,8 +1,7 @@
-[gd_scene load_steps=6 format=3 uid="uid://jkdkw7uv866k"]
+[gd_scene load_steps=5 format=3 uid="uid://jkdkw7uv866k"]
 
 [ext_resource type="Script" path="res://Scripts/Scenes/game.cs" id="1_3vkmr"]
 [ext_resource type="Texture2D" uid="uid://cswfdfhfs7ge" path="res://Assets/ZARGONTEMPLATE.jpg" id="2_vri2a"]
-[ext_resource type="Texture2D" uid="uid://ctc8lmp4qpnks" path="res://Assets/buried-city.png" id="2_w12pa"]
 [ext_resource type="Texture2D" uid="uid://cjq75jowc3mds" path="res://Assets/characterTemplate.PNG" id="3_0sl7u"]
 [ext_resource type="Texture2D" uid="uid://bgjr7g0r7mlc3" path="res://Assets/Backgrounds/paperBGsmall.jpg" id="3_q147m"]
 
@@ -32,6 +31,15 @@ bbcode_enabled = true
 text = "[center][b][font_size=20]BIG ADVENTURE TITLE
 [/font_size][/b] This is the description of an adventure. [/center]"
 
+[node name="MainButtonControls" type="BoxContainer" parent="Main/MainLeft"]
+custom_minimum_size = Vector2(0, 100)
+layout_mode = 2
+alignment = 1
+
+[node name="Begin Adventure" type="Button" parent="Main/MainLeft/MainButtonControls"]
+layout_mode = 2
+text = "Start Game"
+
 [node name="MainImage" type="BoxContainer" parent="Main/MainLeft"]
 layout_mode = 2
 size_flags_vertical = 3
@@ -41,15 +49,6 @@ alignment = 1
 layout_mode = 2
 texture = ExtResource("2_vri2a")
 expand_mode = 2
-
-[node name="MainButtonControls" type="BoxContainer" parent="Main/MainLeft"]
-layout_mode = 2
-size_flags_vertical = 3
-alignment = 1
-
-[node name="Begin Adventure" type="Button" parent="Main/MainLeft/MainButtonControls"]
-layout_mode = 2
-text = "Start Game"
 
 [node name="VSeparator" type="VSeparator" parent="Main"]
 layout_mode = 2
@@ -254,14 +253,5 @@ layout_mode = 2
 [node name="Settings" type="BoxContainer" parent="Main/TabContainer"]
 visible = false
 layout_mode = 2
-
-[node name="MapOLD" type="BoxContainer" parent="Main/TabContainer"]
-visible = false
-layout_mode = 2
-
-[node name="TextureRect" type="TextureRect" parent="Main/TabContainer/MapOLD"]
-layout_mode = 2
-texture = ExtResource("2_w12pa")
-expand_mode = 2
 
 [connection signal="pressed" from="Main/MainLeft/MainButtonControls/Begin Adventure" to="." method="_on_begin_adventure_pressed"]

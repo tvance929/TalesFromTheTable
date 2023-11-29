@@ -80,20 +80,20 @@ public partial class game : Control
 	{
 		GameService.StartAdventure();
 		roomsVisited.Add(GameService.PlayerLocation);
-        SetMapImageControlsList();
-        ShowGridMap();
+		SetMapImageControlsList();
+		ShowGridMap();
 	}
 
 	/// <summary>
 	/// In here we grab the Map Array for the level the player is on
-	/// Then loop through the 30 map images and grab each control while assigning the room id if it exists to that control
+	/// Then loop through the 30 map texturerects and grab each control while assigning the room id 
+	/// if it exists to that control
 	/// </summary>
 	private void SetMapImageControlsList()
 	{
 		var arrayCount = 0;
-        mapImageControlsWithIDs = new List<MapControlWithRoomID>();
-        var mapArray = GameService.Adventure.MapArrays.Level1.Split(',').Select(s => s.Trim()).ToList();
-
+		mapImageControlsWithIDs = new List<MapControlWithRoomID>();
+		var mapArray = GameService.Adventure.MapArrays.Level1.Split(',').Select(s => s.Trim()).ToList();
 
 		for (var i = 1; i < 7; i++)
 		{
@@ -104,9 +104,9 @@ public partial class game : Control
 				{
 					roomID = mapArray[arrayCount];
 
-                }
+				}
 
-                mapImageControlsWithIDs.Add(new MapControlWithRoomID(GetNode<TextureRect>($"Main/TabContainer/Map/MapRow{i}/TextureRect{ii}"), roomID));
+				mapImageControlsWithIDs.Add(new MapControlWithRoomID(GetNode<TextureRect>($"Main/TabContainer/Map/MapRow{i}/TextureRect{ii}"), roomID));
 				arrayCount++;
 			}
 		}
@@ -114,6 +114,17 @@ public partial class game : Control
 
 	private void ShowGridMap()
 	{
+		//So now we have a list of all the map controls with their room ids and a list of visited room IDs.
+		//We need to iterate through the visited room ids and set the texturerect to the room image
+		foreach (var roomID in roomsVisited)
+		{
+			var mapControl = mapImageControlsWithIDs.Where(m => m.roomID == roomID).FirstOrDefault();
+			if (mapControl != null)
+			{
+				var texture = (Texture2D)GD.Load($"res://Adventures/{GameService.AdventureName}/Assets/Images/map/{roomID}.jpg");
+				mapControl.textureRect.Texture = texture;
+			}
+		}
 		//iterate all the map controls... see if the player has been in here!  if so, show the image - for now it should just be 1-1
 		//foreach (var control in mapImageControls)
 		//{
@@ -140,7 +151,7 @@ public class MapControlWithRoomID
 
 	public MapControlWithRoomID(TextureRect textureRect, string roomID)
 	{
-        this.textureRect = textureRect;
-        this.roomID = roomID;
-    }
+		this.textureRect = textureRect;
+		this.roomID = roomID;
+	}
 }

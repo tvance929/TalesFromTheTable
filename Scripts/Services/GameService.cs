@@ -12,8 +12,8 @@ namespace TalesFromTheTable.SystemServices
     {
         private const string DEFAULT_ADVENTURE_NAME = "ShadowsBelowTheMarsh";
 
-        private static string adventureName = DEFAULT_ADVENTURE_NAME;
-
+        
+        public static string AdventureName = DEFAULT_ADVENTURE_NAME;
         public static Adventurer Adventurer { get; private set; }
         public static Adventure Adventure { get; private set; }
         public static event Action AdventureLoaded;
@@ -28,8 +28,8 @@ namespace TalesFromTheTable.SystemServices
         {
             Adventurer = adventurer;
 
-            adventureName = customAdventure ? customAdventureFileName : DEFAULT_ADVENTURE_NAME; //make sure to STRIP json off end of customAdventureName in case
-            var adventureFilePath = $"{adventureName}/{adventureName}.json";
+            AdventureName = customAdventure ? customAdventureFileName : DEFAULT_ADVENTURE_NAME; //make sure to STRIP json off end of customAdventureName in case
+            var adventureFilePath = $"{AdventureName}/{AdventureName}.json";
             var adventuresFolderPath = ProjectSettings.GlobalizePath("res://Adventures/");
        
             var fullPath = Path.Combine(adventuresFolderPath, adventureFilePath);
@@ -57,7 +57,7 @@ namespace TalesFromTheTable.SystemServices
         public static string CurrentRoomImageUrl()
         {
             var adventuresFolderPath = ProjectSettings.GlobalizePath("res://Adventures/");
-            var roomImagePath = $"{adventureName}/Assets/images/rooms/{PlayerLocation}.jpg";
+            var roomImagePath = $"{AdventureName}/Assets/images/rooms/{PlayerLocation}.jpg";
 
             return Path.Combine(adventuresFolderPath, roomImagePath);
         }
