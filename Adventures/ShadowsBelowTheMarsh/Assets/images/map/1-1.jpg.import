@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://b38bi02m8wvx4"
-path="res://.godot/imported/1-1.jpg-f03f196f9f3219e227b014a050387488.ctex"
+uid="uid://o43hlr5sk4ku"
+path="res://.godot/imported/1-1.jpg-afd338031f4d29949f0c3ce916a34b52.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Adventures/ShadowsBelowTheMarsh/Assets/1-1.jpg"
-dest_files=["res://.godot/imported/1-1.jpg-f03f196f9f3219e227b014a050387488.ctex"]
+source_file="res://Adventures/ShadowsBelowTheMarsh/Assets/images/map/1-1.jpg"
+dest_files=["res://.godot/imported/1-1.jpg-afd338031f4d29949f0c3ce916a34b52.ctex"]
 
 [params]
 

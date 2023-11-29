@@ -35,16 +35,21 @@ text = "[center][b][font_size=20]BIG ADVENTURE TITLE
 [node name="MainImage" type="BoxContainer" parent="Main/MainLeft"]
 layout_mode = 2
 size_flags_vertical = 3
+alignment = 1
 
 [node name="RoomImage" type="TextureRect" parent="Main/MainLeft/MainImage"]
 layout_mode = 2
-size_flags_horizontal = 3
 texture = ExtResource("2_vri2a")
 expand_mode = 2
 
-[node name="BoxContainer" type="BoxContainer" parent="Main/MainLeft"]
+[node name="MainButtonControls" type="BoxContainer" parent="Main/MainLeft"]
 layout_mode = 2
 size_flags_vertical = 3
+alignment = 1
+
+[node name="Begin Adventure" type="Button" parent="Main/MainLeft/MainButtonControls"]
+layout_mode = 2
+text = "Start Game"
 
 [node name="VSeparator" type="VSeparator" parent="Main"]
 layout_mode = 2
@@ -58,176 +63,176 @@ size_flags_vertical = 3
 layout_mode = 2
 theme_override_constants/separation = 0
 
-[node name="HBoxContainer2" type="HBoxContainer" parent="Main/TabContainer/Map"]
+[node name="MapRow1" type="HBoxContainer" parent="Main/TabContainer/Map"]
 layout_mode = 2
 theme_override_constants/separation = 0
 alignment = 1
 
-[node name="TextureRect" type="TextureRect" parent="Main/TabContainer/Map/HBoxContainer2"]
+[node name="TextureRect1" type="TextureRect" parent="Main/TabContainer/Map/MapRow1"]
 layout_mode = 2
 size_flags_vertical = 0
 texture = ExtResource("3_q147m")
 
-[node name="TextureRect2" type="TextureRect" parent="Main/TabContainer/Map/HBoxContainer2"]
+[node name="TextureRect2" type="TextureRect" parent="Main/TabContainer/Map/MapRow1"]
 layout_mode = 2
 texture = ExtResource("3_q147m")
 
-[node name="TextureRect3" type="TextureRect" parent="Main/TabContainer/Map/HBoxContainer2"]
-layout_mode = 2
-size_flags_vertical = 0
-texture = ExtResource("3_q147m")
-
-[node name="TextureRect4" type="TextureRect" parent="Main/TabContainer/Map/HBoxContainer2"]
+[node name="TextureRect3" type="TextureRect" parent="Main/TabContainer/Map/MapRow1"]
 layout_mode = 2
 size_flags_vertical = 0
 texture = ExtResource("3_q147m")
 
-[node name="TextureRect5" type="TextureRect" parent="Main/TabContainer/Map/HBoxContainer2"]
+[node name="TextureRect4" type="TextureRect" parent="Main/TabContainer/Map/MapRow1"]
 layout_mode = 2
 size_flags_vertical = 0
 texture = ExtResource("3_q147m")
 
-[node name="HBoxContainer3" type="HBoxContainer" parent="Main/TabContainer/Map"]
+[node name="TextureRect5" type="TextureRect" parent="Main/TabContainer/Map/MapRow1"]
+layout_mode = 2
+size_flags_vertical = 0
+texture = ExtResource("3_q147m")
+
+[node name="MapRow2" type="HBoxContainer" parent="Main/TabContainer/Map"]
 layout_mode = 2
 theme_override_constants/separation = 0
 alignment = 1
 
-[node name="TextureRect" type="TextureRect" parent="Main/TabContainer/Map/HBoxContainer3"]
+[node name="TextureRect1" type="TextureRect" parent="Main/TabContainer/Map/MapRow2"]
 layout_mode = 2
 size_flags_vertical = 0
 texture = ExtResource("3_q147m")
 
-[node name="TextureRect2" type="TextureRect" parent="Main/TabContainer/Map/HBoxContainer3"]
+[node name="TextureRect2" type="TextureRect" parent="Main/TabContainer/Map/MapRow2"]
 layout_mode = 2
 texture = ExtResource("3_q147m")
 
-[node name="TextureRect3" type="TextureRect" parent="Main/TabContainer/Map/HBoxContainer3"]
-layout_mode = 2
-size_flags_vertical = 0
-texture = ExtResource("3_q147m")
-
-[node name="TextureRect4" type="TextureRect" parent="Main/TabContainer/Map/HBoxContainer3"]
+[node name="TextureRect3" type="TextureRect" parent="Main/TabContainer/Map/MapRow2"]
 layout_mode = 2
 size_flags_vertical = 0
 texture = ExtResource("3_q147m")
 
-[node name="TextureRect5" type="TextureRect" parent="Main/TabContainer/Map/HBoxContainer3"]
+[node name="TextureRect4" type="TextureRect" parent="Main/TabContainer/Map/MapRow2"]
 layout_mode = 2
 size_flags_vertical = 0
 texture = ExtResource("3_q147m")
 
-[node name="HBoxContainer4" type="HBoxContainer" parent="Main/TabContainer/Map"]
+[node name="TextureRect5" type="TextureRect" parent="Main/TabContainer/Map/MapRow2"]
+layout_mode = 2
+size_flags_vertical = 0
+texture = ExtResource("3_q147m")
+
+[node name="MapRow3" type="HBoxContainer" parent="Main/TabContainer/Map"]
 layout_mode = 2
 theme_override_constants/separation = 0
 alignment = 1
 
-[node name="TextureRect" type="TextureRect" parent="Main/TabContainer/Map/HBoxContainer4"]
+[node name="TextureRect1" type="TextureRect" parent="Main/TabContainer/Map/MapRow3"]
 layout_mode = 2
 size_flags_vertical = 0
 texture = ExtResource("3_q147m")
 
-[node name="TextureRect2" type="TextureRect" parent="Main/TabContainer/Map/HBoxContainer4"]
+[node name="TextureRect2" type="TextureRect" parent="Main/TabContainer/Map/MapRow3"]
 layout_mode = 2
 texture = ExtResource("3_q147m")
 
-[node name="TextureRect3" type="TextureRect" parent="Main/TabContainer/Map/HBoxContainer4"]
-layout_mode = 2
-size_flags_vertical = 0
-texture = ExtResource("3_q147m")
-
-[node name="TextureRect4" type="TextureRect" parent="Main/TabContainer/Map/HBoxContainer4"]
+[node name="TextureRect3" type="TextureRect" parent="Main/TabContainer/Map/MapRow3"]
 layout_mode = 2
 size_flags_vertical = 0
 texture = ExtResource("3_q147m")
 
-[node name="TextureRect5" type="TextureRect" parent="Main/TabContainer/Map/HBoxContainer4"]
+[node name="TextureRect4" type="TextureRect" parent="Main/TabContainer/Map/MapRow3"]
 layout_mode = 2
 size_flags_vertical = 0
 texture = ExtResource("3_q147m")
 
-[node name="HBoxContainer5" type="HBoxContainer" parent="Main/TabContainer/Map"]
+[node name="TextureRect5" type="TextureRect" parent="Main/TabContainer/Map/MapRow3"]
+layout_mode = 2
+size_flags_vertical = 0
+texture = ExtResource("3_q147m")
+
+[node name="MapRow4" type="HBoxContainer" parent="Main/TabContainer/Map"]
 layout_mode = 2
 theme_override_constants/separation = 0
 alignment = 1
 
-[node name="TextureRect" type="TextureRect" parent="Main/TabContainer/Map/HBoxContainer5"]
+[node name="TextureRect1" type="TextureRect" parent="Main/TabContainer/Map/MapRow4"]
 layout_mode = 2
 size_flags_vertical = 0
 texture = ExtResource("3_q147m")
 
-[node name="TextureRect2" type="TextureRect" parent="Main/TabContainer/Map/HBoxContainer5"]
+[node name="TextureRect2" type="TextureRect" parent="Main/TabContainer/Map/MapRow4"]
 layout_mode = 2
 texture = ExtResource("3_q147m")
 
-[node name="TextureRect3" type="TextureRect" parent="Main/TabContainer/Map/HBoxContainer5"]
-layout_mode = 2
-size_flags_vertical = 0
-texture = ExtResource("3_q147m")
-
-[node name="TextureRect4" type="TextureRect" parent="Main/TabContainer/Map/HBoxContainer5"]
+[node name="TextureRect3" type="TextureRect" parent="Main/TabContainer/Map/MapRow4"]
 layout_mode = 2
 size_flags_vertical = 0
 texture = ExtResource("3_q147m")
 
-[node name="TextureRect5" type="TextureRect" parent="Main/TabContainer/Map/HBoxContainer5"]
+[node name="TextureRect4" type="TextureRect" parent="Main/TabContainer/Map/MapRow4"]
 layout_mode = 2
 size_flags_vertical = 0
 texture = ExtResource("3_q147m")
 
-[node name="HBoxContainer6" type="HBoxContainer" parent="Main/TabContainer/Map"]
+[node name="TextureRect5" type="TextureRect" parent="Main/TabContainer/Map/MapRow4"]
+layout_mode = 2
+size_flags_vertical = 0
+texture = ExtResource("3_q147m")
+
+[node name="MapRow5" type="HBoxContainer" parent="Main/TabContainer/Map"]
 layout_mode = 2
 theme_override_constants/separation = 0
 alignment = 1
 
-[node name="TextureRect" type="TextureRect" parent="Main/TabContainer/Map/HBoxContainer6"]
+[node name="TextureRect1" type="TextureRect" parent="Main/TabContainer/Map/MapRow5"]
 layout_mode = 2
 size_flags_vertical = 0
 texture = ExtResource("3_q147m")
 
-[node name="TextureRect2" type="TextureRect" parent="Main/TabContainer/Map/HBoxContainer6"]
+[node name="TextureRect2" type="TextureRect" parent="Main/TabContainer/Map/MapRow5"]
 layout_mode = 2
 texture = ExtResource("3_q147m")
 
-[node name="TextureRect3" type="TextureRect" parent="Main/TabContainer/Map/HBoxContainer6"]
-layout_mode = 2
-size_flags_vertical = 0
-texture = ExtResource("3_q147m")
-
-[node name="TextureRect4" type="TextureRect" parent="Main/TabContainer/Map/HBoxContainer6"]
+[node name="TextureRect3" type="TextureRect" parent="Main/TabContainer/Map/MapRow5"]
 layout_mode = 2
 size_flags_vertical = 0
 texture = ExtResource("3_q147m")
 
-[node name="TextureRect5" type="TextureRect" parent="Main/TabContainer/Map/HBoxContainer6"]
+[node name="TextureRect4" type="TextureRect" parent="Main/TabContainer/Map/MapRow5"]
 layout_mode = 2
 size_flags_vertical = 0
 texture = ExtResource("3_q147m")
 
-[node name="HBoxContainer7" type="HBoxContainer" parent="Main/TabContainer/Map"]
+[node name="TextureRect5" type="TextureRect" parent="Main/TabContainer/Map/MapRow5"]
+layout_mode = 2
+size_flags_vertical = 0
+texture = ExtResource("3_q147m")
+
+[node name="MapRow6" type="HBoxContainer" parent="Main/TabContainer/Map"]
 layout_mode = 2
 theme_override_constants/separation = 0
 alignment = 1
 
-[node name="TextureRect" type="TextureRect" parent="Main/TabContainer/Map/HBoxContainer7"]
+[node name="TextureRect1" type="TextureRect" parent="Main/TabContainer/Map/MapRow6"]
 layout_mode = 2
 size_flags_vertical = 0
 texture = ExtResource("3_q147m")
 
-[node name="TextureRect2" type="TextureRect" parent="Main/TabContainer/Map/HBoxContainer7"]
+[node name="TextureRect2" type="TextureRect" parent="Main/TabContainer/Map/MapRow6"]
 layout_mode = 2
 texture = ExtResource("3_q147m")
 
-[node name="TextureRect3" type="TextureRect" parent="Main/TabContainer/Map/HBoxContainer7"]
-layout_mode = 2
-size_flags_vertical = 0
-texture = ExtResource("3_q147m")
-
-[node name="TextureRect4" type="TextureRect" parent="Main/TabContainer/Map/HBoxContainer7"]
+[node name="TextureRect3" type="TextureRect" parent="Main/TabContainer/Map/MapRow6"]
 layout_mode = 2
 size_flags_vertical = 0
 texture = ExtResource("3_q147m")
 
-[node name="TextureRect5" type="TextureRect" parent="Main/TabContainer/Map/HBoxContainer7"]
+[node name="TextureRect4" type="TextureRect" parent="Main/TabContainer/Map/MapRow6"]
+layout_mode = 2
+size_flags_vertical = 0
+texture = ExtResource("3_q147m")
+
+[node name="TextureRect5" type="TextureRect" parent="Main/TabContainer/Map/MapRow6"]
 layout_mode = 2
 size_flags_vertical = 0
 texture = ExtResource("3_q147m")
@@ -258,3 +263,5 @@ layout_mode = 2
 layout_mode = 2
 texture = ExtResource("2_w12pa")
 expand_mode = 2
+
+[connection signal="pressed" from="Main/MainLeft/MainButtonControls/Begin Adventure" to="." method="_on_begin_adventure_pressed"]

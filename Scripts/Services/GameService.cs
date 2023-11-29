@@ -18,8 +18,9 @@ namespace TalesFromTheTable.SystemServices
         public static Adventure Adventure { get; private set; }
         public static event Action AdventureLoaded;
 
-        public static int PlayerLevel = 1;
-        public static int PlayerRoom = 1;
+        public static int PlayerLevel = 0;
+        public static int PlayerRoom = 0;
+        public static string PlayerLocation { get; private set; } = "0-0";
 
         public static bool SkippingCreation = false; //for dev purposes only
 
@@ -56,9 +57,14 @@ namespace TalesFromTheTable.SystemServices
         public static string CurrentRoomImageUrl()
         {
             var adventuresFolderPath = ProjectSettings.GlobalizePath("res://Adventures/");
-            var roomImagePath = $"{adventureName}/Assets/{PlayerLevel}-{PlayerRoom}.jpg";
+            var roomImagePath = $"{adventureName}/Assets/images/rooms/{PlayerLocation}.jpg";
 
             return Path.Combine(adventuresFolderPath, roomImagePath);
+        }
+
+        public static void StartAdventure()
+        {
+            PlayerLocation = "1-1";
         }
     }
 }
