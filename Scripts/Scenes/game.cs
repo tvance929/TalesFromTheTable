@@ -1,9 +1,9 @@
-using Godot;
-using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using Godot;
 using TalesFromTheTable.Scripts.Utilities;
+using TalesFromTheTable.Scripts.Utilities.Enums;
 using TalesFromTheTable.SystemServices;
 public partial class game : Control
 {
@@ -17,8 +17,14 @@ public partial class game : Control
 	private List<string> roomsVisited = new();
 	private List<MapControlWithRoomID> mapImageControlsWithIDs = new();
 
+	private AudioStreamPlayer soundPlayer;
+	private Tween tween;
+
 	public override void _Ready()
 	{
+		tween = new Tween();
+
+		soundPlayer = GetNode<AudioStreamPlayer>("SoundPlayer");
 		mainText = GetNode<RichTextLabel>("Main/MainLeft/MainText");
 		mainImage = GetNode<TextureRect>("Main/MainLeft/MainImage/RoomImage");
 		tabContainer = GetNode<TabContainer>("Main/TabContainer");
@@ -103,7 +109,6 @@ public partial class game : Control
 				if (arrayCount < mapArray.Count)
 				{
 					roomID = mapArray[arrayCount];
-
 				}
 
 				mapImageControlsWithIDs.Add(new MapControlWithRoomID(GetNode<TextureRect>($"Main/TabContainer/Map/MapRow{i}/TextureRect{ii}"), roomID));
@@ -121,27 +126,30 @@ public partial class game : Control
 			var mapControl = mapImageControlsWithIDs.Where(m => m.roomID == roomID).FirstOrDefault();
 			if (mapControl != null)
 			{
+				PlaySound(Sounds.Scribble);				
 				var texture = (Texture2D)GD.Load($"res://Adventures/{GameService.AdventureName}/Assets/Images/map/{roomID}.jpg");
 				mapControl.textureRect.Texture = texture;
+				//mapControl.textureRect.Modulate = new Color(1, 1, 1, 0);
+				//tween.TweenProperty(mapControl.textureRect, "position", new Vector2(1, 100), 5);
 			}
-		}
-		//iterate all the map controls... see if the player has been in here!  if so, show the image - for now it should just be 1-1
-		//foreach (var control in mapImageControls)
-		//{
-  //          var controlName = control.Name;
-  //          var controlNameSplit = controlName.Split("TextureRect");
-  //          var controlNameSplit2 = controlNameSplit[1].Split("x");
-  //          var controlRow = controlNameSplit2[0];
-  //          var controlColumn = controlNameSplit2[1];
-
-  //          var controlLocation = $"{controlRow}-{controlColumn}";
-  //          if (roomsVisited.Contains(controlLocation))
-		//	{
-  //              var texture = (Texture2D)GD.Load("res://Assets/Icons/room.png");
-  //              control.Texture = texture;
-  //          }
-  //      }
+		}		
 	}
+
+	private void PlaySound(Sounds sound)
+    {
+        if (soundPlayer == null)
+		{
+            soundPlayer = GetNode<AudioStreamPlayer>("SoundPlayer");
+        }
+
+		if (sound == Sounds.Scribble)
+		{
+            soundPlayer.Stream = (AudioStream)GD.Load("res://Assets/Sounds/Effects/pencilscribble.mp3");
+        }
+
+		soundPlayer.VolumeDb = -5;
+		soundPlayer.Play();
+    }
 }
 
 public class MapControlWithRoomID

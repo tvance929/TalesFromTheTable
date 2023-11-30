@@ -253,4 +253,6 @@ layout_mode = 2
 visible = false
 layout_mode = 2
 
+[node name="SoundPlayer" type="AudioStreamPlayer" parent="."]
+
 [connection signal="pressed" from="Main/MainLeft/MainButtonControls/Begin Adventure" to="." method="_on_begin_adventure_pressed"]
