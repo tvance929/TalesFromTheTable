@@ -1,8 +1,10 @@
 using System;
 using System.Collections.Generic;
 using TalesFromTheTable.Models.Backgrounds;
+using TalesFromTheTable.Models.Items;
 using TalesFromTheTable.Models.Skills;
 using TalesFromTheTable.Models.Skills.Interfaces;
+using TalesFromTheTable.Scripts.Models.Items;
 using TalesFromTheTable.Utilities;
 using TalesFromTheTable.Utilities.Enums;
 using TalesFromTheTable.Utilities.Exceptions;
@@ -15,6 +17,10 @@ namespace TalesFromTheTable.Models.Entities
         public string Name;
         public RaceEnum Race { get; private set; } // = RaceEnum.NotSet;
         public Background Background { get; private set; }
+        public Item WornArmor { get; private set; }
+        public Item WieldedWeapon { get; private set; }
+        public Item Shield { get; private set; }
+
 
         // Physical Abilities
         public Dictionary<AttributeEnum, int> Attributes { get; private set; }
@@ -44,6 +50,9 @@ namespace TalesFromTheTable.Models.Entities
         // Constructor
         public Adventurer()
         {
+            //All new adventurers get a knife and leather armor 
+            WornArmor = new LeatherArmor();
+            ArmorClass = int.Parse(WornArmor.MetaData);
             ResetAttributes();
         }
 
@@ -51,7 +60,6 @@ namespace TalesFromTheTable.Models.Entities
         {
             Name = name;
             ResetAttributes();
-
         }
 
         public bool SetAttributes(Dictionary<AttributeEnum, int> newAbilities)

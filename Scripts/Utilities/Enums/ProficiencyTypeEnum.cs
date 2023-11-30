@@ -1,6 +1,6 @@
 ﻿namespace TalesFromTheTable.Utilities.Enums
 {
-    public enum ProficiencyType
+    public enum ProficiencyTypeEnum
     {
         Clerical,
         Thieving,

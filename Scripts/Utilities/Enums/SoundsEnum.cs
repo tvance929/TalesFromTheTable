@@ -1,6 +1,6 @@
 ﻿namespace TalesFromTheTable.Scripts.Utilities.Enums
 {
-    public enum Sounds
+    public enum SoundsEnum
     {
         Scribble,
     }

@@ -126,7 +126,7 @@ public partial class game : Control
 			var mapControl = mapImageControlsWithIDs.Where(m => m.roomID == roomID).FirstOrDefault();
 			if (mapControl != null)
 			{
-				PlaySound(Sounds.Scribble);				
+				PlaySound(SoundsEnum.Scribble);				
 				var texture = (Texture2D)GD.Load($"res://Adventures/{GameService.AdventureName}/Assets/Images/map/{roomID}.jpg");
 				mapControl.textureRect.Texture = texture;
 				//mapControl.textureRect.Modulate = new Color(1, 1, 1, 0);
@@ -135,14 +135,14 @@ public partial class game : Control
 		}		
 	}
 
-	private void PlaySound(Sounds sound)
+	private void PlaySound(SoundsEnum sound)
     {
         if (soundPlayer == null)
 		{
             soundPlayer = GetNode<AudioStreamPlayer>("SoundPlayer");
         }
 
-		if (sound == Sounds.Scribble)
+		if (sound == SoundsEnum.Scribble)
 		{
             soundPlayer.Stream = (AudioStream)GD.Load("res://Assets/Sounds/Effects/pencilscribble.mp3");
         }

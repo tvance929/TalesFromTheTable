@@ -11,8 +11,8 @@
   "rooms": [
     {
       "roomId": "1-1",
-      "title": "The Marsh",
-      "description": "You are in a marsh. The ground is wet and squishy. You can see a path to the north.",
+      "title": "Start",
+      "description": "You drop down from ",
       "roomImage": "1-1",
       "exits": [
         {
