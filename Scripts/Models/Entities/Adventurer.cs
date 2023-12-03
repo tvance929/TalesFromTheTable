@@ -19,7 +19,7 @@ namespace TalesFromTheTable.Models.Entities
         public Background Background { get; private set; }
         public Item WornArmor { get; private set; }
         public Item WieldedWeapon { get; private set; }
-        public Item Shield { get; private set; }
+        public Item OffHand { get; private set; }
 
 
         // Physical Abilities
@@ -53,6 +53,7 @@ namespace TalesFromTheTable.Models.Entities
             //All new adventurers get a knife and leather armor 
             WornArmor = new LeatherArmor();
             ArmorClass = int.Parse(WornArmor.MetaData);
+            WieldedWeapon = new Dagger();
             ResetAttributes();
         }
 

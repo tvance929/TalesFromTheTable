@@ -46,11 +46,8 @@ namespace TalesFromTheTable.SystemServices
 
         public static string GetRoomMessage()
         {
-            //test waiting a few seconds here to see if its a timing thing
-            var currentLocation = $"{PlayerLevel}-{PlayerRoom}";
-
-            GD.Print($"get message  {Adventure.Rooms[0].RoomID} is this equal to {currentLocation}");
-            var roomText = Adventure.Rooms.Where(r => r.RoomID == currentLocation).FirstOrDefault().Description;
+            GD.Print($"get message  {Adventure.Rooms[0].RoomID} is this equal to {PlayerLocation}");
+            var roomText = Adventure.Rooms.Where(r => r.RoomID == PlayerLocation).FirstOrDefault().Description;
             return roomText;
         }
 

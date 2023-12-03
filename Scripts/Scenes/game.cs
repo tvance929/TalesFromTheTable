@@ -18,12 +18,9 @@ public partial class game : Control
 	private List<MapControlWithRoomID> mapImageControlsWithIDs = new();
 
 	private AudioStreamPlayer soundPlayer;
-	private Tween tween;
 
 	public override void _Ready()
 	{
-		tween = new Tween();
-
 		soundPlayer = GetNode<AudioStreamPlayer>("SoundPlayer");
 		mainText = GetNode<RichTextLabel>("Main/MainLeft/MainText");
 		mainImage = GetNode<TextureRect>("Main/MainLeft/MainImage/RoomImage");
@@ -44,9 +41,15 @@ public partial class game : Control
 		//GD.Print("ADVENTURE LOADED");
 		var bbString = $"[center][b]{TITLE_FONT_SIZE}{TITLE_FONT_COLOR}{GameService.Adventure.Title}[/color][/font_size][/b]\n" +
 			$"{GameService.Adventure.Description}[/center]";
+		mainText.Modulate = new Color(1, 1, 1, 0); //Making main text invisible so we can fade it in
 		mainText.Text = bbString;
 
-		ShowImageIfExists();  
+		var tween = CreateTween();
+		tween.TweenProperty(mainText, "modulate", new Color(1, 1, 1, 1), 3); //fade in  
+
+		mainImage.Modulate = new Color(1, 1, 1, 0); //Making main image invisible so we can fade it in 
+
+		ShowImageIfExists();
 	}
 
 	private void ShowImageIfExists()
@@ -55,13 +58,17 @@ public partial class game : Control
 		if (File.Exists(imageURL) && Utilities.IsJpeg(imageURL)) //only aceept jpgs for now
 		{
 			var texture = (Texture2D)GD.Load(imageURL);
-			mainImage.Texture = texture;
+
+			var tween = CreateTween();
+			tween.TweenProperty(mainImage, "modulate", new Color(1, 1, 1, 0), 1); //fade out
+			tween.TweenCallback(Callable.From(() => mainImage.Texture = texture)); //this waits for tween to finish before changing image
+			tween.TweenProperty(mainImage, "modulate", new Color(1, 1, 1, 1), 2); //fade in          
 		}
 	}
 
 	private void SetTabContainerDefaults()
 	{
-		var mapIcon = (Texture2D)GD.Load("res://Assets/Icons/treasure-map.png");       
+		var mapIcon = (Texture2D)GD.Load("res://Assets/Icons/treasure-map.png");
 		tabContainer.SetTabIcon(0, (Texture2D)mapIcon);
 		tabContainer.SetTabTitle(0, "");
 
@@ -75,19 +82,11 @@ public partial class game : Control
 		tabContainer.SetTabTitle(3, "");
 	}
 
-	public void ShowMessage()
-	{
-		var text = GameService.GetRoomMessage();
-		//GD.Print(text);
-		mainText.Text = text;
-	}
-	
 	private void _on_begin_adventure_pressed()
 	{
 		GameService.StartAdventure();
-		roomsVisited.Add(GameService.PlayerLocation);
 		SetMapImageControlsList();
-		ShowGridMap();
+		DisplayRoom();
 	}
 
 	/// <summary>
@@ -117,8 +116,15 @@ public partial class game : Control
 		}
 	}
 
-	private void ShowGridMap()
+	private void DisplayRoom()
 	{
+		var text = GameService.GetRoomMessage();
+		mainText.Text = text;
+
+		ShowImageIfExists();
+
+		roomsVisited.Add(GameService.PlayerLocation);
+
 		//So now we have a list of all the map controls with their room ids and a list of visited room IDs.
 		//We need to iterate through the visited room ids and set the texturerect to the room image
 		foreach (var roomID in roomsVisited)
@@ -126,30 +132,32 @@ public partial class game : Control
 			var mapControl = mapImageControlsWithIDs.Where(m => m.roomID == roomID).FirstOrDefault();
 			if (mapControl != null)
 			{
-				PlaySound(SoundsEnum.Scribble);				
+				PlaySound(SoundsEnum.Scribble);
 				var texture = (Texture2D)GD.Load($"res://Adventures/{GameService.AdventureName}/Assets/Images/map/{roomID}.jpg");
 				mapControl.textureRect.Texture = texture;
-				//mapControl.textureRect.Modulate = new Color(1, 1, 1, 0);
-				//tween.TweenProperty(mapControl.textureRect, "position", new Vector2(1, 100), 5);
+				//Here I want to position the blank fake map image over the room image and then fade out the fake map image to give the illusion of drawing the map
+				// this works below by the way - however it is fading out the actual image of the room...need a fake one over the top and the position
+				//var tween = CreateTween();
+				//tween.TweenProperty(mapControl.textureRect, "modulate", new Color(1, 1, 1, 0), 1);
 			}
-		}		
+		}
 	}
 
 	private void PlaySound(SoundsEnum sound)
-    {
-        if (soundPlayer == null)
+	{
+		if (soundPlayer == null)
 		{
-            soundPlayer = GetNode<AudioStreamPlayer>("SoundPlayer");
-        }
+			soundPlayer = GetNode<AudioStreamPlayer>("SoundPlayer");
+		}
 
 		if (sound == SoundsEnum.Scribble)
 		{
-            soundPlayer.Stream = (AudioStream)GD.Load("res://Assets/Sounds/Effects/pencilscribble.mp3");
-        }
+			soundPlayer.Stream = (AudioStream)GD.Load("res://Assets/Sounds/Effects/pencilscribble.mp3");
+		}
 
 		soundPlayer.VolumeDb = -5;
 		soundPlayer.Play();
-    }
+	}
 }
 
 public class MapControlWithRoomID

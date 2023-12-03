@@ -235,6 +235,155 @@ layout_mode = 2
 size_flags_vertical = 0
 texture = ExtResource("3_q147m")
 
+[node name="MapRoomsOverlay" type="VBoxContainer" parent="Main/TabContainer"]
+visible = false
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="MapRow1" type="HBoxContainer" parent="Main/TabContainer/MapRoomsOverlay"]
+layout_mode = 2
+theme_override_constants/separation = 0
+alignment = 1
+
+[node name="TextureRect1" type="TextureRect" parent="Main/TabContainer/MapRoomsOverlay/MapRow1"]
+layout_mode = 2
+size_flags_vertical = 0
+
+[node name="TextureRect2" type="TextureRect" parent="Main/TabContainer/MapRoomsOverlay/MapRow1"]
+layout_mode = 2
+
+[node name="TextureRect3" type="TextureRect" parent="Main/TabContainer/MapRoomsOverlay/MapRow1"]
+layout_mode = 2
+size_flags_vertical = 0
+
+[node name="TextureRect4" type="TextureRect" parent="Main/TabContainer/MapRoomsOverlay/MapRow1"]
+layout_mode = 2
+size_flags_vertical = 0
+
+[node name="TextureRect5" type="TextureRect" parent="Main/TabContainer/MapRoomsOverlay/MapRow1"]
+layout_mode = 2
+size_flags_vertical = 0
+
+[node name="MapRow2" type="HBoxContainer" parent="Main/TabContainer/MapRoomsOverlay"]
+layout_mode = 2
+theme_override_constants/separation = 0
+alignment = 1
+
+[node name="TextureRect1" type="TextureRect" parent="Main/TabContainer/MapRoomsOverlay/MapRow2"]
+layout_mode = 2
+size_flags_vertical = 0
+
+[node name="TextureRect2" type="TextureRect" parent="Main/TabContainer/MapRoomsOverlay/MapRow2"]
+layout_mode = 2
+
+[node name="TextureRect3" type="TextureRect" parent="Main/TabContainer/MapRoomsOverlay/MapRow2"]
+layout_mode = 2
+size_flags_vertical = 0
+
+[node name="TextureRect4" type="TextureRect" parent="Main/TabContainer/MapRoomsOverlay/MapRow2"]
+layout_mode = 2
+size_flags_vertical = 0
+
+[node name="TextureRect5" type="TextureRect" parent="Main/TabContainer/MapRoomsOverlay/MapRow2"]
+layout_mode = 2
+size_flags_vertical = 0
+
+[node name="MapRow3" type="HBoxContainer" parent="Main/TabContainer/MapRoomsOverlay"]
+layout_mode = 2
+theme_override_constants/separation = 0
+alignment = 1
+
+[node name="TextureRect1" type="TextureRect" parent="Main/TabContainer/MapRoomsOverlay/MapRow3"]
+layout_mode = 2
+size_flags_vertical = 0
+
+[node name="TextureRect2" type="TextureRect" parent="Main/TabContainer/MapRoomsOverlay/MapRow3"]
+layout_mode = 2
+
+[node name="TextureRect3" type="TextureRect" parent="Main/TabContainer/MapRoomsOverlay/MapRow3"]
+layout_mode = 2
+size_flags_vertical = 0
+
+[node name="TextureRect4" type="TextureRect" parent="Main/TabContainer/MapRoomsOverlay/MapRow3"]
+layout_mode = 2
+size_flags_vertical = 0
+
+[node name="TextureRect5" type="TextureRect" parent="Main/TabContainer/MapRoomsOverlay/MapRow3"]
+layout_mode = 2
+size_flags_vertical = 0
+
+[node name="MapRow4" type="HBoxContainer" parent="Main/TabContainer/MapRoomsOverlay"]
+layout_mode = 2
+theme_override_constants/separation = 0
+alignment = 1
+
+[node name="TextureRect1" type="TextureRect" parent="Main/TabContainer/MapRoomsOverlay/MapRow4"]
+layout_mode = 2
+size_flags_vertical = 0
+
+[node name="TextureRect2" type="TextureRect" parent="Main/TabContainer/MapRoomsOverlay/MapRow4"]
+layout_mode = 2
+
+[node name="TextureRect3" type="TextureRect" parent="Main/TabContainer/MapRoomsOverlay/MapRow4"]
+layout_mode = 2
+size_flags_vertical = 0
+
+[node name="TextureRect4" type="TextureRect" parent="Main/TabContainer/MapRoomsOverlay/MapRow4"]
+layout_mode = 2
+size_flags_vertical = 0
+
+[node name="TextureRect5" type="TextureRect" parent="Main/TabContainer/MapRoomsOverlay/MapRow4"]
+layout_mode = 2
+size_flags_vertical = 0
+
+[node name="MapRow5" type="HBoxContainer" parent="Main/TabContainer/MapRoomsOverlay"]
+layout_mode = 2
+theme_override_constants/separation = 0
+alignment = 1
+
+[node name="TextureRect1" type="TextureRect" parent="Main/TabContainer/MapRoomsOverlay/MapRow5"]
+layout_mode = 2
+size_flags_vertical = 0
+
+[node name="TextureRect2" type="TextureRect" parent="Main/TabContainer/MapRoomsOverlay/MapRow5"]
+layout_mode = 2
+
+[node name="TextureRect3" type="TextureRect" parent="Main/TabContainer/MapRoomsOverlay/MapRow5"]
+layout_mode = 2
+size_flags_vertical = 0
+
+[node name="TextureRect4" type="TextureRect" parent="Main/TabContainer/MapRoomsOverlay/MapRow5"]
+layout_mode = 2
+size_flags_vertical = 0
+
+[node name="TextureRect5" type="TextureRect" parent="Main/TabContainer/MapRoomsOverlay/MapRow5"]
+layout_mode = 2
+size_flags_vertical = 0
+
+[node name="MapRow6" type="HBoxContainer" parent="Main/TabContainer/MapRoomsOverlay"]
+layout_mode = 2
+theme_override_constants/separation = 0
+alignment = 1
+
+[node name="TextureRect1" type="TextureRect" parent="Main/TabContainer/MapRoomsOverlay/MapRow6"]
+layout_mode = 2
+size_flags_vertical = 0
+
+[node name="TextureRect2" type="TextureRect" parent="Main/TabContainer/MapRoomsOverlay/MapRow6"]
+layout_mode = 2
+
+[node name="TextureRect3" type="TextureRect" parent="Main/TabContainer/MapRoomsOverlay/MapRow6"]
+layout_mode = 2
+size_flags_vertical = 0
+
+[node name="TextureRect4" type="TextureRect" parent="Main/TabContainer/MapRoomsOverlay/MapRow6"]
+layout_mode = 2
+size_flags_vertical = 0
+
+[node name="TextureRect5" type="TextureRect" parent="Main/TabContainer/MapRoomsOverlay/MapRow6"]
+layout_mode = 2
+size_flags_vertical = 0
+
 [node name="Character Sheet" type="BoxContainer" parent="Main/TabContainer"]
 visible = false
 layout_mode = 2

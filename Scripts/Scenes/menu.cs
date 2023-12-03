@@ -7,7 +7,11 @@ public partial class menu : Control
 	public override void _Ready()
 	{
 		GetNode<Button>("MarginContainer/VBoxContainer/NewButton").GrabFocus(); //for keyboard control
-	}
+		// How to tween and fade an image
+		//var image = GetNode<TextureRect>("tweener");
+  //      var tween = CreateTween();
+  //      tween.TweenProperty(image, "modulate", new Color(1, 1, 1, 0), 2);
+    }
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta)
