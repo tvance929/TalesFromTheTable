@@ -43,9 +43,13 @@ public partial class game : Control
 			$"{GameService.Adventure.Description}[/center]";
 		mainText.Modulate = new Color(1, 1, 1, 0); //Making main text invisible so we can fade it in
 		mainText.Text = bbString;
+		var beginButton = GetNode<Button>("Main/MainLeft/BeginButton");
+		beginButton.Modulate = new Color(1, 1, 1, 0); //Making start button invisible so we can fade it in
+		beginButton.Visible = true;
 
-		var tween = CreateTween();
+        var tween = CreateTween();
 		tween.TweenProperty(mainText, "modulate", new Color(1, 1, 1, 1), 3); //fade in  
+		tween.TweenProperty(beginButton, "modulate", new Color(1, 1, 1, 1), 3); //fade in
 
 		mainImage.Modulate = new Color(1, 1, 1, 0); //Making main image invisible so we can fade it in 
 
@@ -84,7 +88,8 @@ public partial class game : Control
 
 	private void _on_begin_adventure_pressed()
 	{
-		GameService.StartAdventure();
+        GetNode<Button>("Main/MainLeft/BeginButton").Visible = false;
+        GameService.StartAdventure();
 		SetMapImageControlsList();
 		DisplayRoom();
 	}
@@ -141,6 +146,14 @@ public partial class game : Control
 				//tween.TweenProperty(mapControl.textureRect, "modulate", new Color(1, 1, 1, 0), 1);
 			}
 		}
+
+		//Enable all buttons that can be used in this room ( exits, unlocks, search, combat, etc)
+		foreach(var exit in GameService.CurrentRoomExits())
+		{
+            //var button = GetNode<Button>($"Main/TabContainer/Map/MapRow{exit.direction.GetRow()}/TextureRect{exit.direction.GetColumn()}/Button");
+        //    button.Visible = true;
+        //    button.Disabled = false;
+        }
 	}
 
 	private void PlaySound(SoundsEnum sound)

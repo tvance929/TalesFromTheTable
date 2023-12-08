@@ -4,20 +4,20 @@
   "cover": "DONT NEED TO DO THIS - WE CAN JUST SAVE 0-0.JPG IN IMAGES AS THE INITIAL COVER IMAGE",
   "maparraysComments": "Each level can have 30 rooms (game ui has 6 rows of 5) - 5x5 squares so 25x25 feet, each level needs to start with the level number and the room number... game keeps track of where the player is and shows the map room they are in as well as all the map rooms they have been in before",
   "maparrays": {
-    "level1": "1-25, 1-20, 1-18, 1-24, 1-23,   1-22, 1-21, 1-19, 1-18, 1-17,   na, 1-16, 1-15, 1-1, 1-2",
-    "level2": "2-25, 2-20, 2-18, 2-24, 2-23,   2-22, 2-21, 2-19, 2-18, 2-17,   na, 2-16, 2-15, 2-1, 2-2",
-    "level3": "3-25, 3-20, 3-18, 3-24, 3-23,   3-22, 3-21, 3-19, 3-18, 3-17,   na, 3-16, 3-15, 3-1, 3-2"
+    "level1": "1-25, 1-20, 1-18, 1-24, 1-23, 1-22, 1-21, 1-19, 1-18, 1-17, na, 1-16, 1-15, 1-1, 1-2",
+    "level2": "2-25, 2-20, 2-18, 2-24, 2-23, 2-22, 2-21, 2-19, 2-18, 2-17, na, 2-16, 2-15, 2-1, 2-2",
+    "level3": "3-25, 3-20, 3-18, 3-24, 3-23, 3-22, 3-21, 3-19, 3-18, 3-17, na, 3-16, 3-15, 3-1, 3-2"
   },
   "rooms": [
     {
       "roomId": "1-1",
       "title": "Start",
-      "description": "You drop down from ",
+      "description": "You drop down from above, almost twisting your ankle on the stone floor below.  You look around and are startled to discover lit torches...  This room is 10' x 10' covered in dust and ancient looking.  In the corner you see a withered skeleton holding a rusty shortsword.",
       "roomImage": "1-1",
       "exits": [
         {
           "direction": "north",
-          "roomId": "2"
+          "roomId": "1-2"
         }
       ],
       "items": [

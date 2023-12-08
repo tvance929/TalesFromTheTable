@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Godot;
@@ -57,6 +58,11 @@ namespace TalesFromTheTable.SystemServices
             var roomImagePath = $"{AdventureName}/Assets/images/rooms/{PlayerLocation}.jpg";
 
             return Path.Combine(adventuresFolderPath, roomImagePath);
+        }
+
+        public static List<Exit> CurrentRoomExits()
+        {
+            return Adventure.Rooms.Where(r => r.RoomID == PlayerLocation).FirstOrDefault().Exits;
         }
 
         public static void StartAdventure()

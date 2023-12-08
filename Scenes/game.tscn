@@ -30,14 +30,116 @@ bbcode_enabled = true
 text = "[center][b][font_size=20]BIG ADVENTURE TITLE
 [/font_size][/b] This is the description of an adventure. [/center]"
 
+[node name="BeginButton" type="Button" parent="Main/MainLeft"]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Enter Adventure"
+
 [node name="MainButtonControls" type="BoxContainer" parent="Main/MainLeft"]
-custom_minimum_size = Vector2(0, 80)
+clip_contents = true
+custom_minimum_size = Vector2(570, 80)
 layout_mode = 2
 alignment = 1
 
-[node name="Begin Adventure" type="Button" parent="Main/MainLeft/MainButtonControls"]
+[node name="CompassContainer" type="HBoxContainer" parent="Main/MainLeft/MainButtonControls"]
 layout_mode = 2
-text = "Start Game"
+
+[node name="West" type="Button" parent="Main/MainLeft/MainButtonControls/CompassContainer"]
+layout_mode = 2
+disabled = true
+text = "West
+"
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Main/MainLeft/MainButtonControls/CompassContainer"]
+layout_mode = 2
+
+[node name="Begin Adventure4" type="Button" parent="Main/MainLeft/MainButtonControls/CompassContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+size_flags_vertical = 3
+disabled = true
+text = "North"
+
+[node name="Begin Adventure2" type="Button" parent="Main/MainLeft/MainButtonControls/CompassContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+size_flags_vertical = 3
+disabled = true
+text = "South
+"
+
+[node name="East" type="Button" parent="Main/MainLeft/MainButtonControls/CompassContainer"]
+layout_mode = 2
+disabled = true
+text = "East
+"
+
+[node name="CompassContainer2" type="HBoxContainer" parent="Main/MainLeft/MainButtonControls"]
+layout_mode = 2
+
+[node name="West" type="Button" parent="Main/MainLeft/MainButtonControls/CompassContainer2"]
+layout_mode = 2
+disabled = true
+text = "West
+"
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Main/MainLeft/MainButtonControls/CompassContainer2"]
+layout_mode = 2
+
+[node name="Begin Adventure4" type="Button" parent="Main/MainLeft/MainButtonControls/CompassContainer2/VBoxContainer"]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+size_flags_vertical = 3
+disabled = true
+text = "North"
+
+[node name="Begin Adventure2" type="Button" parent="Main/MainLeft/MainButtonControls/CompassContainer2/VBoxContainer"]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+size_flags_vertical = 3
+disabled = true
+text = "South
+"
+
+[node name="East" type="Button" parent="Main/MainLeft/MainButtonControls/CompassContainer2"]
+layout_mode = 2
+disabled = true
+text = "East
+"
+
+[node name="CompassContainer3" type="HBoxContainer" parent="Main/MainLeft/MainButtonControls"]
+layout_mode = 2
+
+[node name="West" type="Button" parent="Main/MainLeft/MainButtonControls/CompassContainer3"]
+layout_mode = 2
+disabled = true
+text = "West
+"
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Main/MainLeft/MainButtonControls/CompassContainer3"]
+layout_mode = 2
+
+[node name="Begin Adventure4" type="Button" parent="Main/MainLeft/MainButtonControls/CompassContainer3/VBoxContainer"]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+size_flags_vertical = 3
+disabled = true
+text = "North"
+
+[node name="Begin Adventure2" type="Button" parent="Main/MainLeft/MainButtonControls/CompassContainer3/VBoxContainer"]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+size_flags_vertical = 3
+disabled = true
+text = "South
+"
+
+[node name="East" type="Button" parent="Main/MainLeft/MainButtonControls/CompassContainer3"]
+layout_mode = 2
+disabled = true
+text = "East
+"
 
 [node name="MainImage" type="BoxContainer" parent="Main/MainLeft"]
 layout_mode = 2
@@ -235,155 +337,6 @@ layout_mode = 2
 size_flags_vertical = 0
 texture = ExtResource("3_q147m")
 
-[node name="MapRoomsOverlay" type="VBoxContainer" parent="Main/TabContainer"]
-visible = false
-layout_mode = 2
-theme_override_constants/separation = 0
-
-[node name="MapRow1" type="HBoxContainer" parent="Main/TabContainer/MapRoomsOverlay"]
-layout_mode = 2
-theme_override_constants/separation = 0
-alignment = 1
-
-[node name="TextureRect1" type="TextureRect" parent="Main/TabContainer/MapRoomsOverlay/MapRow1"]
-layout_mode = 2
-size_flags_vertical = 0
-
-[node name="TextureRect2" type="TextureRect" parent="Main/TabContainer/MapRoomsOverlay/MapRow1"]
-layout_mode = 2
-
-[node name="TextureRect3" type="TextureRect" parent="Main/TabContainer/MapRoomsOverlay/MapRow1"]
-layout_mode = 2
-size_flags_vertical = 0
-
-[node name="TextureRect4" type="TextureRect" parent="Main/TabContainer/MapRoomsOverlay/MapRow1"]
-layout_mode = 2
-size_flags_vertical = 0
-
-[node name="TextureRect5" type="TextureRect" parent="Main/TabContainer/MapRoomsOverlay/MapRow1"]
-layout_mode = 2
-size_flags_vertical = 0
-
-[node name="MapRow2" type="HBoxContainer" parent="Main/TabContainer/MapRoomsOverlay"]
-layout_mode = 2
-theme_override_constants/separation = 0
-alignment = 1
-
-[node name="TextureRect1" type="TextureRect" parent="Main/TabContainer/MapRoomsOverlay/MapRow2"]
-layout_mode = 2
-size_flags_vertical = 0
-
-[node name="TextureRect2" type="TextureRect" parent="Main/TabContainer/MapRoomsOverlay/MapRow2"]
-layout_mode = 2
-
-[node name="TextureRect3" type="TextureRect" parent="Main/TabContainer/MapRoomsOverlay/MapRow2"]
-layout_mode = 2
-size_flags_vertical = 0
-
-[node name="TextureRect4" type="TextureRect" parent="Main/TabContainer/MapRoomsOverlay/MapRow2"]
-layout_mode = 2
-size_flags_vertical = 0
-
-[node name="TextureRect5" type="TextureRect" parent="Main/TabContainer/MapRoomsOverlay/MapRow2"]
-layout_mode = 2
-size_flags_vertical = 0
-
-[node name="MapRow3" type="HBoxContainer" parent="Main/TabContainer/MapRoomsOverlay"]
-layout_mode = 2
-theme_override_constants/separation = 0
-alignment = 1
-
-[node name="TextureRect1" type="TextureRect" parent="Main/TabContainer/MapRoomsOverlay/MapRow3"]
-layout_mode = 2
-size_flags_vertical = 0
-
-[node name="TextureRect2" type="TextureRect" parent="Main/TabContainer/MapRoomsOverlay/MapRow3"]
-layout_mode = 2
-
-[node name="TextureRect3" type="TextureRect" parent="Main/TabContainer/MapRoomsOverlay/MapRow3"]
-layout_mode = 2
-size_flags_vertical = 0
-
-[node name="TextureRect4" type="TextureRect" parent="Main/TabContainer/MapRoomsOverlay/MapRow3"]
-layout_mode = 2
-size_flags_vertical = 0
-
-[node name="TextureRect5" type="TextureRect" parent="Main/TabContainer/MapRoomsOverlay/MapRow3"]
-layout_mode = 2
-size_flags_vertical = 0
-
-[node name="MapRow4" type="HBoxContainer" parent="Main/TabContainer/MapRoomsOverlay"]
-layout_mode = 2
-theme_override_constants/separation = 0
-alignment = 1
-
-[node name="TextureRect1" type="TextureRect" parent="Main/TabContainer/MapRoomsOverlay/MapRow4"]
-layout_mode = 2
-size_flags_vertical = 0
-
-[node name="TextureRect2" type="TextureRect" parent="Main/TabContainer/MapRoomsOverlay/MapRow4"]
-layout_mode = 2
-
-[node name="TextureRect3" type="TextureRect" parent="Main/TabContainer/MapRoomsOverlay/MapRow4"]
-layout_mode = 2
-size_flags_vertical = 0
-
-[node name="TextureRect4" type="TextureRect" parent="Main/TabContainer/MapRoomsOverlay/MapRow4"]
-layout_mode = 2
-size_flags_vertical = 0
-
-[node name="TextureRect5" type="TextureRect" parent="Main/TabContainer/MapRoomsOverlay/MapRow4"]
-layout_mode = 2
-size_flags_vertical = 0
-
-[node name="MapRow5" type="HBoxContainer" parent="Main/TabContainer/MapRoomsOverlay"]
-layout_mode = 2
-theme_override_constants/separation = 0
-alignment = 1
-
-[node name="TextureRect1" type="TextureRect" parent="Main/TabContainer/MapRoomsOverlay/MapRow5"]
-layout_mode = 2
-size_flags_vertical = 0
-
-[node name="TextureRect2" type="TextureRect" parent="Main/TabContainer/MapRoomsOverlay/MapRow5"]
-layout_mode = 2
-
-[node name="TextureRect3" type="TextureRect" parent="Main/TabContainer/MapRoomsOverlay/MapRow5"]
-layout_mode = 2
-size_flags_vertical = 0
-
-[node name="TextureRect4" type="TextureRect" parent="Main/TabContainer/MapRoomsOverlay/MapRow5"]
-layout_mode = 2
-size_flags_vertical = 0
-
-[node name="TextureRect5" type="TextureRect" parent="Main/TabContainer/MapRoomsOverlay/MapRow5"]
-layout_mode = 2
-size_flags_vertical = 0
-
-[node name="MapRow6" type="HBoxContainer" parent="Main/TabContainer/MapRoomsOverlay"]
-layout_mode = 2
-theme_override_constants/separation = 0
-alignment = 1
-
-[node name="TextureRect1" type="TextureRect" parent="Main/TabContainer/MapRoomsOverlay/MapRow6"]
-layout_mode = 2
-size_flags_vertical = 0
-
-[node name="TextureRect2" type="TextureRect" parent="Main/TabContainer/MapRoomsOverlay/MapRow6"]
-layout_mode = 2
-
-[node name="TextureRect3" type="TextureRect" parent="Main/TabContainer/MapRoomsOverlay/MapRow6"]
-layout_mode = 2
-size_flags_vertical = 0
-
-[node name="TextureRect4" type="TextureRect" parent="Main/TabContainer/MapRoomsOverlay/MapRow6"]
-layout_mode = 2
-size_flags_vertical = 0
-
-[node name="TextureRect5" type="TextureRect" parent="Main/TabContainer/MapRoomsOverlay/MapRow6"]
-layout_mode = 2
-size_flags_vertical = 0
-
 [node name="Character Sheet" type="BoxContainer" parent="Main/TabContainer"]
 visible = false
 layout_mode = 2
@@ -404,4 +357,16 @@ layout_mode = 2
 
 [node name="SoundPlayer" type="AudioStreamPlayer" parent="."]
 
-[connection signal="pressed" from="Main/MainLeft/MainButtonControls/Begin Adventure" to="." method="_on_begin_adventure_pressed"]
+[connection signal="pressed" from="Main/MainLeft/BeginButton" to="." method="_on_begin_adventure_pressed"]
+[connection signal="pressed" from="Main/MainLeft/MainButtonControls/CompassContainer/West" to="." method="_on_begin_adventure_pressed"]
+[connection signal="pressed" from="Main/MainLeft/MainButtonControls/CompassContainer/VBoxContainer/Begin Adventure4" to="." method="_on_begin_adventure_pressed"]
+[connection signal="pressed" from="Main/MainLeft/MainButtonControls/CompassContainer/VBoxContainer/Begin Adventure2" to="." method="_on_begin_adventure_pressed"]
+[connection signal="pressed" from="Main/MainLeft/MainButtonControls/CompassContainer/East" to="." method="_on_begin_adventure_pressed"]
+[connection signal="pressed" from="Main/MainLeft/MainButtonControls/CompassContainer2/West" to="." method="_on_begin_adventure_pressed"]
+[connection signal="pressed" from="Main/MainLeft/MainButtonControls/CompassContainer2/VBoxContainer/Begin Adventure4" to="." method="_on_begin_adventure_pressed"]
+[connection signal="pressed" from="Main/MainLeft/MainButtonControls/CompassContainer2/VBoxContainer/Begin Adventure2" to="." method="_on_begin_adventure_pressed"]
+[connection signal="pressed" from="Main/MainLeft/MainButtonControls/CompassContainer2/East" to="." method="_on_begin_adventure_pressed"]
+[connection signal="pressed" from="Main/MainLeft/MainButtonControls/CompassContainer3/West" to="." method="_on_begin_adventure_pressed"]
+[connection signal="pressed" from="Main/MainLeft/MainButtonControls/CompassContainer3/VBoxContainer/Begin Adventure4" to="." method="_on_begin_adventure_pressed"]
+[connection signal="pressed" from="Main/MainLeft/MainButtonControls/CompassContainer3/VBoxContainer/Begin Adventure2" to="." method="_on_begin_adventure_pressed"]
+[connection signal="pressed" from="Main/MainLeft/MainButtonControls/CompassContainer3/East" to="." method="_on_begin_adventure_pressed"]
