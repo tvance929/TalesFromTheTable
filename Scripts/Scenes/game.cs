@@ -19,6 +19,9 @@ public partial class game : Control
 
 	private AudioStreamPlayer soundPlayer;
 
+	private List<GameButton> gameButtons;
+
+
 	public override void _Ready()
 	{
 		soundPlayer = GetNode<AudioStreamPlayer>("SoundPlayer");
@@ -29,10 +32,12 @@ public partial class game : Control
 		GameService.AdventureLoaded += _OnAdventureLoaded;
 
 		SetTabContainerDefaults();
+
+		SetGameButtonsList();
 	}
 
-	// Called every frame. 'delta' is the elapsed time since the previous frame.
-	public override void _Process(double delta)
+    // Called every frame. 'delta' is the elapsed time since the previous frame.
+    public override void _Process(double delta)
 	{
 	}
 
@@ -85,8 +90,33 @@ public partial class game : Control
 		tabContainer.SetTabIcon(3, (Texture2D)GD.Load("res://Assets/Icons/gears.png"));
 		tabContainer.SetTabTitle(3, "");
 	}
+	private void SetGameButtonsList()
+	{
+        gameButtons = new List<GameButton>
+        {
+            new GameButton { Button = GetNode<Button>("Main/MainLeft/MainButtonControls/CompassContainer/West"), Action = ActionsEnum.West },
+            new GameButton { Button = GetNode<Button>("Main/MainLeft/MainButtonControls/CompassContainer/East"), Action = ActionsEnum.East },
+            new GameButton { Button = GetNode<Button>("Main/MainLeft/MainButtonControls/CompassContainer/VBox/North"), Action = ActionsEnum.North },
+            new GameButton { Button = GetNode<Button>("Main/MainLeft/MainButtonControls/CompassContainer/VBox/South"), Action = ActionsEnum.South }
+        };
 
-	private void _on_begin_adventure_pressed()
+        foreach (var button in gameButtons)
+        {
+            button.Button.Modulate = new Color(1, 1, 1, 0.5f);
+            button.Button.Disabled = true;
+        }
+        //gameButtons.Add(new GameButton { Button = GetNode<Button>("Main/TabContainer/Map/MapRow1/TextureRect5/Button"), Action = ActionsEnum.PickLock });
+        //gameButtons.Add(new GameButton { Button = GetNode<Button>("Main/TabContainer/Map/MapRow2/TextureRect1/Button"), Action = ActionsEnum.West });
+        //gameButtons.Add(new GameButton { Button = GetNode<Button>("Main/TabContainer/Map/MapRow2/TextureRect2/Button"), Action = ActionsEnum.East });
+        //gameButtons.Add(new GameButton { Button = GetNode<Button>("Main/TabContainer/Map/MapRow2/TextureRect3/Button"), Action = ActionsEnum.North });
+        //gameButtons.Add(new GameButton { Button = GetNode<Button>("Main/TabContainer/Map/MapRow2/TextureRect4/Button"), Action = ActionsEnum.South });
+        //gameButtons.Add(new GameButton { Button = GetNode<Button>("Main/TabContainer/Map/MapRow2/TextureRect5/Button"), Action = ActionsEnum.PickLock });
+        //gameButtons.Add(new GameButton { Button = GetNode<Button>("Main/TabContainer/Map/MapRow3/TextureRect1/Button"), Action = ActionsEnum.West });
+        //gameButtons.Add(new GameButton { Button = GetNode<Button>("Main/TabContainer/Map/MapRow3/TextureRect2/Button"), Action = ActionsEnum.East });
+        //gameButtons.Add(new GameButton { Button = GetNode<Button>("Main/TabContainer/Map/MapRow3/TextureRect3/Button"), Action = ActionsEnum.N})
+    }
+
+    private void _on_begin_adventure_pressed()
 	{
         GetNode<Button>("Main/MainLeft/BeginButton").Visible = false;
         GameService.StartAdventure();
@@ -96,7 +126,7 @@ public partial class game : Control
 
 	/// <summary>
 	/// In here we grab the Map Array for the level the player is on
-	/// Then loop through the 30 map texturerects and grab each control while assigning the room id 
+	/// Then loop through the 30 map texture rects and grab each control while assigning the room id 
 	/// if it exists to that control
 	/// </summary>
 	private void SetMapImageControlsList()
@@ -146,14 +176,19 @@ public partial class game : Control
 				//tween.TweenProperty(mapControl.textureRect, "modulate", new Color(1, 1, 1, 0), 1);
 			}
 		}
-
-		//Enable all buttons that can be used in this room ( exits, unlocks, search, combat, etc)
-		foreach(var exit in GameService.CurrentRoomExits())
+		
+		//Enable all buttons that can be used in this room ( exits, unlocks, search, combat, etc) and change the modulations
+		foreach (var button in gameButtons)
 		{
-            //var button = GetNode<Button>($"Main/TabContainer/Map/MapRow{exit.direction.GetRow()}/TextureRect{exit.direction.GetColumn()}/Button");
-        //    button.Visible = true;
-        //    button.Disabled = false;
+            button.Button.Modulate = new Color(1, 1, 1, 0.5f);
+            button.Button.Disabled = true;
         }
+		foreach (var exit in GameService.CurrentRoomExits())
+		{
+            var button = gameButtons.Where(b => b.Action == exit.directionAction).FirstOrDefault();
+            button.Button.Modulate = new Color(1, 1, 1, 1);
+            button.Button.Disabled = false;
+        }		
 	}
 
 	private void PlaySound(SoundsEnum sound)
@@ -184,3 +219,11 @@ public class MapControlWithRoomID
 		this.roomID = roomID;
 	}
 }
+
+public class GameButton
+{
+	public Button Button { get; set; }
+	public ActionsEnum Action { get; set; }
+}
+
+
