@@ -11,7 +11,7 @@ public partial class menu : Control
 		//var image = GetNode<TextureRect>("tweener");
   //      var tween = CreateTween();
   //      tween.TweenProperty(image, "modulate", new Color(1, 1, 1, 0), 2);
-    }
+	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta)

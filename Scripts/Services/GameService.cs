@@ -6,6 +6,7 @@ using Godot;
 using Newtonsoft.Json;
 using TalesFromTheTable.Models;
 using TalesFromTheTable.Models.Entities;
+using TalesFromTheTable.Scripts.Utilities.Enums;
 
 namespace TalesFromTheTable.SystemServices
 {
@@ -63,6 +64,16 @@ namespace TalesFromTheTable.SystemServices
         public static List<Exit> CurrentRoomExits()
         {
             return Adventure.Rooms.Where(r => r.RoomID == PlayerLocation).FirstOrDefault().Exits;
+        }
+
+        public static void MovePlayer(ActionsEnum action)
+        {
+            var currentRoom = Adventure.Rooms.Where(r => r.RoomID == PlayerLocation).FirstOrDefault();
+            var exit = currentRoom.Exits.Where(e => e.directionAction == action).FirstOrDefault();
+            if (exit != null)
+            {
+                PlayerLocation = exit.roomID;
+            }
         }
 
         public static void StartAdventure()

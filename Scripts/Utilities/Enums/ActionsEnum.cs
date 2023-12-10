@@ -2,10 +2,10 @@
 {
     public enum ActionsEnum
     {
-        West,
-        East,
-        North,
-        South,
+        WEST,
+        EAST,
+        NORTH,
+        SOUTH,
         PickLock,
         Combat,
         Speak

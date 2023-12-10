@@ -2,9 +2,9 @@
 {
     public enum CompassDirectionEnum
     {
-        North,
-        South,
-        East,
-        West // Maybe eventually add NW, NE, SW, SE
+        NORTH,
+        SOUTH,
+        EAST,
+        WEST // Maybe eventually add NW, NE, SW, SE
     }
 }
