@@ -149,7 +149,14 @@ public partial class game : Control
 			if (mapControl != null)
 			{
 				PlaySound(SoundsEnum.Scribble);
-				var texture = (Texture2D)GD.Load($"res://Adventures/{GameService.AdventureName}/Assets/Images/map/{roomID}.jpg");
+
+				var texture = (Texture2D)GD.Load($"res://Adventures/{GameService.AdventureName}/Assets/Images/map/{roomID}x.jpg");
+
+				if (roomID != GameService.PlayerLocation)
+				{
+					texture = (Texture2D)GD.Load($"res://Adventures/{GameService.AdventureName}/Assets/Images/map/{roomID}.jpg");
+				}
+
 				mapControl.textureRect.Texture = texture;
 				//Here I want to position the blank fake map image over the room image and then fade out the fake map image to give the illusion of drawing the map
 				// this works below by the way - however it is fading out the actual image of the room...need a fake one over the top and the position
@@ -200,8 +207,8 @@ public partial class game : Control
 		beginButton.Visible = true;
 
 		var tween = CreateTween();
-		tween.TweenProperty(mainText, "modulate", new Color(1, 1, 1, 1), 3); //fade in  
-		tween.TweenProperty(beginButton, "modulate", new Color(1, 1, 1, 1), 3); //fade in
+		tween.TweenProperty(mainText, "modulate", new Color(1, 1, 1, 1), 2); //fade in  
+		tween.TweenProperty(beginButton, "modulate", new Color(1, 1, 1, 1), 2); //fade in
 
 		mainImage.Modulate = new Color(1, 1, 1, 0); //Making main image invisible so we can fade it in 
 
