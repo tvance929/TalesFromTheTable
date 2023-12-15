@@ -15,7 +15,7 @@ public partial class game : Control
 	private TextureRect mainImage;
 	private TabContainer tabContainer;
 
-	private List<string> roomsVisited = new();
+	private List<VisitedRoom> roomsVisited = new();
 	private List<MapControlWithRoomID> mapImageControlsWithIDs = new();
 
 	private AudioStreamPlayer soundPlayer;
@@ -139,22 +139,33 @@ public partial class game : Control
 
 		ShowImageIfExists();
 
-		roomsVisited.Add(GameService.PlayerLocation);
+		if (!roomsVisited.Exists(r => r.RoomID == GameService.PlayerLocation))
+		{
+            roomsVisited.Add(new VisitedRoom { RoomID = GameService.PlayerLocation, DrawnOnMap = false });
+        }
+		else
+		{
+            roomsVisited.Where(r => r.RoomID == GameService.PlayerLocation).FirstOrDefault().DrawnOnMap = true;
+        }
 
 		//So now we have a list of all the map controls with their room ids and a list of visited room IDs.
 		//We need to iterate through the visited room ids and set the texturerect to the room image
-		foreach (var roomID in roomsVisited)
+		foreach (var visitedRoom in roomsVisited)
 		{
-			var mapControl = mapImageControlsWithIDs.Where(m => m.roomID == roomID).FirstOrDefault();
+			var mapControl = mapImageControlsWithIDs.Where(m => m.roomID == visitedRoom.RoomID).FirstOrDefault();
 			if (mapControl != null)
 			{
-				PlaySound(SoundsEnum.Scribble);
-
-				var texture = (Texture2D)GD.Load($"res://Adventures/{GameService.AdventureName}/Assets/Images/map/{roomID}x.jpg");
-
-				if (roomID != GameService.PlayerLocation)
+				if (visitedRoom.RoomID == GameService.PlayerLocation && visitedRoom.DrawnOnMap == false)
 				{
-					texture = (Texture2D)GD.Load($"res://Adventures/{GameService.AdventureName}/Assets/Images/map/{roomID}.jpg");
+					//We only play the drawing sound if the player is in the room and it hasn't been drawn on the map yet
+					PlaySound(SoundsEnum.Scribble);
+				}
+
+				var texture = (Texture2D)GD.Load($"res://Adventures/{GameService.AdventureName}/Assets/Images/map/{visitedRoom.RoomID}x.jpg");
+
+				if (visitedRoom.RoomID != GameService.PlayerLocation)
+				{
+					texture = (Texture2D)GD.Load($"res://Adventures/{GameService.AdventureName}/Assets/Images/map/{visitedRoom.RoomID}.jpg");
 				}
 
 				mapControl.textureRect.Texture = texture;
@@ -250,4 +261,10 @@ public class GameButton
 {
 	public Button Button { get; set; }
 	public ActionsEnum Action { get; set; }
+}
+
+public class VisitedRoom
+{
+    public string RoomID { get; set; }
+    public bool DrawnOnMap { get; set; }
 }
