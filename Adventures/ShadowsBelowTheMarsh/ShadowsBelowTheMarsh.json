@@ -12,7 +12,7 @@
     {
       "roomId": "1-1",
       "title": "Start",
-      "description": "You drop down from above, almost twisting your ankle on the stone floor below.  You look around and are startled to discover lit torches...  This room is 10' x 10' covered in dust and ancient looking.  In the corner you see a withered skeleton holding a rusty shortsword.",
+      "description": "You drop down from above, almost twisting your ankle on the stone floor below.  You look around and are startled to discover lit torches...  This room is 10' x 10' covered in dust and ancient looking.  In the corner you see a withered skeleton holding a rusty shortsword and a chest in the corner.",
       "roomImage": "1-1",
       "exits": [
         {
@@ -26,10 +26,16 @@
       ],
       "items": [
         {
-          "name": "rope",
-          "description": "A rusty sword.",
-          "weight": 1,
-          "goldvalue": 5
+          "type": "weapon",
+          "name": "Shortsword",
+          "description": "A rusty worn shortsword.",
+          "condition": "worn"
+        },
+        {
+          "type": "moneypile",
+          "name": "2 silver pieces",
+          "description": "2 silver pieces",
+          "value": 0.2
         }
       ]
     },

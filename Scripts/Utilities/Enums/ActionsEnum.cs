@@ -8,6 +8,8 @@
         SOUTH,
         PickLock,
         Combat,
+        Search,
+        Loot,
         Speak
     }
 }

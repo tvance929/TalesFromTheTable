@@ -2,6 +2,7 @@
 using System.Security.Cryptography.X509Certificates;
 using TalesFromTheTable.Models.Entities;
 using TalesFromTheTable.Models.Items;
+using TalesFromTheTable.Scripts.Models;
 
 namespace TalesFromTheTable.Models
 {
@@ -24,7 +25,9 @@ namespace TalesFromTheTable.Models
         public List<Entity> Monsters { get; set; }
         public List<Trap> Traps { get; set; }
         public List<Door> Doors { get; set; }
-        public List<Vessel> Vessels { get; set; }
+
+        //public List<Vessel> Vessels { get; set; }
+        public Chest Chest { get; set; }
         public List<Exit> Exits { get; set; }
     }
 

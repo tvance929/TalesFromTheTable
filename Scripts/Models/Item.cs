@@ -11,7 +11,7 @@ namespace TalesFromTheTable.Models.Items
         public int Weight; // in lbs
         public double GoldValue;
         public Condition condition = Condition.New;
-        public string MetaData; // each type of item will have a different set of data that needs to be stored
+        public string MetaData; // certain types of items will have a different set of data that needs to be stored
         public string MagicAttributesData; // will need to figure out a system to read each item based on its type to figure out what it does
     }
 
@@ -21,6 +21,8 @@ namespace TalesFromTheTable.Models.Items
         Armor,
         Weapon,
         Shield,
+        Secret,
+        MoneyPile,
         Torch,
         HolySymbol,
         Water,
