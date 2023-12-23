@@ -36,7 +36,6 @@ public partial class game : Control
 		SetGameButtonsList();
 	}
 
-	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta)
 	{
 	}
@@ -59,7 +58,8 @@ public partial class game : Control
 	{
 		var arrayCount = 0;
 		mapImageControlsWithIDs = new List<MapControlWithRoomID>();
-		var mapArray = GameService.Adventure.MapArrays.Level1.Split(',').Select(s => s.Trim()).ToList();
+
+		var mapArray = GameService.ReturnCurrentMapArray();
 
 		for (var i = 1; i < 7; i++)
 		{
@@ -79,19 +79,18 @@ public partial class game : Control
 
 	private void DisplayRoom()
 	{
-		var text = GameService.GetRoomMessage();
-		mainText.Text = text;
+		mainText.Text = MainBBText(GameService.GetRoomMessage());
 
-		ShowImageIfExists();
+        ShowImageIfExists();
 
 		if (!roomsVisited.Exists(r => r.RoomID == GameService.PlayerLocation))
 		{
-            roomsVisited.Add(new VisitedRoom { RoomID = GameService.PlayerLocation, DrawnOnMap = false });
-        }
+			roomsVisited.Add(new VisitedRoom { RoomID = GameService.PlayerLocation, DrawnOnMap = false });
+		}
 		else
 		{
-            roomsVisited.Where(r => r.RoomID == GameService.PlayerLocation).FirstOrDefault().DrawnOnMap = true;
-        }
+			roomsVisited.Where(r => r.RoomID == GameService.PlayerLocation).FirstOrDefault().DrawnOnMap = true;
+		}
 
 		//So now we have a list of all the map controls with their room ids and a list of visited room IDs.
 		//We need to iterate through the visited room ids and set the texturerect to the room image
@@ -120,7 +119,30 @@ public partial class game : Control
 				//tween.TweenProperty(mapControl.textureRect, "modulate", new Color(1, 1, 1, 0), 1);
 			}
 		}
-		
+
+		EnableValidButtons();
+	}
+
+    #region Button Events
+    private void _OnAdventureLoaded()
+	{		
+		mainText.Modulate = new Color(1, 1, 1, 0); //Making main text invisible so we can fade it in
+		mainText.Text = MainBBText(GameService.Adventure.Description, true);
+		var beginButton = GetNode<Button>("Main/MainLeft/BeginButton");
+		beginButton.Modulate = new Color(1, 1, 1, 0); //Making start button invisible so we can fade it in
+		beginButton.Visible = true;
+
+		var tween = CreateTween();
+		tween.TweenProperty(mainText, "modulate", new Color(1, 1, 1, 1), 2); //fade in  
+		tween.TweenProperty(beginButton, "modulate", new Color(1, 1, 1, 1), 2); //fade in
+
+		mainImage.Modulate = new Color(1, 1, 1, 0); //Making main image invisible so we can fade it in 
+
+		ShowImageIfExists();
+	}
+
+	private void EnableValidButtons()
+	{
 		//Enable all buttons that can be used in this room ( exits, unlocks, search, combat, etc) and change the modulations
 		foreach (var button in gameButtons)
 		{
@@ -133,34 +155,15 @@ public partial class game : Control
 			button.Button.Modulate = new Color(1, 1, 1, 1);
 			button.Button.Disabled = false;
 		}
-		
+
+		//Loot button
 		if (GameService.Adventure.Rooms.Where(r => r.RoomID == GameService.PlayerLocation).FirstOrDefault().Items.Count > 0)
 		{
-            var button = gameButtons.Where(b => b.Action == ActionsEnum.Loot).FirstOrDefault();
-            button.Button.Modulate = new Color(1, 1, 1, 1);
-            button.Button.Disabled = false;
-        }
+			var button = gameButtons.Where(b => b.Action == ActionsEnum.LOOT).FirstOrDefault();
+			button.Button.Modulate = new Color(1, 1, 1, 1);
+			button.Button.Disabled = false;
+		}
 	}
-
-	#region Button Events
-	private void _OnAdventureLoaded()
-	{
-		var bbString = $"[center][b]{TITLE_FONT_SIZE}{TITLE_FONT_COLOR}{GameService.Adventure.Title}[/color][/font_size][/b]\n" +
-			$"{GameService.Adventure.Description}[/center]";
-		mainText.Modulate = new Color(1, 1, 1, 0); //Making main text invisible so we can fade it in
-		mainText.Text = bbString;
-		var beginButton = GetNode<Button>("Main/MainLeft/BeginButton");
-		beginButton.Modulate = new Color(1, 1, 1, 0); //Making start button invisible so we can fade it in
-		beginButton.Visible = true;
-
-		var tween = CreateTween();
-		tween.TweenProperty(mainText, "modulate", new Color(1, 1, 1, 1), 2); //fade in  
-		tween.TweenProperty(beginButton, "modulate", new Color(1, 1, 1, 1), 2); //fade in
-
-		mainImage.Modulate = new Color(1, 1, 1, 0); //Making main image invisible so we can fade it in 
-
-        ShowImageIfExists();
-    }
 
 	private void OnDirectionButtonPressed(string compassDirection)
 	{
@@ -178,80 +181,130 @@ public partial class game : Control
 		}
 
 	}
-    #endregion
 
-    #region Utility Methods
-    private void PlaySound(SoundsEnum sound)
-    {
-        if (soundPlayer == null)
+	private void OnActionButtonPressed(string action)
+	{
+		var actionUpper = action.ToUpper();
+
+		if (Enum.TryParse<ActionsEnum>(actionUpper, out ActionsEnum actionPerformed))
+		{
+			switch (actionPerformed)
+			{
+                case ActionsEnum.LOOT:
+					mainText.Text += MainBBText(GameService.LootRoom());
+					GameService.LootRoom();
+                    break;
+                case ActionsEnum.NORTH:
+                    //GD.Print("north");
+                    break;
+                case ActionsEnum.SOUTH:
+                    //GD.Print("south");
+                    break;
+                case ActionsEnum.EAST:
+                    //GD.Print("east");
+                    break;
+                case ActionsEnum.WEST:
+                    //GD.Print("west");
+                    break;
+                default:
+                    break;
+            }
+		}
+        else
         {
-            soundPlayer = GetNode<AudioStreamPlayer>("SoundPlayer");
+            throw new Exception($"Invalid Action Sent: {action}");  //do something with this later
         }
-
-        if (sound == SoundsEnum.Scribble)
-        {
-            soundPlayer.Stream = (AudioStream)GD.Load("res://Assets/Sounds/Effects/pencilscribble.mp3");
-        }
-
-        soundPlayer.VolumeDb = -5;
-        soundPlayer.Play();
     }
+
+
+	#endregion
+
+	#region Utility Methods
+	private void PlaySound(SoundsEnum sound)
+	{
+		if (soundPlayer == null)
+		{
+			soundPlayer = GetNode<AudioStreamPlayer>("SoundPlayer");
+		}
+
+		if (sound == SoundsEnum.Scribble)
+		{
+			soundPlayer.Stream = (AudioStream)GD.Load("res://Assets/Sounds/Effects/pencilscribble.mp3");
+		}
+
+		soundPlayer.VolumeDb = -5;
+		soundPlayer.Play();
+	}
 
 	private void ShowImageIfExists()
 	{
+		var tween = CreateTween();
+		tween.TweenProperty(mainImage, "modulate", new Color(1, 1, 1, 0), 1); //fade out
+		
 		var imageURL = GameService.CurrentRoomImageUrl();
-		if (File.Exists(imageURL) && Utilities.IsJpeg(imageURL)) //only aceept jpgs for now
+		if (File.Exists(imageURL) && Utilities.IsPng(imageURL)) //only aceept pngs for now (could also accept pngs and jpgs)
 		{
 			var texture = (Texture2D)GD.Load(imageURL);
-
-			var tween = CreateTween();
-			tween.TweenProperty(mainImage, "modulate", new Color(1, 1, 1, 0), 1); //fade out
 			tween.TweenCallback(Callable.From(() => mainImage.Texture = texture)); //this waits for tween to finish before changing image
 			tween.TweenProperty(mainImage, "modulate", new Color(1, 1, 1, 1), 2); //fade in          
 		}
 	}
 
-    private void SetTabContainerDefaults()
-    {
-        var mapIcon = (Texture2D)GD.Load("res://Assets/Icons/treasure-map.png");
-        tabContainer.SetTabIcon(0, (Texture2D)mapIcon);
-        tabContainer.SetTabTitle(0, "");
+	private void SetTabContainerDefaults()
+	{
+		var mapIcon = (Texture2D)GD.Load("res://Assets/Icons/treasure-map.png");
+		tabContainer.SetTabIcon(0, (Texture2D)mapIcon);
+		tabContainer.SetTabTitle(0, "");
 
-        tabContainer.SetTabIcon(1, (Texture2D)GD.Load("res://Assets/Icons/swordman.png"));
-        tabContainer.SetTabTitle(1, "");
+		tabContainer.SetTabIcon(1, (Texture2D)GD.Load("res://Assets/Icons/swordman.png"));
+		tabContainer.SetTabTitle(1, "");
 
-        tabContainer.SetTabIcon(2, (Texture2D)GD.Load("res://Assets/Icons/quill-ink.png"));
-        tabContainer.SetTabTitle(2, "");
+		tabContainer.SetTabIcon(2, (Texture2D)GD.Load("res://Assets/Icons/quill-ink.png"));
+		tabContainer.SetTabTitle(2, "");
 
-        tabContainer.SetTabIcon(3, (Texture2D)GD.Load("res://Assets/Icons/gears.png"));
-        tabContainer.SetTabTitle(3, "");
-    }
-    private void SetGameButtonsList()
-    {
-        gameButtons = new List<GameButton>
-        {
-            new GameButton { Button = GetNode<Button>("Main/MainLeft/MainButtonControls/CompassContainer/West"), Action = ActionsEnum.WEST },
-            new GameButton { Button = GetNode<Button>("Main/MainLeft/MainButtonControls/CompassContainer/East"), Action = ActionsEnum.EAST },
-            new GameButton { Button = GetNode<Button>("Main/MainLeft/MainButtonControls/CompassContainer/VBox/North"), Action = ActionsEnum.NORTH },
-            new GameButton { Button = GetNode<Button>("Main/MainLeft/MainButtonControls/CompassContainer/VBox/South"), Action = ActionsEnum.SOUTH }
-        };
+		tabContainer.SetTabIcon(3, (Texture2D)GD.Load("res://Assets/Icons/gears.png"));
+		tabContainer.SetTabTitle(3, "");
+	}
+	private void SetGameButtonsList()
+	{
+		gameButtons = new List<GameButton>
+		{
+			new GameButton { Button = GetNode<Button>("Main/MainLeft/MainButtonControls/CompassContainer/West"), Action = ActionsEnum.WEST },
+			new GameButton { Button = GetNode<Button>("Main/MainLeft/MainButtonControls/CompassContainer/East"), Action = ActionsEnum.EAST },
+			new GameButton { Button = GetNode<Button>("Main/MainLeft/MainButtonControls/CompassContainer/VBox/North"), Action = ActionsEnum.NORTH },
+			new GameButton { Button = GetNode<Button>("Main/MainLeft/MainButtonControls/CompassContainer/VBox/South"), Action = ActionsEnum.SOUTH },
+			new GameButton { Button = GetNode<Button>("Main/MainLeft/MainButtonControls/ActionsContainer/VBox/Loot"), Action = ActionsEnum.LOOT }
+		};
 
-        foreach (var button in gameButtons)
-        {
-            button.Button.Modulate = new Color(1, 1, 1, 0.5f);
-            button.Button.Disabled = true;
+		foreach (var button in gameButtons)
+		{
+			button.Button.Modulate = new Color(1, 1, 1, 0.5f);
+			button.Button.Disabled = true;
+		}
+		//gameButtons.Add(new GameButton { Button = GetNode<Button>("Main/TabContainer/Map/MapRow1/TextureRect5/Button"), Action = ActionsEnum.PickLock });
+		//gameButtons.Add(new GameButton { Button = GetNode<Button>("Main/TabContainer/Map/MapRow2/TextureRect1/Button"), Action = ActionsEnum.West });
+		//gameButtons.Add(new GameButton { Button = GetNode<Button>("Main/TabContainer/Map/MapRow2/TextureRect2/Button"), Action = ActionsEnum.East });
+		//gameButtons.Add(new GameButton { Button = GetNode<Button>("Main/TabContainer/Map/MapRow2/TextureRect3/Button"), Action = ActionsEnum.North });
+		//gameButtons.Add(new GameButton { Button = GetNode<Button>("Main/TabContainer/Map/MapRow2/TextureRect4/Button"), Action = ActionsEnum.South });
+		//gameButtons.Add(new GameButton { Button = GetNode<Button>("Main/TabContainer/Map/MapRow2/TextureRect5/Button"), Action = ActionsEnum.PickLock });
+		//gameButtons.Add(new GameButton { Button = GetNode<Button>("Main/TabContainer/Map/MapRow3/TextureRect1/Button"), Action = ActionsEnum.West });
+		//gameButtons.Add(new GameButton { Button = GetNode<Button>("Main/TabContainer/Map/MapRow3/TextureRect2/Button"), Action = ActionsEnum.East });
+		//gameButtons.Add(new GameButton { Button = GetNode<Button>("Main/TabContainer/Map/MapRow3/TextureRect3/Button"), Action = ActionsEnum.N})
+	}
+
+	private string MainBBText(string text, bool adventureStart = false)
+	{
+		if (!adventureStart)
+		{
+            return $"[center]{text}[/center]";
         }
-        //gameButtons.Add(new GameButton { Button = GetNode<Button>("Main/TabContainer/Map/MapRow1/TextureRect5/Button"), Action = ActionsEnum.PickLock });
-        //gameButtons.Add(new GameButton { Button = GetNode<Button>("Main/TabContainer/Map/MapRow2/TextureRect1/Button"), Action = ActionsEnum.West });
-        //gameButtons.Add(new GameButton { Button = GetNode<Button>("Main/TabContainer/Map/MapRow2/TextureRect2/Button"), Action = ActionsEnum.East });
-        //gameButtons.Add(new GameButton { Button = GetNode<Button>("Main/TabContainer/Map/MapRow2/TextureRect3/Button"), Action = ActionsEnum.North });
-        //gameButtons.Add(new GameButton { Button = GetNode<Button>("Main/TabContainer/Map/MapRow2/TextureRect4/Button"), Action = ActionsEnum.South });
-        //gameButtons.Add(new GameButton { Button = GetNode<Button>("Main/TabContainer/Map/MapRow2/TextureRect5/Button"), Action = ActionsEnum.PickLock });
-        //gameButtons.Add(new GameButton { Button = GetNode<Button>("Main/TabContainer/Map/MapRow3/TextureRect1/Button"), Action = ActionsEnum.West });
-        //gameButtons.Add(new GameButton { Button = GetNode<Button>("Main/TabContainer/Map/MapRow3/TextureRect2/Button"), Action = ActionsEnum.East });
-        //gameButtons.Add(new GameButton { Button = GetNode<Button>("Main/TabContainer/Map/MapRow3/TextureRect3/Button"), Action = ActionsEnum.N})
+		else
+		{
+			return $"[center][b]{TITLE_FONT_SIZE}{TITLE_FONT_COLOR}{GameService.Adventure.Title}[/color][/font_size][/b]\n" +
+			$"{text}[/center]";
+        }
     }
-    #endregion
+	#endregion
 }
 
 public class MapControlWithRoomID
@@ -274,6 +327,6 @@ public class GameButton
 
 public class VisitedRoom
 {
-    public string RoomID { get; set; }
-    public bool DrawnOnMap { get; set; }
+	public string RoomID { get; set; }
+	public bool DrawnOnMap { get; set; }
 }

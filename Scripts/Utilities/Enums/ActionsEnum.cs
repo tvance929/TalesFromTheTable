@@ -9,7 +9,11 @@
         PickLock,
         Combat,
         Search,
-        Loot,
-        Speak
+        LOOT,
+        Speak,
+        DisarmTrap,
+        UseItem,
+        UseMagic,
+        UseSkill
     }
 }
