@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://jkdkw7uv866k"]
+[gd_scene load_steps=11 format=3 uid="uid://jkdkw7uv866k"]
 
 [ext_resource type="Script" path="res://Scripts/Scenes/game.cs" id="1_3vkmr"]
 [ext_resource type="Texture2D" uid="uid://ddt2o2cbtjixc" path="res://Assets/Icons/arrowLeft.png" id="2_3lgr5"]
@@ -7,7 +7,8 @@
 [ext_resource type="Texture2D" uid="uid://djrbw8i416tby" path="res://Assets/Icons/arrowUp.png" id="3_ww2q2"]
 [ext_resource type="Texture2D" uid="uid://dy5vniu1exhbh" path="res://Assets/Icons/arrowDown.png" id="4_2mu17"]
 [ext_resource type="Texture2D" uid="uid://c7c6jrb5pwsty" path="res://Assets/Icons/arrowRight.png" id="5_4a2dc"]
-[ext_resource type="Texture2D" uid="uid://bwjah7u0vicjd" path="res://Assets/Icons/loot.png" id="6_w0iw7"]
+[ext_resource type="Texture2D" uid="uid://3xhnca5rygnb" path="res://Assets/Icons/chest.png" id="6_jj1cr"]
+[ext_resource type="Texture2D" uid="uid://dx1yy5anm4xlg" path="res://Assets/Icons/search.png" id="7_3ix3s"]
 [ext_resource type="Texture2D" uid="uid://dhn05h0vgpa41" path="res://Adventures/ShadowsBelowTheMarsh/Assets/images/rooms/1-1.png" id="7_onpqc"]
 
 [node name="game" type="Control"]
@@ -90,7 +91,7 @@ icon = ExtResource("5_4a2dc")
 [node name="ActionsContainer" type="HBoxContainer" parent="Main/MainLeft/MainButtonControls"]
 layout_mode = 2
 
-[node name="West" type="Button" parent="Main/MainLeft/MainButtonControls/ActionsContainer"]
+[node name="Chest" type="Button" parent="Main/MainLeft/MainButtonControls/ActionsContainer"]
 modulate = Color(1, 1, 1, 0.392157)
 custom_minimum_size = Vector2(25, 25)
 layout_mode = 2
@@ -98,16 +99,17 @@ size_flags_vertical = 4
 disabled = true
 text = "
 "
-icon = ExtResource("2_3lgr5")
+icon = ExtResource("6_jj1cr")
 
 [node name="VBox" type="VBoxContainer" parent="Main/MainLeft/MainButtonControls/ActionsContainer"]
 layout_mode = 2
 
-[node name="Loot" type="Button" parent="Main/MainLeft/MainButtonControls/ActionsContainer/VBox"]
+[node name="Search" type="Button" parent="Main/MainLeft/MainButtonControls/ActionsContainer/VBox"]
+modulate = Color(1, 1, 1, 0.392157)
 custom_minimum_size = Vector2(0, 25)
 layout_mode = 2
 disabled = true
-icon = ExtResource("6_w0iw7")
+icon = ExtResource("7_3ix3s")
 
 [node name="South" type="Button" parent="Main/MainLeft/MainButtonControls/ActionsContainer/VBox"]
 custom_minimum_size = Vector2(0, 25)
@@ -385,8 +387,8 @@ layout_mode = 2
 [connection signal="pressed" from="Main/MainLeft/MainButtonControls/CompassContainer/VBox/North" to="." method="OnDirectionButtonPressed" binds= ["north"]]
 [connection signal="pressed" from="Main/MainLeft/MainButtonControls/CompassContainer/VBox/South" to="." method="OnDirectionButtonPressed" binds= ["south"]]
 [connection signal="pressed" from="Main/MainLeft/MainButtonControls/CompassContainer/East" to="." method="OnDirectionButtonPressed" binds= ["east"]]
-[connection signal="pressed" from="Main/MainLeft/MainButtonControls/ActionsContainer/West" to="." method="OnDirectionButtonPressed"]
-[connection signal="pressed" from="Main/MainLeft/MainButtonControls/ActionsContainer/VBox/Loot" to="." method="OnActionButtonPressed" binds= ["LOOT"]]
+[connection signal="pressed" from="Main/MainLeft/MainButtonControls/ActionsContainer/Chest" to="." method="OnDirectionButtonPressed"]
+[connection signal="pressed" from="Main/MainLeft/MainButtonControls/ActionsContainer/VBox/Search" to="." method="OnActionButtonPressed" binds= ["LOOT"]]
 [connection signal="pressed" from="Main/MainLeft/MainButtonControls/ActionsContainer/VBox/South" to="." method="OnDirectionButtonPressed"]
 [connection signal="pressed" from="Main/MainLeft/MainButtonControls/ActionsContainer/East" to="." method="OnDirectionButtonPressed"]
 [connection signal="pressed" from="Main/MainLeft/MainButtonControls/CompassContainer3/West" to="." method="OnDirectionButtonPressed"]

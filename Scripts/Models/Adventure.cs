@@ -29,6 +29,8 @@ namespace TalesFromTheTable.Models
         //public List<Vessel> Vessels { get; set; }
         public Chest Chest { get; set; }
         public List<Exit> Exits { get; set; }
+
+        public bool Searched { get; set; } = false;
     }
 
     //Not using

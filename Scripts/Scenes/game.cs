@@ -156,13 +156,20 @@ public partial class game : Control
 			button.Button.Disabled = false;
 		}
 
-		//Loot button
-		if (GameService.Adventure.Rooms.Where(r => r.RoomID == GameService.PlayerLocation).FirstOrDefault().Items.Count > 0)
+		//Search button
+		if (GameService.CurrentRoomHasLootOrActiveTraps())
 		{
-			var button = gameButtons.Where(b => b.Action == ActionsEnum.LOOT).FirstOrDefault();
+			var button = gameButtons.Where(b => b.Action == ActionsEnum.SEARCH).FirstOrDefault();
 			button.Button.Modulate = new Color(1, 1, 1, 1);
 			button.Button.Disabled = false;
 		}
+
+		if(GameService.CurrentRoomHasLootableChest())
+		{
+            var button = gameButtons.Where(b => b.Action == ActionsEnum.CHEST).FirstOrDefault();
+            button.Button.Modulate = new Color(1, 1, 1, 1);
+            button.Button.Disabled = false;
+        }
 	}
 
 	private void OnDirectionButtonPressed(string compassDirection)
@@ -190,9 +197,9 @@ public partial class game : Control
 		{
 			switch (actionPerformed)
 			{
-                case ActionsEnum.LOOT:
-					mainText.Text += MainBBText(GameService.LootRoom());
-					GameService.LootRoom();
+                case ActionsEnum.CHEST:
+					mainText.Text += MainBBText(GameService.SearchRoom());
+					GameService.SearchRoom();
                     break;
                 case ActionsEnum.NORTH:
                     //GD.Print("north");
@@ -215,8 +222,6 @@ public partial class game : Control
             throw new Exception($"Invalid Action Sent: {action}");  //do something with this later
         }
     }
-
-
 	#endregion
 
 	#region Utility Methods
@@ -265,6 +270,7 @@ public partial class game : Control
 		tabContainer.SetTabIcon(3, (Texture2D)GD.Load("res://Assets/Icons/gears.png"));
 		tabContainer.SetTabTitle(3, "");
 	}
+	
 	private void SetGameButtonsList()
 	{
 		gameButtons = new List<GameButton>
@@ -273,8 +279,9 @@ public partial class game : Control
 			new GameButton { Button = GetNode<Button>("Main/MainLeft/MainButtonControls/CompassContainer/East"), Action = ActionsEnum.EAST },
 			new GameButton { Button = GetNode<Button>("Main/MainLeft/MainButtonControls/CompassContainer/VBox/North"), Action = ActionsEnum.NORTH },
 			new GameButton { Button = GetNode<Button>("Main/MainLeft/MainButtonControls/CompassContainer/VBox/South"), Action = ActionsEnum.SOUTH },
-			new GameButton { Button = GetNode<Button>("Main/MainLeft/MainButtonControls/ActionsContainer/VBox/Loot"), Action = ActionsEnum.LOOT }
-		};
+			new GameButton { Button = GetNode<Button>("Main/MainLeft/MainButtonControls/ActionsContainer/Chest"), Action = ActionsEnum.CHEST },
+            new GameButton { Button = GetNode<Button>("Main/MainLeft/MainButtonControls/ActionsContainer/VBox/Search"), Action = ActionsEnum.SEARCH }
+        };
 
 		foreach (var button in gameButtons)
 		{

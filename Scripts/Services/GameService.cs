@@ -81,6 +81,7 @@ namespace TalesFromTheTable.SystemServices
         {
             PlayerLocation = "1-1";
             PlayerLevelIndex = 0;  // 0 for level 1
+            currentRoom = Adventure.Rooms.Where(r => r.RoomID == PlayerLocation).FirstOrDefault();
         }
 
         public static List<string> ReturnCurrentMapArray()
@@ -88,7 +89,9 @@ namespace TalesFromTheTable.SystemServices
             return Adventure.MapArrays[PlayerLevelIndex].Split(',').Select(s => s.Trim()).ToList();
         }
 
-        public static string LootRoom()
+
+
+        public static string SearchRoom()
         {
             //Check if there is loot to be had - check if its trapped - check if its locked - check if its empty - send back a string as the status.
             if (currentRoom.Items.Count > 0)
@@ -117,6 +120,16 @@ namespace TalesFromTheTable.SystemServices
                 return "There is nothing to loot here!";
             }
 
+        }
+
+        internal static bool CurrentRoomHasLootOrActiveTraps()
+        {
+           return (currentRoom.Items.Count > 0 || currentRoom.Traps.Where(t => !t.Sprung).Count() > 0);
+        }
+
+        internal static bool CurrentRoomHasLootableChest()
+        {
+            return (currentRoom.Chest != null && !currentRoom.Chest.Looted);
         }
     }
 }

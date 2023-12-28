@@ -11,6 +11,8 @@ namespace TalesFromTheTable.Scripts.Models
     {
         public bool IsLocked { get; set; }
         public bool IsTrapped { get; set; }
+        public bool Opened { get; set; }
+        public bool Looted { get; set; }
         public List<Item> Items { get; set; }
     }
 }
