@@ -199,10 +199,9 @@ public partial class game : Control
 			{
                 case ActionsEnum.CHEST:
 					mainText.Text += MainBBText(GameService.SearchRoom());
-					GameService.SearchRoom();
                     break;
-                case ActionsEnum.NORTH:
-                    //GD.Print("north");
+                case ActionsEnum.SEARCH:  //CHANGE LOOT which is incoming from the button
+                    mainText.Text += MainBBText(GameService.SearchRoom());
                     break;
                 case ActionsEnum.SOUTH:
                     //GD.Print("south");

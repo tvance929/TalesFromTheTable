@@ -7,6 +7,7 @@ using Newtonsoft.Json;
 using TalesFromTheTable.Models;
 using TalesFromTheTable.Models.Entities;
 using TalesFromTheTable.Scripts.Utilities.Enums;
+using TalesFromTheTable.Utilities;
 
 namespace TalesFromTheTable.SystemServices
 {
@@ -93,14 +94,46 @@ namespace TalesFromTheTable.SystemServices
 
         public static string SearchRoom()
         {
+            if (currentRoom.Trap != null)
+            {
+                //did they notice the trap? - their awareness score will be 10 + (con, wis, int) bonuses
+                var awarenessCheck = new Dice().RollDice(new List<Die> { Die.D20 });
+                if (awarenessCheck >= Adventurer.Awareness)
+                {
+                    return "You notice a trap!";
+                }
+                else
+                {
+                    return "You did not notice a trap!";
+                }
+
+                //if (currentRoom.Trap.Sprung)
+                //{
+                //    return "You notice a trap, but it has already been sprung!";
+                //}
+                //else
+                //{
+                //    //did they notice the trap?
+                //    if (Adventurer.SavingThrows.PoisonOrDeathRay >= currentRoom.Trap.Difficulty)
+                //    {
+                //        return "You notice a trap!";
+                //    }
+                //    else
+                //    {
+                //        return "You did not notice a trap!";
+                //    }
+                //}
+
+            }
+
             //Check if there is loot to be had - check if its trapped - check if its locked - check if its empty - send back a string as the status.
             if (currentRoom.Items.Count > 0)
             {
-                // Im wondering if LOOT shouldnt be listed instead as SEARCH and you just pick up items in the room... because a chest or opening
-                // a chest should probably be a different action... like OPEN or something... and then you can check if its locked or trapped or empty
-                // and then you get the items in the chest
-                // So they SEARCH the room which finds any loot that isnt hidden but this could also lead to secret doors and traps
-                var loot = currentRoom.Items;
+
+                foreach (var item in currentRoom.Items)
+                {
+
+                }
                 return "Looted the room!";
                 //if (loot.IsTrapped)
                 //{
@@ -124,7 +157,7 @@ namespace TalesFromTheTable.SystemServices
 
         internal static bool CurrentRoomHasLootOrActiveTraps()
         {
-           return (currentRoom.Items.Count > 0 || currentRoom.Traps.Where(t => !t.Sprung).Count() > 0);
+           return (currentRoom.Items.Count > 0 || (currentRoom.Trap != null && !currentRoom.Trap.Sprung));
         }
 
         internal static bool CurrentRoomHasLootableChest()

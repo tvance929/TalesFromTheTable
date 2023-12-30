@@ -23,7 +23,7 @@ namespace TalesFromTheTable.Models
 
         public List<Item> Items { get; set; }
         public List<Entity> Monsters { get; set; }
-        public List<Trap> Traps { get; set; }
+        public Trap Trap { get; set; } //one trap per room please
         public List<Door> Doors { get; set; }
 
         //public List<Vessel> Vessels { get; set; }

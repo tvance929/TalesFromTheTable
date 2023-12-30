@@ -26,7 +26,7 @@ namespace TalesFromTheTable.Models.Entities
         public Dictionary<AttributeEnum, int> Attributes { get; private set; }
         private Dictionary<AttributeEnum, int> OriginalAttributes;
         public CharacterSavingThrows SavingThrows { get; private set; } = new CharacterSavingThrows();
-        public int Awareness { get; private set; } = 0;
+        public int Awareness { get; private set; } = 10;
 
         // Skills and Crafts
         //public List<ISkill> Skills { get; private set; } = new List<ISkill>();
@@ -93,6 +93,8 @@ namespace TalesFromTheTable.Models.Entities
             {
                 Attributes[kvp.Key] = kvp.Value;               
             }
+
+            Awareness = 10;
 
             Race = race;
 
@@ -190,11 +192,7 @@ namespace TalesFromTheTable.Models.Entities
         {
             //Reset attributes to original values by calling setrace
             SetRace(Race);
-
-            //GD.Print($"background: {background.Name}");
-            //Background = background; 
-
-            //GD.Print($"Background: {Background.Name}");
+;
             //Add background bonuses to attributes
             switch (background.Name)
             {
@@ -233,11 +231,18 @@ namespace TalesFromTheTable.Models.Entities
             }
 
             AdjustSavingThrowsFromAbilities();
+                        
+            //Should put this in the UI somewhere so the players know what it is and how its figured
+            Awareness += Rules.AttributeBonus(Attributes[AttributeEnum.Constitution]);
+            Awareness += Rules.AttributeBonus(Attributes[AttributeEnum.Wisdom]);
+            Awareness += Rules.AttributeBonus(Attributes[AttributeEnum.Intelligence]);
         }
 
         public void AttributeAddBonus(AttributeEnum attribute, int bonus)
         {
             Attributes[attribute] += bonus;
         }
+
+
     }
 }
