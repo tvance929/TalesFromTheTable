@@ -24,6 +24,13 @@
           "roomId": "1-3"
         }
       ],
+      "trap" : {
+        "name": "whirling blade",
+        "description": "its a whirling blade trap!",
+        "damagedice": [ 4, 8 ],
+        "type": "blade",
+        "sprung": false
+      },
       "items": [
         {
           "type": "weapon",
@@ -56,6 +63,85 @@
         {
           "directionAction": "east",
           "roomId": "1-2"
+        }
+      ],
+      "items": [
+        {
+          "name": "rope",
+          "description": "A rusty sword.",
+          "weight": 1,
+          "goldvalue": 5
+        }
+      ]
+    },
+    {
+      "roomId": "1-3",
+      "title": "The Cave",
+      "description": "You are in a cave. It is dark. You can see a path to the west and a cave to the north.",
+      "roomImage": "1-3",
+      "exits": [
+        {
+          "directionAction": "west",
+          "roomId": "1-1"
+        },
+        {
+          "directionAction": "north",
+          "roomId": "1-4"
+        }
+      ],
+      "items": [
+        {
+          "name": "rope",
+          "description": "A rusty sword.",
+          "weight": 1,
+          "goldvalue": 5
+        }
+      ],
+      "trap" : {
+        "name": "whirling blade",
+        "description": "A dart flies out of the wall and hits you in the neck.  You feel a burning sensation and your vision starts to blur.  You feel your heart racing and you start to sweat.  You feel like you are going to pass out.",
+        "damage": [6],
+        "type": "blade",
+        "sprung": false
+      }
+    },
+    {
+      "roomId": "1-4",
+      "title": "The Cave",
+      "description": "You are in a cave. It is dark. You can see a path to the west and a cave to the north.",
+      "roomImage": "1-4",
+      "exits": [
+        {
+          "directionAction": "west",
+          "roomId": "1-1"
+        },
+        {
+          "directionAction": "north",
+          "roomId": "1-5"
+        }
+      ],
+      "items": [
+        {
+          "name": "rope",
+          "description": "A rusty sword.",
+          "weight": 1,
+          "goldvalue": 5
+        }
+      ]
+    },
+    {
+      "roomId": "1-5",
+      "title": "The Cave",
+      "description": "You are in a cave. It is dark. You can see a path to the west and a cave to the north.",
+      "roomImage": "1-5",
+      "exits": [
+        {
+          "directionAction": "west",
+          "roomId": "1-1"
+        },
+        {
+          "directionAction": "north",
+          "roomId": "1-6"
         }
       ],
       "items": [

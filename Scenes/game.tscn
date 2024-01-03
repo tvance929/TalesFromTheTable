@@ -388,7 +388,7 @@ layout_mode = 2
 [connection signal="pressed" from="Main/MainLeft/MainButtonControls/CompassContainer/VBox/South" to="." method="OnDirectionButtonPressed" binds= ["south"]]
 [connection signal="pressed" from="Main/MainLeft/MainButtonControls/CompassContainer/East" to="." method="OnDirectionButtonPressed" binds= ["east"]]
 [connection signal="pressed" from="Main/MainLeft/MainButtonControls/ActionsContainer/Chest" to="." method="OnDirectionButtonPressed"]
-[connection signal="pressed" from="Main/MainLeft/MainButtonControls/ActionsContainer/VBox/Search" to="." method="OnActionButtonPressed" binds= ["LOOT"]]
+[connection signal="pressed" from="Main/MainLeft/MainButtonControls/ActionsContainer/VBox/Search" to="." method="OnActionButtonPressed" binds= ["SEARCH"]]
 [connection signal="pressed" from="Main/MainLeft/MainButtonControls/ActionsContainer/VBox/South" to="." method="OnDirectionButtonPressed"]
 [connection signal="pressed" from="Main/MainLeft/MainButtonControls/ActionsContainer/East" to="." method="OnDirectionButtonPressed"]
 [connection signal="pressed" from="Main/MainLeft/MainButtonControls/CompassContainer3/West" to="." method="OnDirectionButtonPressed"]

@@ -81,7 +81,7 @@ public partial class game : Control
 	{
 		mainText.Text = MainBBText(GameService.GetRoomMessage());
 
-        ShowImageIfExists();
+		ShowImageIfExists();
 
 		if (!roomsVisited.Exists(r => r.RoomID == GameService.PlayerLocation))
 		{
@@ -123,8 +123,8 @@ public partial class game : Control
 		EnableValidButtons();
 	}
 
-    #region Button Events
-    private void _OnAdventureLoaded()
+	#region Button Events
+	private void _OnAdventureLoaded()
 	{		
 		mainText.Modulate = new Color(1, 1, 1, 0); //Making main text invisible so we can fade it in
 		mainText.Text = MainBBText(GameService.Adventure.Description, true);
@@ -166,10 +166,10 @@ public partial class game : Control
 
 		if(GameService.CurrentRoomHasLootableChest())
 		{
-            var button = gameButtons.Where(b => b.Action == ActionsEnum.CHEST).FirstOrDefault();
-            button.Button.Modulate = new Color(1, 1, 1, 1);
-            button.Button.Disabled = false;
-        }
+			var button = gameButtons.Where(b => b.Action == ActionsEnum.CHEST).FirstOrDefault();
+			button.Button.Modulate = new Color(1, 1, 1, 1);
+			button.Button.Disabled = false;
+		}
 	}
 
 	private void OnDirectionButtonPressed(string compassDirection)
@@ -197,30 +197,30 @@ public partial class game : Control
 		{
 			switch (actionPerformed)
 			{
-                case ActionsEnum.CHEST:
+				case ActionsEnum.CHEST:
 					mainText.Text += MainBBText(GameService.SearchRoom());
-                    break;
-                case ActionsEnum.SEARCH:  //CHANGE LOOT which is incoming from the button
-                    mainText.Text += MainBBText(GameService.SearchRoom());
-                    break;
-                case ActionsEnum.SOUTH:
-                    //GD.Print("south");
-                    break;
-                case ActionsEnum.EAST:
-                    //GD.Print("east");
-                    break;
-                case ActionsEnum.WEST:
-                    //GD.Print("west");
-                    break;
-                default:
-                    break;
-            }
+					break;
+				//case ActionsEnum.SEARCH:  //CHANGE LOOT which is incoming from the button
+				//	mainText.Text += MainBBText(GameService.SearchRoom());
+				//	break;  -- See DesignNotes.cs - 1-2-2024 -- we will change this to passive but leave it out altogether for now
+				case ActionsEnum.SOUTH:
+					//GD.Print("south");
+					break;
+				case ActionsEnum.EAST:
+					//GD.Print("east");
+					break;
+				case ActionsEnum.WEST:
+					//GD.Print("west");
+					break;
+				default:
+					break;
+			}
 		}
-        else
-        {
-            throw new Exception($"Invalid Action Sent: {action}");  //do something with this later
-        }
-    }
+		else
+		{
+			throw new Exception($"Invalid Action Sent: {action}");  //do something with this later
+		}
+	}
 	#endregion
 
 	#region Utility Methods
@@ -279,8 +279,8 @@ public partial class game : Control
 			new GameButton { Button = GetNode<Button>("Main/MainLeft/MainButtonControls/CompassContainer/VBox/North"), Action = ActionsEnum.NORTH },
 			new GameButton { Button = GetNode<Button>("Main/MainLeft/MainButtonControls/CompassContainer/VBox/South"), Action = ActionsEnum.SOUTH },
 			new GameButton { Button = GetNode<Button>("Main/MainLeft/MainButtonControls/ActionsContainer/Chest"), Action = ActionsEnum.CHEST },
-            new GameButton { Button = GetNode<Button>("Main/MainLeft/MainButtonControls/ActionsContainer/VBox/Search"), Action = ActionsEnum.SEARCH }
-        };
+			new GameButton { Button = GetNode<Button>("Main/MainLeft/MainButtonControls/ActionsContainer/VBox/Search"), Action = ActionsEnum.SEARCH }
+		};
 
 		foreach (var button in gameButtons)
 		{
@@ -302,14 +302,14 @@ public partial class game : Control
 	{
 		if (!adventureStart)
 		{
-            return $"[center]{text}[/center]";
-        }
+			return $"[center]{text}[/center]";
+		}
 		else
 		{
 			return $"[center][b]{TITLE_FONT_SIZE}{TITLE_FONT_COLOR}{GameService.Adventure.Title}[/color][/font_size][/b]\n" +
 			$"{text}[/center]";
-        }
-    }
+		}
+	}
 	#endregion
 }
 

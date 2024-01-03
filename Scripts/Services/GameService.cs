@@ -25,6 +25,7 @@ namespace TalesFromTheTable.SystemServices
         //public static int PlayerRoom = 0;
         public static string PlayerLocation { get; private set; } = "0-0";
         public static Room currentRoom { get; private set; }
+        public static bool TrapDiscovered { get; set; } = false;
 
         public static bool SkippingCreation = false; //for dev purposes only
 
@@ -94,17 +95,16 @@ namespace TalesFromTheTable.SystemServices
 
         public static string SearchRoom()
         {
+            var returnMessage = "\n";
+
             if (currentRoom.Trap != null)
             {
+                var trap = currentRoom.Trap;
                 //did they notice the trap? - their awareness score will be 10 + (con, wis, int) bonuses
                 var awarenessCheck = new Dice().RollDice(new List<Die> { Die.D20 });
-                if (awarenessCheck >= Adventurer.Awareness)
+                if (Adventurer.Awareness <= awarenessCheck && trap.Sprung == false)
                 {
-                    return "You notice a trap!";
-                }
-                else
-                {
-                    return "You did not notice a trap!";
+                    returnMessage += $"[b][color=red]You notice a {trap.Type} trap![/color][/b]\n";
                 }
 
                 //if (currentRoom.Trap.Sprung)
@@ -127,32 +127,33 @@ namespace TalesFromTheTable.SystemServices
             }
 
             //Check if there is loot to be had - check if its trapped - check if its locked - check if its empty - send back a string as the status.
-            if (currentRoom.Items.Count > 0)
-            {
+            //if (currentRoom.Items.Count > 0)
+            //{
 
-                foreach (var item in currentRoom.Items)
-                {
+            //    foreach (var item in currentRoom.Items)
+            //    {
 
-                }
-                return "Looted the room!";
-                //if (loot.IsTrapped)
-                //{
-                //    return "The chest is trapped!";
-                //}
-                //else if (loot.IsLocked)
-                //{
-                //    return "The chest is locked!";
-                //}
-                //else
-                //{
-                //    return "You found some loot!";
-                //}
-            }
-            else
-            {
-                return "There is nothing to loot here!";
-            }
+            //    }
+            //    return "Looted the room!";
+            //    //if (loot.IsTrapped)
+            //    //{
+            //    //    return "The chest is trapped!";
+            //    //}
+            //    //else if (loot.IsLocked)
+            //    //{
+            //    //    return "The chest is locked!";
+            //    //}
+            //    //else
+            //    //{
+            //    //    return "You found some loot!";
+            //    //}
+            //}
+            //else
+            //{
+            //    return "There is nothing to loot here!";
+            //}
 
+            return returnMessage;
         }
 
         internal static bool CurrentRoomHasLootOrActiveTraps()
