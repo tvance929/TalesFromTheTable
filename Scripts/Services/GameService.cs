@@ -6,6 +6,7 @@ using Godot;
 using Newtonsoft.Json;
 using TalesFromTheTable.Models;
 using TalesFromTheTable.Models.Entities;
+using TalesFromTheTable.Scripts.Utilities;
 using TalesFromTheTable.Scripts.Utilities.Enums;
 using TalesFromTheTable.Utilities;
 
@@ -71,6 +72,8 @@ namespace TalesFromTheTable.SystemServices
 
         public static void MovePlayer(ActionsEnum action)
         {
+            //RESET ROOM STATE HERE 
+
             currentRoom = Adventure.Rooms.Where(r => r.RoomID == PlayerLocation).FirstOrDefault();
             var exit = currentRoom.Exits.Where(e => e.directionAction == action).FirstOrDefault();
             if (exit != null)
@@ -91,7 +94,40 @@ namespace TalesFromTheTable.SystemServices
             return Adventure.MapArrays[PlayerLevelIndex].Split(',').Select(s => s.Trim()).ToList();
         }
 
+        public static void OpenChest()
+        {
+            RoomState.RoomDescription = "\n";
 
+            var chest = currentRoom.Chest;
+
+            if (chest.Opened)
+            {
+                RoomState.RoomDescription += $"[b][color=green]You found some loot![/color][/b]\n";
+                chest.Opened = true;
+                RoomState.ChestOpened = true; // this is probably unnecessary - but just setting it for now
+
+                RoomState.RoomDescription += $"[b]THERE ARE ITEMS INSIDE THE CHEST: [/b]\n";
+                foreach (var item in chest.Items)
+                {
+                    Adventurer.Inventory.Add(item); // this is auto adding to inventory - might change this later
+                    RoomState.RoomDescription += $"[b][color=green]   {item.Name}   [/color][/b]\n";
+                }
+            }
+            else if (chest.Trap != null)
+            {
+                //did they notice the trap? - their awareness score will be 10 + (con, wis, int) bonuses
+                var awarenessCheck = new Dice().RollDice(new List<Die> { Die.D20 });
+                if (Adventurer.Awareness <= awarenessCheck)
+                {
+                    RoomState.RoomDescription += $"[b][color=red]The chest is TRAPPED![/color][/b]\n";
+                    RoomState.ChestTrapped = true;
+                }
+            }
+            else if (chest.Locked)
+            {
+
+            }
+        }
 
         public static string SearchRoom()
         {
@@ -104,7 +140,7 @@ namespace TalesFromTheTable.SystemServices
                 var awarenessCheck = new Dice().RollDice(new List<Die> { Die.D20 });
                 if (Adventurer.Awareness <= awarenessCheck && trap.Sprung == false)
                 {
-                    returnMessage += $"[b][color=red]You notice a {trap.Type} trap![/color][/b]\n";
+                    returnMessage += $"[b][color=red]You notice that the chest is trapped![/color][/b]\n";
                 }
 
                 //if (currentRoom.Trap.Sprung)
@@ -158,12 +194,12 @@ namespace TalesFromTheTable.SystemServices
 
         internal static bool CurrentRoomHasLootOrActiveTraps()
         {
-           return (currentRoom.Items.Count > 0 || (currentRoom.Trap != null && !currentRoom.Trap.Sprung));
+            return (currentRoom.Items.Count > 0 || (currentRoom.Trap != null && !currentRoom.Trap.Sprung));
         }
 
         internal static bool CurrentRoomHasLootableChest()
         {
-            return (currentRoom.Chest != null && !currentRoom.Chest.Looted);
+            return (currentRoom.Chest != null && currentRoom.Chest.Items.Count > 0);
         }
     }
 }

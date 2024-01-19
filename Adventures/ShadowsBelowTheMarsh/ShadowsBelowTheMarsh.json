@@ -24,27 +24,31 @@
           "roomId": "1-3"
         }
       ],
-      "trap" : {
-        "name": "whirling blade",
-        "description": "its a whirling blade trap!",
-        "damagedice": [ 4, 8 ],
-        "type": "blade",
-        "sprung": false
-      },
-      "items": [
-        {
-          "type": "weapon",
-          "name": "Shortsword",
-          "description": "A rusty worn shortsword.",
-          "condition": "worn"
+      "chest": {
+        "Opened": false,
+        "Locked": true,
+        "Trap": {
+          "Description": "A needle coated with poison awaits those who attempt to open the chest.",
+          "TrapLevel": 1,
+          "SaveType": "PoisonOrDeathRay",
+          "DamageDice": [ 4 ],
+          "Sprung": false
         },
-        {
-          "type": "moneypile",
-          "name": "2 silver pieces",
-          "description": "2 silver pieces",
-          "value": 0.2
-        }
-      ]
+        "items": [
+          {
+            "type": "weapon",
+            "name": "Shortsword",
+            "description": "A rusty worn shortsword.",
+            "condition": "worn"
+          },
+          {
+            "type": "moneypile",
+            "name": "2 silver pieces",
+            "description": "2 silver pieces",
+            "value": 0.2
+          }
+        ]
+      }      
     },
     {
       "roomId": "1-2",

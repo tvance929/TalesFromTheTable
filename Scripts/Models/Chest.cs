@@ -9,10 +9,12 @@ namespace TalesFromTheTable.Scripts.Models
     /// </summary>
     public class Chest : IVessel
     {
-        public bool IsLocked { get; set; }
-        public bool IsTrapped { get; set; }
+        //if this is true then we wont even look at locked or trapped...still not sure I want to use this.
         public bool Opened { get; set; }
-        public bool Looted { get; set; }
+
+        public bool Locked { get; set; }
+        public Trap Trap { get; set; }
         public List<Item> Items { get; set; }
+
     }
 }

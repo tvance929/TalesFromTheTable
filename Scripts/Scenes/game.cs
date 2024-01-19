@@ -157,12 +157,12 @@ public partial class game : Control
 		}
 
 		//Search button
-		if (GameService.CurrentRoomHasLootOrActiveTraps())
-		{
-			var button = gameButtons.Where(b => b.Action == ActionsEnum.SEARCH).FirstOrDefault();
-			button.Button.Modulate = new Color(1, 1, 1, 1);
-			button.Button.Disabled = false;
-		}
+		//if (GameService.CurrentRoomHasLootOrActiveTraps())
+		//{
+		//	var button = gameButtons.Where(b => b.Action == ActionsEnum.SEARCH).FirstOrDefault();
+		//	button.Button.Modulate = new Color(1, 1, 1, 1);
+		//	button.Button.Disabled = false;
+		//}
 
 		if(GameService.CurrentRoomHasLootableChest())
 		{
@@ -198,7 +198,12 @@ public partial class game : Control
 			switch (actionPerformed)
 			{
 				case ActionsEnum.CHEST:
-					mainText.Text += MainBBText(GameService.SearchRoom());
+					GameService.OpenChest();
+
+                    mainText.Text += MainBBText(RoomState.RoomDescription);
+					if (RoomState.ChestTrapped)
+					{
+					}
 					break;
 				//case ActionsEnum.SEARCH:  //CHANGE LOOT which is incoming from the button
 				//	mainText.Text += MainBBText(GameService.SearchRoom());

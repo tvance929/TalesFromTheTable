@@ -4,6 +4,7 @@
     {
         Poison,
         Fire,
+
         Blade
     }
 }

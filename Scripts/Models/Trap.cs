@@ -2,12 +2,15 @@
 using TalesFromTheTable.Scripts.Utilities.Enums;
 using TalesFromTheTable.Utilities;
 
-namespace TalesFromTheTable.Models
+namespace TalesFromTheTable.Scripts.Models
 {
     public class Trap
     {
-        public TrapType Type { get; set; }
-        public bool Sprung { get; set; } = false;
+        public string Description { get; set; }
+        //Dont think Ill need this since we have save type 
+        public int TrapLevel { get; set; }
+        public SaveTypeEnum SaveType { get; set; }
         public List<Die> DamageDice { get; set; }
+        public bool Sprung { get; set; } = false;
     }
 }

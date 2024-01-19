@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://jkdkw7uv866k"]
+[gd_scene load_steps=12 format=3 uid="uid://jkdkw7uv866k"]
 
 [ext_resource type="Script" path="res://Scripts/Scenes/game.cs" id="1_3vkmr"]
 [ext_resource type="Texture2D" uid="uid://ddt2o2cbtjixc" path="res://Assets/Icons/arrowLeft.png" id="2_3lgr5"]
@@ -10,6 +10,7 @@
 [ext_resource type="Texture2D" uid="uid://3xhnca5rygnb" path="res://Assets/Icons/chest.png" id="6_jj1cr"]
 [ext_resource type="Texture2D" uid="uid://dx1yy5anm4xlg" path="res://Assets/Icons/search.png" id="7_3ix3s"]
 [ext_resource type="Texture2D" uid="uid://dhn05h0vgpa41" path="res://Adventures/ShadowsBelowTheMarsh/Assets/images/rooms/1-1.png" id="7_onpqc"]
+[ext_resource type="Texture2D" uid="uid://brdufiu75ik1e" path="res://icon.svg" id="11_0u0yx"]
 
 [node name="game" type="Control"]
 layout_mode = 3
@@ -362,6 +363,12 @@ layout_mode = 2
 size_flags_vertical = 0
 texture = ExtResource("3_q147m")
 
+[node name="Sprite2D" type="Sprite2D" parent="Main/TabContainer/Map"]
+modulate = Color(1, 1, 1, 0.227451)
+position = Vector2(377, 260)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("11_0u0yx")
+
 [node name="Character Sheet" type="BoxContainer" parent="Main/TabContainer"]
 visible = false
 layout_mode = 2
@@ -387,7 +394,7 @@ layout_mode = 2
 [connection signal="pressed" from="Main/MainLeft/MainButtonControls/CompassContainer/VBox/North" to="." method="OnDirectionButtonPressed" binds= ["north"]]
 [connection signal="pressed" from="Main/MainLeft/MainButtonControls/CompassContainer/VBox/South" to="." method="OnDirectionButtonPressed" binds= ["south"]]
 [connection signal="pressed" from="Main/MainLeft/MainButtonControls/CompassContainer/East" to="." method="OnDirectionButtonPressed" binds= ["east"]]
-[connection signal="pressed" from="Main/MainLeft/MainButtonControls/ActionsContainer/Chest" to="." method="OnDirectionButtonPressed"]
+[connection signal="pressed" from="Main/MainLeft/MainButtonControls/ActionsContainer/Chest" to="." method="OnActionButtonPressed" binds= ["chest"]]
 [connection signal="pressed" from="Main/MainLeft/MainButtonControls/ActionsContainer/VBox/Search" to="." method="OnActionButtonPressed" binds= ["SEARCH"]]
 [connection signal="pressed" from="Main/MainLeft/MainButtonControls/ActionsContainer/VBox/South" to="." method="OnDirectionButtonPressed"]
 [connection signal="pressed" from="Main/MainLeft/MainButtonControls/ActionsContainer/East" to="." method="OnDirectionButtonPressed"]
