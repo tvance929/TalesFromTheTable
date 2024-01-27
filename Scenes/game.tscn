@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://jkdkw7uv866k"]
+[gd_scene load_steps=13 format=3 uid="uid://jkdkw7uv866k"]
 
 [ext_resource type="Script" path="res://Scripts/Scenes/game.cs" id="1_3vkmr"]
 [ext_resource type="Texture2D" uid="uid://ddt2o2cbtjixc" path="res://Assets/Icons/arrowLeft.png" id="2_3lgr5"]
@@ -10,7 +10,8 @@
 [ext_resource type="Texture2D" uid="uid://3xhnca5rygnb" path="res://Assets/Icons/chest.png" id="6_jj1cr"]
 [ext_resource type="Texture2D" uid="uid://dx1yy5anm4xlg" path="res://Assets/Icons/search.png" id="7_3ix3s"]
 [ext_resource type="Texture2D" uid="uid://dhn05h0vgpa41" path="res://Adventures/ShadowsBelowTheMarsh/Assets/images/rooms/1-1.png" id="7_onpqc"]
-[ext_resource type="Texture2D" uid="uid://brdufiu75ik1e" path="res://icon.svg" id="11_0u0yx"]
+[ext_resource type="Texture2D" uid="uid://dkow4wky0r6d1" path="res://Assets/SpriteImages/chest.png" id="11_y5i2m"]
+[ext_resource type="Texture2D" uid="uid://bxloyu1lgkldw" path="res://Assets/SpriteImages/Knight.png" id="12_6dk6p"]
 
 [node name="game" type="Control"]
 layout_mode = 3
@@ -363,11 +364,21 @@ layout_mode = 2
 size_flags_vertical = 0
 texture = ExtResource("3_q147m")
 
-[node name="Sprite2D" type="Sprite2D" parent="Main/TabContainer/Map"]
-modulate = Color(1, 1, 1, 0.227451)
-position = Vector2(377, 260)
-scale = Vector2(0.5, 0.5)
-texture = ExtResource("11_0u0yx")
+[node name="Chest" type="Sprite2D" parent="Main/TabContainer/Map"]
+visible = false
+top_level = true
+z_index = 1
+position = Vector2(771, 571)
+scale = Vector2(0.125, 0.125)
+texture = ExtResource("11_y5i2m")
+
+[node name="Knight" type="Sprite2D" parent="Main/TabContainer/Map"]
+visible = false
+top_level = true
+z_index = 1
+position = Vector2(848, 564)
+scale = Vector2(0.02, 0.02)
+texture = ExtResource("12_6dk6p")
 
 [node name="Character Sheet" type="BoxContainer" parent="Main/TabContainer"]
 visible = false

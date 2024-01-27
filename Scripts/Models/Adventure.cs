@@ -30,6 +30,8 @@ namespace TalesFromTheTable.Models
         public Chest Chest { get; set; }
         public List<Exit> Exits { get; set; }
 
+        public List<string> RoomDef { get; set; }
+
         public bool Searched { get; set; } = false;
     }
 

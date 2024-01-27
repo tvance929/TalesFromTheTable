@@ -99,20 +99,33 @@ public partial class game : Control
 			var mapControl = mapImageControlsWithIDs.Where(m => m.roomID == visitedRoom.RoomID).FirstOrDefault();
 			if (mapControl != null)
 			{
+
+				var roomDefinition = GameService.GetRoomDefinition(visitedRoom.RoomID);
+
 				if (visitedRoom.RoomID == GameService.PlayerLocation && visitedRoom.DrawnOnMap == false)
 				{
 					//We only play the drawing sound if the player is in the room and it hasn't been drawn on the map yet
 					PlaySound(SoundsEnum.Scribble);
 				}
 
-				var texture = (Texture2D)GD.Load($"res://Adventures/{GameService.AdventureName}/Assets/Images/map/{visitedRoom.RoomID}x.jpg");
+				// THIS sets the texture to where you are
+				var texture = (Texture2D)GD.Load($"res://Assets/Backgrounds/paperBGsmall.jpg");
 
-				if (visitedRoom.RoomID != GameService.PlayerLocation)
+			
+				var posx = mapControl.textureRect.GlobalPosition.X;
+				var posy = mapControl.textureRect.GlobalPosition.Y;
+				texture = DrawRoom(roomDefinition, 0, 0, (int)posx , (int)posy, "res://Assets/Backgrounds/paperBGsmall.jpg");
+				mapControl.textureRect.Texture = texture;
+
+				// THIS set the texture to where you are not
+				if (visitedRoom.RoomID == GameService.PlayerLocation)
 				{
-					texture = (Texture2D)GD.Load($"res://Adventures/{GameService.AdventureName}/Assets/Images/map/{visitedRoom.RoomID}.jpg");
+					var spriteToGet = (Sprite2D)GetNode("Main/TabContainer/Map/Knight");
+
+					spriteToGet.Visible = true;
+					spriteToGet.Position = new Vector2(posx + (texture.GetWidth() / 2), posy + (texture.GetHeight() / 2));
 				}
 
-				mapControl.textureRect.Texture = texture;
 				//Here I want to position the blank fake map image over the room image and then fade out the fake map image to give the illusion of drawing the map
 				// this works below by the way - however it is fading out the actual image of the room...need a fake one over the top and the position
 				//var tween = CreateTween();
@@ -243,6 +256,287 @@ public partial class game : Control
 
 		soundPlayer.VolumeDb = -5;
 		soundPlayer.Play();
+	}
+
+	public Texture2D DrawRoom(List<string> roomShape, int room_x, int room_y, int globalPosX, int globalPosY, string baseImage)
+	{
+			// defines a 0,0 coordinate according to the grid
+
+		int pos_x = room_x;
+		int pos_y = room_y;
+		int gridSize = 20;
+		char aboveChar, belowChar, leftChar, rightChar, currentChar;
+
+		var texture = (Texture2D)GD.Load(baseImage);
+		Image image = texture.GetImage();
+
+		// TODO: validate room and return false on fail
+		for (var index = 0; index < roomShape.Count; index++)
+		{
+			var room = roomShape[index];
+			//var max_length = room.Length;
+			pos_x = room_x; // reset x position since we are drawing top of room down
+			for (var charindex = 0; charindex < room.Length; charindex++)
+			{
+				GD.Print($"ROW: {index} Column: {charindex}");
+				currentChar = room[charindex];
+
+				//Handle normal room definition 
+				if ((currentChar == 'o') || (currentChar == 'd'))
+				{
+					aboveChar = (index == 0) ? 'x' : roomShape[index - 1][charindex];
+					belowChar = (index >= roomShape.Count - 1) ? 'x' : roomShape[index + 1][charindex];
+					leftChar = (charindex == 0) ? 'x' : roomShape[index][charindex - 1];
+					rightChar = (charindex >= room.Length - 1) ? 'x' : roomShape[index][charindex + 1];
+					
+				
+					//GD.Print("Block: " + room[charindex] + " directions: " + aboveChar + "," + belowChar + "," + leftChar + "," + rightChar + " ");
+
+					// Check for top-left corner block
+					if ((aboveChar == 'x')
+						&& ((belowChar == 'o') || (belowChar == 'i'))
+						&& (leftChar == 'x')
+						&& (rightChar != 'x'))
+					{
+						for (var i = 0; i < gridSize + 1; i++)
+						{
+							_DrawSplatter(ref image, pos_x + i, pos_y+1, 3, 12f);
+							_DrawSplatter(ref image, pos_x, pos_y + i+1, 3, 12f);
+						}
+					}
+
+					// check for a top wall
+					if (((aboveChar == 'x') || (aboveChar == 'h'))
+						&& ((belowChar == 'i') || (belowChar == 'c'))
+						&& (leftChar != 'x')
+						&& (rightChar != 'x'))
+					{
+
+						if (room[charindex] == 'o')
+						{
+							for (var i = 0; i < gridSize + 1; i++)
+							{
+								_DrawSplatter(ref image, pos_x + i, pos_y+1, 3, 12f);
+							}
+						}
+						else
+						{
+							for (var i = 0; i < gridSize + 1; i++)
+							{
+								_DrawSplatter(ref image, pos_x + i, pos_y + 1, 1, 12f);
+								_DrawSplatter(ref image, pos_x + i, pos_y + 6, 1, 12f);
+							}
+						}
+
+					}
+
+					// check for a top-right corner block
+					if ((aboveChar == 'x')
+						&& ((belowChar == 'o') || (belowChar == 'i') || (belowChar == 'c'))
+						&& (leftChar != 'x')
+						&& (rightChar == 'x'))
+					{
+						for (var i = 0; i < gridSize + 1; i++)
+						{
+							_DrawSplatter(ref image, pos_x + i, pos_y + 1, 3, 12f);
+							_DrawSplatter(ref image, pos_x + gridSize, pos_y + 1 + i, 4, 12f);
+						}
+					}
+
+					// check for a left wall
+					
+					if ((aboveChar != 'x')
+						&& (belowChar != 'x')
+						&& (leftChar == 'x')
+						&& ((rightChar == 'i') || (rightChar == 'c')))
+					{
+						for (var i = 0; i < gridSize + 1; i++)
+						{
+							_DrawSplatter(ref image, pos_x, pos_y + i, 4, 12f);
+						}
+					}
+					// check for a right wall
+					if ((aboveChar != 'x')
+						&& (belowChar != 'x')
+						&& ((leftChar == 'i') || (leftChar == 'c'))
+						&& (rightChar == 'x'))
+					{
+						if (currentChar == 'o')
+						{
+							for (var i = 0; i < gridSize + 1; i++)
+							{
+								_DrawSplatter(ref image, pos_x + gridSize, pos_y + i, 4, 12f);
+							}
+						}
+						else
+						{
+							for (var i = 0; i < gridSize + 1; i++)
+							{
+								_DrawSplatter(ref image, pos_x - 5 + gridSize, pos_y + i, 2, 12f);
+								_DrawSplatter(ref image, pos_x + gridSize, pos_y + i, 2, 12f);
+							}
+						}
+					}
+					// check for a bottom-left corner
+					if (   ((aboveChar == 'o')||(aboveChar == 'i'))
+						&& ((belowChar == 'x')|| (belowChar == 'c'))
+						&& (leftChar == 'x')
+						&& (rightChar != 'x'))
+					{
+						for (var i = 0; i < gridSize + 1; i++)
+						{
+							_DrawSplatter(ref image, pos_x + i, pos_y + gridSize, 3, 12f);
+							_DrawSplatter(ref image, pos_x, pos_y + i, 4, 12f);
+						}
+					}
+
+					// check for a bottom wall
+					if (((aboveChar == 'i') || (aboveChar == 'c'))
+						&& (belowChar == 'x')
+						&& (leftChar != 'x')
+						&& (rightChar != 'x'))
+					{
+						for (var i = 0; i < gridSize + 1; i++)
+						{
+							_DrawSplatter(ref image, pos_x + i, pos_y + gridSize, 3, 12f);
+						}
+					}
+
+					// check for a bottom-right corner
+					if ((aboveChar != 'x')
+						&& ((belowChar == 'x') || (belowChar == 'i') || (belowChar == 'c'))
+						&& (leftChar != 'x')
+						&& (rightChar == 'x'))
+					{
+						for (var i = 0; i < gridSize + 1; i++)
+						{
+							_DrawSplatter(ref image, pos_x + i, pos_y-1 + gridSize, 3, 12f);
+							_DrawSplatter(ref image, pos_x + gridSize-1, pos_y + i, 4, 12f);
+						}
+					}
+
+				}
+				else if (currentChar == 'h') // HALL
+				{
+					/*
+					aboveChar = (index == 0) ? 'x' : roomShape[index - 1][charindex];
+					belowChar = (index == roomShape.Count - 2) ? 'x' : roomShape[index + 1][charindex];
+					leftChar = (charindex == 0) ? 'x' : roomShape[index][charindex - 1];
+					rightChar = (charindex == room.Length - 2) ? 'x' : roomShape[index][charindex + 1];
+					*/
+					aboveChar = (index == 0) ? 'x' : roomShape[index - 1][charindex];
+					belowChar = (index >= roomShape.Count - 1) ? 'x' : roomShape[index + 1][charindex];
+					leftChar = (charindex == 0) ? 'x' : roomShape[index][charindex - 1];
+					rightChar = (charindex >= room.Length - 1) ? 'x' : roomShape[index][charindex + 1];
+
+					//vertical hall
+					if ( (aboveChar =='x')&&((belowChar =='h')||(belowChar=='i')) )
+					{
+						for (var i = 0; i < gridSize + 1; i++)
+						{
+							_DrawSplatter(ref image, pos_x, pos_y + i, 4, 12f);
+							_DrawSplatter(ref image, pos_x + gridSize, pos_y + i, 3, 12f);
+
+						}
+					} else if ((belowChar == 'h') && (aboveChar =='h'))
+                    {
+						for (var i = 0; i < gridSize + 1; i++)
+						{
+							_DrawSplatter(ref image, pos_x, pos_y + i, 4, 12f);
+							_DrawSplatter(ref image, pos_x + gridSize, pos_y + i, 3, 12f);
+
+						}
+					} else if ((belowChar == 'x') && ((aboveChar == 'h') || (aboveChar == 'i')))
+                    {
+						for (var i = 0; i < gridSize + 1; i++)
+						{
+							_DrawSplatter(ref image, pos_x, pos_y + i, 4, 12f);
+							_DrawSplatter(ref image, pos_x + gridSize, pos_y + i, 3, 12f);
+
+						}
+					}
+
+
+
+					// left hall
+					//vertical hall
+					if ((leftChar == 'x') && ((rightChar == 'h') || (rightChar == 'i')))
+					{
+						for (var i = 0; i < gridSize + 1; i++)
+						{
+							_DrawSplatter(ref image, pos_x + i, pos_y , 4, 12f);
+							_DrawSplatter(ref image, pos_x + i, pos_y + gridSize, 3, 12f);
+						}
+					}
+					else if ((leftChar == 'h') && (rightChar == 'h'))
+					{
+						for (var i = 0; i < gridSize + 1; i++)
+						{
+							_DrawSplatter(ref image, pos_x + i, pos_y, 4, 12f);
+							_DrawSplatter(ref image, pos_x + i, pos_y + gridSize, 3, 12f);
+						}
+					}
+					else if ((rightChar == 'x') && ((leftChar == 'h') || (leftChar == 'i')))
+					{
+						for (var i = 0; i < gridSize + 1; i++)
+						{
+							_DrawSplatter(ref image, pos_x + i, pos_y, 4, 12f);
+							_DrawSplatter(ref image, pos_x + i, pos_y + gridSize, 3, 12f);
+						}
+					}
+
+				}
+				else if (currentChar == 'c')
+				{
+					var spriteToGet = (Sprite2D)GetNode("Main/TabContainer/Map/Chest");
+
+					spriteToGet.Visible = true;
+					spriteToGet.Position = new Vector2( globalPosX+pos_x  , globalPosY+pos_y  );
+					
+				}
+				else
+				{
+					// empty space
+				}
+				pos_x = pos_x + 20;
+			}
+			pos_y = pos_y + 20;
+		}
+		ImageTexture it = new();
+		it.SetImage(image);
+
+		return it;
+	}
+
+	private void _DrawSplatter(ref Image image, float x, float y, int radius, float intensity)
+	{
+		float offset_x = 0;
+		float offset_y = 0;
+
+		var height = image.GetHeight();
+		var width = image.GetWidth();	
+
+
+		var rnd = new Random();
+		// use the offset_x and offset_y and as the
+		// center of the spray. Randomize specs in the sprays diameter
+		for (var point = 1; point < intensity; point++)
+		{
+
+			var rad = Math.PI * rnd.Next(0, 360) / 180;
+			var r = rnd.Next(0, radius);
+			var sprayY = (float)(r * Math.Sin(rad)) + y + offset_y;
+			var sprayX = (float)(r * Math.Cos(rad)) + x + offset_x;
+
+			if ( sprayX > width ) sprayX = width;
+			if (sprayX < 0) sprayX = 0;
+			if ( sprayY > height ) sprayY = height;
+			if (sprayY < 0) sprayY = 0;
+
+			image.SetPixel( (int)(sprayX), (int)(sprayY), Colors.Black);
+			image.SetPixel( (sprayX+1 <=width) ? (int)(sprayX+1) : (int)sprayX, (int)sprayY, Colors.Black);
+			//DrawLine(new Vector2(offset_x + sprayX, offset_y + sprayY), new Vector2(offset_x + sprayX + 1, offset_y + sprayY), Colors.DarkSlateGray, 2.0f);
+		}
 	}
 
 	private void ShowImageIfExists()
