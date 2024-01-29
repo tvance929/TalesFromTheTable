@@ -11,7 +11,7 @@
         SEARCH,
         CHEST,
         Speak,
-        DisarmTrap,
+        DISARMTRAP,
         UseItem,
         UseMagic,
         UseSkill
