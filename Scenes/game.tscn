@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://jkdkw7uv866k"]
+[gd_scene load_steps=13 format=3 uid="uid://jkdkw7uv866k"]
 
 [ext_resource type="Script" path="res://Scripts/Scenes/game.cs" id="1_3vkmr"]
 [ext_resource type="Texture2D" uid="uid://ddt2o2cbtjixc" path="res://Assets/Icons/arrowLeft.png" id="2_3lgr5"]
@@ -10,6 +10,7 @@
 [ext_resource type="Texture2D" uid="uid://3xhnca5rygnb" path="res://Assets/Icons/chest.png" id="6_jj1cr"]
 [ext_resource type="Texture2D" uid="uid://dx1yy5anm4xlg" path="res://Assets/Icons/search.png" id="7_3ix3s"]
 [ext_resource type="Texture2D" uid="uid://dhn05h0vgpa41" path="res://Adventures/ShadowsBelowTheMarsh/Assets/images/rooms/1-1.png" id="7_onpqc"]
+[ext_resource type="Texture2D" uid="uid://bb64ntx30wfde" path="res://Assets/Icons/trap.png" id="8_g54kj"]
 [ext_resource type="Texture2D" uid="uid://brdufiu75ik1e" path="res://icon.svg" id="11_0u0yx"]
 
 [node name="game" type="Control"]
@@ -121,13 +122,14 @@ text = "
 "
 icon = ExtResource("4_2mu17")
 
-[node name="East" type="Button" parent="Main/MainLeft/MainButtonControls/ActionsContainer"]
+[node name="DisarmTrap" type="Button" parent="Main/MainLeft/MainButtonControls/ActionsContainer"]
+modulate = Color(1, 1, 1, 0.392157)
 layout_mode = 2
 size_flags_vertical = 4
 disabled = true
 text = "
 "
-icon = ExtResource("5_4a2dc")
+icon = ExtResource("8_g54kj")
 
 [node name="CompassContainer3" type="HBoxContainer" parent="Main/MainLeft/MainButtonControls"]
 layout_mode = 2
@@ -397,7 +399,7 @@ layout_mode = 2
 [connection signal="pressed" from="Main/MainLeft/MainButtonControls/ActionsContainer/Chest" to="." method="OnActionButtonPressed" binds= ["chest"]]
 [connection signal="pressed" from="Main/MainLeft/MainButtonControls/ActionsContainer/VBox/Search" to="." method="OnActionButtonPressed" binds= ["SEARCH"]]
 [connection signal="pressed" from="Main/MainLeft/MainButtonControls/ActionsContainer/VBox/South" to="." method="OnDirectionButtonPressed"]
-[connection signal="pressed" from="Main/MainLeft/MainButtonControls/ActionsContainer/East" to="." method="OnDirectionButtonPressed"]
+[connection signal="pressed" from="Main/MainLeft/MainButtonControls/ActionsContainer/DisarmTrap" to="." method="OnDirectionButtonPressed"]
 [connection signal="pressed" from="Main/MainLeft/MainButtonControls/CompassContainer3/West" to="." method="OnDirectionButtonPressed"]
 [connection signal="pressed" from="Main/MainLeft/MainButtonControls/CompassContainer3/VBox/North" to="." method="OnDirectionButtonPressed"]
 [connection signal="pressed" from="Main/MainLeft/MainButtonControls/CompassContainer3/VBox/South" to="." method="OnDirectionButtonPressed"]
