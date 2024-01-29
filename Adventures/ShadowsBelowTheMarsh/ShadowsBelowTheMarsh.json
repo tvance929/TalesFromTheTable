@@ -24,6 +24,13 @@
           "roomId": "1-3"
         }
       ],
+      "roomDef": [
+        		"ooeoo",
+            "ociio",
+            "oiiid",
+            "oiiio",
+            "ooooo"
+      ],
       "chest": {
         "Opened": false,
         "Locked": true,
@@ -69,6 +76,13 @@
           "roomId": "1-2"
         }
       ],
+      "roomDef": [
+        		"xxhxx",
+            "xxhxx",
+            "xxhxx",
+            "xxhxx",
+            "xxhxx"
+      ],
       "items": [
         {
           "name": "rope",
@@ -92,6 +106,13 @@
           "directionAction": "north",
           "roomId": "1-4"
         }
+      ],
+      "roomDef": [
+        		"xoeoo",
+            "xoiio",
+            "hiiio",
+            "xoooo",
+            "xxxxx"
       ],
       "items": [
         {

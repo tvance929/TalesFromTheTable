@@ -50,6 +50,13 @@ namespace TalesFromTheTable.SystemServices
             //Need to show title and description of adventure in main text box first ... then show room description
         }
 
+        public static List<string> GetRoomDefinition(string roomID)
+        {
+            GD.Print($"get message  {Adventure.Rooms[0].RoomID} is this equal to {PlayerLocation}");
+            var roomDef = Adventure.Rooms.Where(r => r.RoomID == roomID).FirstOrDefault().RoomDef;
+            return roomDef;
+        }
+   
         public static string GetRoomMessage()
         {
             GD.Print($"get message  {Adventure.Rooms[0].RoomID} is this equal to {PlayerLocation}");
