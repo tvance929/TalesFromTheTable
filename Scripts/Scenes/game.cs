@@ -101,21 +101,19 @@ public partial class game : Control
 			{
 
 				var roomDefinition = GameService.GetRoomDefinition(visitedRoom.RoomID);
+				
+				// THIS sets the texture to where you are
+				var texture = (Texture2D)GD.Load($"res://Assets/Backgrounds/paperBGsmall.jpg");
+				var posx = mapControl.textureRect.GlobalPosition.X;
+				var posy = mapControl.textureRect.GlobalPosition.Y;
 
 				if (visitedRoom.RoomID == GameService.PlayerLocation && visitedRoom.DrawnOnMap == false)
 				{
 					//We only play the drawing sound if the player is in the room and it hasn't been drawn on the map yet
 					PlaySound(SoundsEnum.Scribble);
+					texture = DrawRoom(roomDefinition, 0, 0, (int)posx, (int)posy, "res://Assets/Backgrounds/paperBGsmall.jpg");
+					mapControl.textureRect.Texture = texture;
 				}
-
-				// THIS sets the texture to where you are
-				var texture = (Texture2D)GD.Load($"res://Assets/Backgrounds/paperBGsmall.jpg");
-
-			
-				var posx = mapControl.textureRect.GlobalPosition.X;
-				var posy = mapControl.textureRect.GlobalPosition.Y;
-				texture = DrawRoom(roomDefinition, 0, 0, (int)posx , (int)posy, "res://Assets/Backgrounds/paperBGsmall.jpg");
-				mapControl.textureRect.Texture = texture;
 
 				// THIS set the texture to where you are not
 				if (visitedRoom.RoomID == GameService.PlayerLocation)
