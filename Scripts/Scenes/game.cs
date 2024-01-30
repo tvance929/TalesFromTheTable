@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Godot;
+using TalesFromTheTable.Models;
 using TalesFromTheTable.Scripts.Utilities;
 using TalesFromTheTable.Scripts.Utilities.Enums;
 using TalesFromTheTable.SystemServices;
@@ -214,7 +215,15 @@ public partial class game : Control
                     mainText.Text += MainBBText(RoomState.RoomDescription);
 					if (RoomState.ChestTrapped)
 					{
-					}
+                        var disarmButton = gameButtons.Where(b => b.Action == ActionsEnum.DISARMTRAP).FirstOrDefault();
+                        disarmButton.Button.Modulate = new Color(1, 1, 1, 1);
+                        disarmButton.Button.Disabled = false;
+
+						//Disable chest button until trap is disarmed
+						var chestButton = gameButtons.Where(b => b.Action == ActionsEnum.CHEST).FirstOrDefault();
+						chestButton.Button.Modulate = new Color(1, 1, 1, 0.5f);
+						chestButton.Button.Disabled = true;                        
+                    }
 					break;
 				//case ActionsEnum.SEARCH:  //CHANGE LOOT which is incoming from the button
 				//	mainText.Text += MainBBText(GameService.SearchRoom());
@@ -576,8 +585,9 @@ public partial class game : Control
 			new GameButton { Button = GetNode<Button>("Main/MainLeft/MainButtonControls/CompassContainer/VBox/North"), Action = ActionsEnum.NORTH },
 			new GameButton { Button = GetNode<Button>("Main/MainLeft/MainButtonControls/CompassContainer/VBox/South"), Action = ActionsEnum.SOUTH },
 			new GameButton { Button = GetNode<Button>("Main/MainLeft/MainButtonControls/ActionsContainer/Chest"), Action = ActionsEnum.CHEST },
-			new GameButton { Button = GetNode<Button>("Main/MainLeft/MainButtonControls/ActionsContainer/VBox/Search"), Action = ActionsEnum.SEARCH }
-		};
+			new GameButton { Button = GetNode<Button>("Main/MainLeft/MainButtonControls/ActionsContainer/VBox/Search"), Action = ActionsEnum.SEARCH },
+            new GameButton { Button = GetNode<Button>("Main/MainLeft/MainButtonControls/ActionsContainer/DisarmTrap"), Action = ActionsEnum.DISARMTRAP }
+        };
 
 		foreach (var button in gameButtons)
 		{
