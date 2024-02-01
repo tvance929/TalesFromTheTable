@@ -6,6 +6,8 @@ using TalesFromTheTable.SystemServices;
 using TalesFromTheTable.Utilities;
 using TalesFromTheTable.Services;
 using TalesFromTheTable.Utilities.Enums;
+using System;
+using TalesFromTheTable.Scripts.Utilities.Enums;
 
 public partial class create : Control
 {
@@ -512,7 +514,15 @@ public partial class create : Control
 			{
 				adventurer.AttributeAddBonus((AttributeEnum)humanAttrOne.GetSelectedId(), 1);
 				adventurer.AttributeAddBonus((AttributeEnum)humanAttrTwo.GetSelectedId(), 1);
-				adventurer.AddSkill(adventurerService.skills.Where(s => s.Name == skillOne.GetItemText(skillOne.GetSelectedId())).FirstOrDefault());
+
+				string selectedSkillTypeString = skillOne.GetItemText(skillOne.GetSelectedId());
+
+				if (Enum.TryParse<SkillTypeEnum>(selectedSkillTypeString, out SkillTypeEnum selectedSkillType))
+				{
+					adventurer.AddSkill(adventurerService.skills.Where(s => s.Type == selectedSkillType).FirstOrDefault());
+				}
+				// adventurer.AddSkill(adventurerService.skills.Where(s => s.Type == skillOne.
+				// GetItemText(skillOne.GetSelectedId())).FirstOrDefault());
 				backgroundOption.Disabled = false;
 				SetAttributeAndSavingThrowLabels();
 			}

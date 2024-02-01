@@ -212,22 +212,26 @@ public partial class game : Control
 				case ActionsEnum.CHEST:
 					GameService.OpenChest();
 
-                    mainText.Text += MainBBText(RoomState.RoomDescription);
+					mainText.Text += MainBBText(RoomState.RoomDescription);
 					if (RoomState.ChestTrapped)
 					{
-                        var disarmButton = gameButtons.Where(b => b.Action == ActionsEnum.DISARMTRAP).FirstOrDefault();
-                        disarmButton.Button.Modulate = new Color(1, 1, 1, 1);
-                        disarmButton.Button.Disabled = false;
+						var disarmButton = gameButtons.Where(b => b.Action == ActionsEnum.DISARMTRAP).FirstOrDefault();
+						disarmButton.Button.Modulate = new Color(1, 1, 1, 1);
+						disarmButton.Button.Disabled = false;
 
 						//Disable chest button until trap is disarmed
 						var chestButton = gameButtons.Where(b => b.Action == ActionsEnum.CHEST).FirstOrDefault();
 						chestButton.Button.Modulate = new Color(1, 1, 1, 0.5f);
 						chestButton.Button.Disabled = true;                        
-                    }
+					}
 					break;
 				//case ActionsEnum.SEARCH:  //CHANGE LOOT which is incoming from the button
 				//	mainText.Text += MainBBText(GameService.SearchRoom());
 				//	break;  -- See DesignNotes.cs - 1-2-2024 -- we will change this to passive but leave it out altogether for now
+				case ActionsEnum.DISARMTRAP:
+					GameService.DisarmTrap();
+
+					break;
 				case ActionsEnum.SOUTH:
 					//GD.Print("south");
 					break;
@@ -446,7 +450,7 @@ public partial class game : Control
 
 						}
 					} else if ((belowChar == 'h') && (aboveChar =='h'))
-                    {
+					{
 						for (var i = 0; i < gridSize + 1; i++)
 						{
 							_DrawSplatter(ref image, pos_x, pos_y + i, 4, 12f);
@@ -454,7 +458,7 @@ public partial class game : Control
 
 						}
 					} else if ((belowChar == 'x') && ((aboveChar == 'h') || (aboveChar == 'i')))
-                    {
+					{
 						for (var i = 0; i < gridSize + 1; i++)
 						{
 							_DrawSplatter(ref image, pos_x, pos_y + i, 4, 12f);
@@ -586,8 +590,8 @@ public partial class game : Control
 			new GameButton { Button = GetNode<Button>("Main/MainLeft/MainButtonControls/CompassContainer/VBox/South"), Action = ActionsEnum.SOUTH },
 			new GameButton { Button = GetNode<Button>("Main/MainLeft/MainButtonControls/ActionsContainer/Chest"), Action = ActionsEnum.CHEST },
 			new GameButton { Button = GetNode<Button>("Main/MainLeft/MainButtonControls/ActionsContainer/VBox/Search"), Action = ActionsEnum.SEARCH },
-            new GameButton { Button = GetNode<Button>("Main/MainLeft/MainButtonControls/ActionsContainer/DisarmTrap"), Action = ActionsEnum.DISARMTRAP }
-        };
+			new GameButton { Button = GetNode<Button>("Main/MainLeft/MainButtonControls/ActionsContainer/DisarmTrap"), Action = ActionsEnum.DISARMTRAP }
+		};
 
 		foreach (var button in gameButtons)
 		{

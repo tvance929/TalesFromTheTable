@@ -7,7 +7,8 @@ namespace TalesFromTheTable.Scripts.Models
     public class Trap
     {
         public string Description { get; set; }
-        //Dont think Ill need this since we have save type 
+
+// 0 for easy now - will have to think how raising the level affects the difficulty and how high we want to go
         public int TrapLevel { get; set; }
         public SaveTypeEnum SaveType { get; set; }
         public List<Die> DamageDice { get; set; }

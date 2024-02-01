@@ -1,4 +1,5 @@
 using System;
+using TalesFromTheTable.Models.Entities;
 
 namespace TalesFromTheTable.Utilities
 {
@@ -34,6 +35,19 @@ namespace TalesFromTheTable.Utilities
 				default:
 					throw new Exception($"abilityScore is outside of the range {abilityScore}");
 			}
+		}
+
+		/// <summary>
+		/// Standard traps will be 13 DC 
+		/// Player gets a +5 for having disarm skill making it a 8 DC ( 65% ) chance
+		/// Will decide later how trap level affects difficulty
+		/// </summary>
+		/// <param name="trapLevel"></param>
+		/// <param name="hasDisarmSkill"></param>
+		/// <returns></returns>
+		public static int ReturnTrapDC(int trapLevel, bool hasDisarmSkill)
+		{
+			return hasDisarmSkill ? 8 : 13;		
 		}
 	}
 }

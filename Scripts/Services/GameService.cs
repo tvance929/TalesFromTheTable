@@ -136,6 +136,36 @@ namespace TalesFromTheTable.SystemServices
             }
         }
 
+        public static void DisarmTrap()
+        {
+            RoomState.RoomDescription = "\n";
+
+            var trap = currentRoom.Chest.Trap;
+
+            //Do we make a disarm trap skill or just cover it under lockpick?  Maybe just keep it under lockpick.
+            var hasDisarmSkill = Adventurer.Skills.Any(skill => skill.Type == SkillTypeEnum.DisarmTrap);
+
+            var trapDC = Rules.ReturnTrapDC(trap.TrapLevel, hasDisarmSkill);
+
+            var disarmedTrap = new Dice().RollDice(new List<Die> { Die.D20 }) >= trapDC;
+
+            if (disarmedTrap)
+            {
+                var woot = "woot";
+            }
+
+
+
+            // first make skill check for trap vs difficulty if we are doing that
+            // if succeed report and change the status of the chest and the roomstate
+            // if fail - what type of trap? make saving throw - make damage report - change adventurer and report  
+        }
+
+        public static void PickLock()
+        {
+
+        }
+
         public static string SearchRoom()
         {
             var returnMessage = "\n";
