@@ -54,6 +54,11 @@ namespace TalesFromTheTable.Models.Entities
             WornArmor = new LeatherArmor();
             ArmorClass = int.Parse(WornArmor.MetaData);
             WieldedWeapon = new Dagger();
+
+            // HIT POINTS - need to figure these before we save - I guess we should start with like 6 HP + CONST bonuses
+            // FOR TESTING PURPOSES - JUST GOING TO ASSIGN 10 SO WE CAN TEST SOME TRAPS AND COMBAT.
+            Hitpoints = 10;
+
             ResetAttributes();
         }
 
@@ -132,6 +137,14 @@ namespace TalesFromTheTable.Models.Entities
             return race;
         }
 
+        public int TakeDamage(List<Die> damageDice)
+        {
+            var damage = new Dice().RollDice(damageDice);
+            this.Hitpoints -= damage;
+
+            return damage;
+        }
+
         private void AdjustSavingThrowsFromAbilities()
         {
             SavingThrows = new CharacterSavingThrows(); //Reset to 15
@@ -144,6 +157,8 @@ namespace TalesFromTheTable.Models.Entities
 
             if (Race == RaceEnum.Dwarf) SavingThrows.PoisonOrDeathRay -= 2;
         }
+
+
 
         /// <summary>
         /// All saving throws start at 15 and will adjust with abilties, race and levels

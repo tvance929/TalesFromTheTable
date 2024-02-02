@@ -229,9 +229,15 @@ public partial class game : Control
 				//	mainText.Text += MainBBText(GameService.SearchRoom());
 				//	break;  -- See DesignNotes.cs - 1-2-2024 -- we will change this to passive but leave it out altogether for now
 				case ActionsEnum.DISARMTRAP:
-					GameService.DisarmTrap();
+					{
+						GameService.DisarmTrap();
 
-					break;
+						mainText.Text += MainBBText(RoomState.RoomDescription);
+
+						// no matter what happened, disarmed or sprung, we want to hide the disarm 
+
+						break;
+					}
 				case ActionsEnum.SOUTH:
 					//GD.Print("south");
 					break;

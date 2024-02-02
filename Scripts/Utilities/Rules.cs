@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using TalesFromTheTable.Models.Entities;
 
 namespace TalesFromTheTable.Utilities
@@ -48,6 +49,18 @@ namespace TalesFromTheTable.Utilities
 		public static int ReturnTrapDC(int trapLevel, bool hasDisarmSkill)
 		{
 			return hasDisarmSkill ? 8 : 13;		
+		}
+
+
+		/// <summary>
+		/// Standard Reflex save is 15 - attribute bonus
+		/// </summary>
+		/// <param name="charactersDexterity"></param>
+		/// <returns></returns>
+		public static int ReturnReflexSave(int charactersDexterity)
+		{
+
+			return 15 - AttributeBonus(charactersDexterity);
 		}
 	}
 }

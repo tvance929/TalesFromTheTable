@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using System.Security.Cryptography.X509Certificates;
+using System.Linq;
 using TalesFromTheTable.Models.Entities;
 using TalesFromTheTable.Models.Items;
 using TalesFromTheTable.Scripts.Models;
@@ -13,6 +13,12 @@ namespace TalesFromTheTable.Models
         public string Cover { get; set; }
         public List<Room> Rooms { get; set; }        
         public List<string> MapArrays { get; set; }
+
+        public void ChestLooted(string roomID)
+        {
+            var chest = Rooms.Where(r => r.RoomID == roomID).FirstOrDefault().Chest;
+            chest.Items.Clear();
+        }
     }
 
     public class Room

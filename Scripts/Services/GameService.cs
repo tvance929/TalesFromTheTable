@@ -6,9 +6,12 @@ using Godot;
 using Newtonsoft.Json;
 using TalesFromTheTable.Models;
 using TalesFromTheTable.Models.Entities;
+using TalesFromTheTable.Models.Items;
 using TalesFromTheTable.Scripts.Utilities;
 using TalesFromTheTable.Scripts.Utilities.Enums;
 using TalesFromTheTable.Utilities;
+using TalesFromTheTable.Utilities.Exceptions;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace TalesFromTheTable.SystemServices
 {
@@ -142,28 +145,72 @@ namespace TalesFromTheTable.SystemServices
 
             var trap = currentRoom.Chest.Trap;
 
-            //Do we make a disarm trap skill or just cover it under lockpick?  Maybe just keep it under lockpick.
             var hasDisarmSkill = Adventurer.Skills.Any(skill => skill.Type == SkillTypeEnum.DisarmTrap);
 
             var trapDC = Rules.ReturnTrapDC(trap.TrapLevel, hasDisarmSkill);
+            var trapDCRoll = new Dice().RollDice(new List<Die> { Die.D20 });
+            var disarmedTrap = trapDCRoll  >= trapDC;
 
-            var disarmedTrap = new Dice().RollDice(new List<Die> { Die.D20 }) >= trapDC;
+            RoomState.RoomDescription += $"( Trap DC : {trapDC} and you rolled a {trapDCRoll} ) \n";
 
             if (disarmedTrap)
             {
-                var woot = "woot";
+                RoomState.RoomDescription += $"You disarmed the trap! Phew!!!";
+            }
+            else
+            {
+                RoomState.RoomDescription += "You tripped the trap!!  Rolling a reflex save! \n";
+
+                var reflexSaveDC = Rules.ReturnReflexSave(Adventurer.Attributes.Where(a => a.Key == Utilities.Enums.AttributeEnum.Dexterity).FirstOrDefault().Value);
+                var reflexSaveRoll = new Dice().RollDice(new List<Die> { Die.D20 });
+                var saved = reflexSaveRoll >= reflexSaveDC;
+
+                RoomState.RoomDescription += $"( Reflex DC : {reflexSaveDC} and you rolled a {reflexSaveDC} ) \n";
+
+                if (saved)
+                {
+                    RoomState.RoomDescription += "However you were able to dodge the deadly device! Phew! \n";
+                }
+                else
+                {
+                    RoomState.RoomDescription += "You could not get clear of the trap!  Rolling Damage... \n";
+
+                    var damage = Adventurer.TakeDamage(trap.DamageDice);
+
+                    RoomState.RoomDescription += $"You take {damage} damage.  And you're hit points are now {Adventurer.Hitpoints}. \n";
+
+                    if (Adventurer.Hitpoints < 1)
+                    {
+                        RoomState.RoomDescription += $"aaannnddd you're dead. \n"; 
+                    }
+                }
             }
 
-
-
-            // first make skill check for trap vs difficulty if we are doing that
-            // if succeed report and change the status of the chest and the roomstate
-            // if fail - what type of trap? make saving throw - make damage report - change adventurer and report  
+            trap.Sprung = true;
+       
+            if (Adventurer.Hitpoints > 0)
+            {
+                LootChest();
+            }
         }
 
         public static void PickLock()
         {
 
+        }
+
+        public static void LootChest()
+        {
+            // add whatever is in chest to inventory and report.
+            RoomState.RoomDescription += $"You loot the chest and receive : \n";
+
+            foreach (Item i in currentRoom.Chest.Items)
+            {
+                Adventurer.Inventory.Add(i);
+                RoomState.RoomDescription += $"{i.Name} \n";
+            }
+
+            Adventure.ChestLooted(currentRoom.RoomID);
         }
 
         public static string SearchRoom()
