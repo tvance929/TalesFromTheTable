@@ -7,6 +7,7 @@ using Newtonsoft.Json;
 using TalesFromTheTable.Models;
 using TalesFromTheTable.Models.Entities;
 using TalesFromTheTable.Models.Items;
+using TalesFromTheTable.Scripts.Models;
 using TalesFromTheTable.Scripts.Utilities;
 using TalesFromTheTable.Scripts.Utilities.Enums;
 using TalesFromTheTable.Utilities;
@@ -110,17 +111,18 @@ namespace TalesFromTheTable.SystemServices
 
             var chest = currentRoom.Chest;
 
+            //double check this logic... dont think a chest will be opened and there will be loot in it ... until we make a way for players to drop items.  
             if (chest.Opened)
             {
-                RoomState.RoomDescription += $"[b][color=green]You found some loot![/color][/b]\n";
-                chest.Opened = true;
-                RoomState.ChestOpened = true; // this is probably unnecessary - but just setting it for now
+                RoomState.RoomDescription += $"[b] The chest is opened...[/b]\n";
+                //RoomState.RoomDescription += $"[b][color=green]You found some loot![/color][/b]\n";
+                //chest.Opened = true;
+                //RoomState.ChestOpened = true; // this is probably unnecessary - but just setting it for now
 
-                RoomState.RoomDescription += $"[b]THERE ARE ITEMS INSIDE THE CHEST: [/b]\n";
-                foreach (var item in chest.Items)
+                if (chest.Items.Count > 0)
                 {
-                    Adventurer.Inventory.Add(item); // this is auto adding to inventory - might change this later
-                    RoomState.RoomDescription += $"[b][color=green]   {item.Name}   [/color][/b]\n";
+                    RoomState.RoomDescription += $"[b]THERE ARE ITEMS INSIDE THE CHEST: [/b]\n";
+                    LootChest();
                 }
             }
             else if (chest.Trap != null)
@@ -129,13 +131,26 @@ namespace TalesFromTheTable.SystemServices
                 var awarenessCheck = new Dice().RollDice(new List<Die> { Die.D20 });
                 if (Adventurer.Awareness <= awarenessCheck)
                 {
-                    RoomState.RoomDescription += $"[b][color=red]The chest is TRAPPED![/color][/b]\n";
+                    RoomState.RoomDescription += $"[b][color=red]You discover that the chest is TRAPPED![/color][/b]\n";
                     RoomState.ChestTrapped = true;
+                }
+                else
+                {
+                    SpringTrap(chest.Trap);
                 }
             }
             else if (chest.Locked)
             {
-
+                //do picklock 
+            }
+            else
+            {
+                RoomState.RoomDescription += $"You open the chest. \n";
+                if (chest.Items.Count > 0)
+                {
+                    RoomState.RoomDescription += $"[b]THERE ARE ITEMS INSIDE THE CHEST: [/b]\n";
+                    LootChest();
+                }
             }
         }
 
@@ -159,34 +174,8 @@ namespace TalesFromTheTable.SystemServices
             }
             else
             {
-                RoomState.RoomDescription += "You tripped the trap!!  Rolling a reflex save! \n";
-
-                var reflexSaveDC = Rules.ReturnReflexSave(Adventurer.Attributes.Where(a => a.Key == Utilities.Enums.AttributeEnum.Dexterity).FirstOrDefault().Value);
-                var reflexSaveRoll = new Dice().RollDice(new List<Die> { Die.D20 });
-                var saved = reflexSaveRoll >= reflexSaveDC;
-
-                RoomState.RoomDescription += $"( Reflex DC : {reflexSaveDC} and you rolled a {reflexSaveDC} ) \n";
-
-                if (saved)
-                {
-                    RoomState.RoomDescription += "However you were able to dodge the deadly device! Phew! \n";
-                }
-                else
-                {
-                    RoomState.RoomDescription += "You could not get clear of the trap!  Rolling Damage... \n";
-
-                    var damage = Adventurer.TakeDamage(trap.DamageDice);
-
-                    RoomState.RoomDescription += $"You take {damage} damage.  And you're hit points are now {Adventurer.Hitpoints}. \n";
-
-                    if (Adventurer.Hitpoints < 1)
-                    {
-                        RoomState.RoomDescription += $"aaannnddd you're dead. \n"; 
-                    }
-                }
-            }
-
-            trap.Sprung = true;
+                SpringTrap(trap);
+            }           
        
             if (Adventurer.Hitpoints > 0)
             {
@@ -199,7 +188,38 @@ namespace TalesFromTheTable.SystemServices
 
         }
 
-        public static void LootChest()
+        private static void SpringTrap(Trap trap)
+        {
+            RoomState.RoomDescription += "You tripped the trap!!  Rolling a reflex save! \n";
+
+            var reflexSaveDC = Rules.ReturnReflexSave(Adventurer.Attributes.Where(a => a.Key == Utilities.Enums.AttributeEnum.Dexterity).FirstOrDefault().Value);
+            var reflexSaveRoll = new Dice().RollDice(new List<Die> { Die.D20 });
+            var saved = reflexSaveRoll >= reflexSaveDC;
+
+            RoomState.RoomDescription += $"( Reflex DC : {reflexSaveDC} and you rolled a {reflexSaveDC} ) \n";
+
+            if (saved)
+            {
+                RoomState.RoomDescription += "However you were able to dodge the deadly device! Phew! \n";
+            }
+            else
+            {
+                RoomState.RoomDescription += "You could not get clear of the trap!  Rolling Damage... \n";
+
+                var damage = Adventurer.TakeDamage(trap.DamageDice);
+
+                RoomState.RoomDescription += $"You take {damage} damage.  And you're hit points are now {Adventurer.Hitpoints}. \n";
+
+                if (Adventurer.Hitpoints < 1)
+                {
+                    RoomState.RoomDescription += $"aaannnddd you're dead. \n";
+                }
+            }
+
+            trap.Sprung = true;
+        }
+
+        private static void LootChest()
         {
             // add whatever is in chest to inventory and report.
             RoomState.RoomDescription += $"You loot the chest and receive : \n";
